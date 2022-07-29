@@ -52,5 +52,16 @@ namespace BoardgamesEShopManagement
         {
             return $"{ProductId} - {ProductName} -> {ProductDescription} - ({ProductPrice}))";
         }
+
+        public override bool Equals(object? obj)
+        {
+            Product product = obj as Product;
+            if (product == null)
+                throw new ArgumentNullException("Null object!");
+
+            return this.ProductId == product.ProductId && this.ProductImage == product.ProductImage &&
+                   this.ProductName == product.ProductName && this.ProductDescription == product.ProductDescription && 
+                   this.ProductPrice == product.ProductPrice;
+        }
     }
 }

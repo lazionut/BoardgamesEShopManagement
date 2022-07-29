@@ -52,16 +52,12 @@ Console.WriteLine($"{productsArray.GetElement(2)}\n");
 Product boardgame1 = new Product { ProductId = 1, ProductImage = "base64image1", ProductName = "Boardgame1", ProductDescription = "First awesome item", ProductPrice = 10m };
 Product boardgame2 = new Product { ProductId = 4, ProductImage = "base64image4", ProductName = "Modified boardgame", ProductDescription = "Modified awesome item", ProductPrice = 40m };
 
-Console.WriteLine(productsArray.GetElement(0));
-Console.WriteLine(productsArray.GetElement(1));
-Console.WriteLine($"{productsArray.GetElement(2)}\n");
-
-//productsArray.SwapElements(boardgame2, boardgame1);
+productsArray.SwapElements(boardgame2, boardgame1);
 
 Console.WriteLine(productsArray.GetElement(0));
 Console.WriteLine($"{productsArray.GetElement(1)}\n");
 
-//productsArray.SwapElements(boardgame1, 0);
+productsArray.SwapElements(boardgame1, 0);
 
 Console.WriteLine(productsArray.GetElement(0));
 Console.WriteLine(productsArray.GetElement(1));
