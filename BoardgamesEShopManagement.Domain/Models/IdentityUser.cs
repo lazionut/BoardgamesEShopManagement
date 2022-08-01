@@ -8,8 +8,8 @@ namespace BoardgamesEShopManagement.Domain.Models
 {
     internal class IdentityUser
     {
-        protected readonly string username;
-        protected readonly string password;
-        protected readonly byte role;
+        protected string Username { get; set; }
+        protected string Password { get; set; }
+        protected string Role { get; set; }
     }
 }

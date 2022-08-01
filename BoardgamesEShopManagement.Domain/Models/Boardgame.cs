@@ -8,7 +8,7 @@ using BoardgamesEShopManagement.Domain.Exceptions;
 
 namespace BoardgamesEShopManagement.Domain.Models
 {
-    public class Boardgame
+    public class Boardgame : IComparable<Boardgame>
     {
         public int BoardgameId { get; set; }
         public string BoardgameImage { get; set; }
@@ -18,10 +18,25 @@ namespace BoardgamesEShopManagement.Domain.Models
 
         public static List<Boardgame> Boardgames = new List<Boardgame>();
 
-
         public override string ToString()
         {
             return $"{BoardgameId} - {BoardgameName} -> {BoardgameDescription} - ({BoardgamePrice}))";
+        }
+
+        public int CompareTo(Boardgame boardgame)
+        {
+            if (this.BoardgamePrice > boardgame.BoardgamePrice)
+            {
+                return 1;
+            }
+            else if (this.BoardgamePrice < boardgame.BoardgamePrice)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

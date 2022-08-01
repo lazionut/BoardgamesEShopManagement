@@ -8,19 +8,10 @@ namespace BoardgamesEShopManagement.Domain.Models
 {
     internal class Address
     {
-        private string _address;
-        private string _city;
-        private string _county;
-        private string _country;
-        private string _phone;
-
-        public Address(string address, string city, string county, string country, string phone)
-        {
-            _address = address;
-            _city = city;
-            _county = county;
-            _country = country;
-            _phone = phone;
-        }
+        public string AddressDetails { get; set; }      
+        public string City { get; set; }
+        public string County { get; set; }
+        public string Country { get; set; }
+        public string Phone { get; set; }
     }
 }
