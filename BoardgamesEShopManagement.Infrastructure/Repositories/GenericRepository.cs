@@ -19,10 +19,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public void GetAll()
         {
-            foreach (T item in genericItems)
-            {
-                Console.WriteLine(item);
-            }
+            genericItems.ForEach(item => Console.WriteLine(item));
         }
 
         public T GetById(int id)
