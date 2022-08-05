@@ -6,5 +6,11 @@ using System.Threading.Tasks;
 
 namespace BoardgamesEShopManagement.Domain.Exceptions
 {
-    public class NegativeIdException : Exception { }
+    public class GenericItemException : Exception
+    {
+        public GenericItemException(string message) : base(message)
+        {
+
+        }
+    }
 }
