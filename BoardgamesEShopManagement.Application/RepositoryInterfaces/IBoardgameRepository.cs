@@ -8,12 +8,8 @@ using BoardgamesEShopManagement.Domain.Entities;
 
 namespace BoardgamesEShopManagement.Application.RepositoryInterfaces
 {
-    public interface IRepository<T> where T : EntityBase
+    public interface IBoardgameRepository : IRepository<Boardgame>
     {
-        IEnumerable<T> GetAll();
-        T GetById(int id);
-        void Create(T item);
-        void Update(int id);
-        void Delete(int id);
+
     }
 }

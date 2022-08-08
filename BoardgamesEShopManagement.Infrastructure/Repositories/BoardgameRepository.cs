@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Exceptions;
+using BoardgamesEShopManagement.Application.RepositoryInterfaces;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
-    public class BoardgameRepository : GenericRepository<Boardgame>
+    public class BoardgameRepository : GenericRepository<Boardgame>, IBoardgameRepository
     {
-
+        
     }
 }
