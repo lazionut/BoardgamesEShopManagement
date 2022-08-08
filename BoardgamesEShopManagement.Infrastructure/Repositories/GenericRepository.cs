@@ -7,26 +7,26 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
     public abstract class GenericRepository<T> : IRepository<T> where T : EntityBase, new()
     {
-        public List<T> genericItems = new List<T>();
+        private List<T> _genericItems = new List<T>();
 
         public void Create(T item)
         {
             if (item == null)
                 throw new GenericItemException($"{item} can\'t be created!");
 
-            genericItems.Add(item);
+            _genericItems.Add(item);
         }
 
-        public void GetAll()
+        public IEnumerable<T> GetAll()
         {
-            genericItems.ForEach(item => Console.WriteLine(item));
+            return _genericItems;
         }
 
         public T GetById(int id)
         {
             if (id >= 0)
             {
-                return genericItems.FirstOrDefault(item => item.Id == id);
+                return _genericItems.FirstOrDefault(item => item.Id == id);
             }
             else
             {
@@ -38,7 +38,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         {
             if (id >= 0)
             {
-                T searchedItem = genericItems.FirstOrDefault(item => item.Id == id);
+                T searchedItem = _genericItems.FirstOrDefault(item => item.Id == id);
                 searchedItem = new T();
             }
             else
@@ -51,8 +51,8 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         {
             if (id >= 0)
             {
-                T searchedItem = genericItems.FirstOrDefault(item => item.Id == id);
-                genericItems.Remove(searchedItem);
+                T searchedItem = _genericItems.FirstOrDefault(item => item.Id == id);
+                _genericItems.Remove(searchedItem);
             }
             else
             {
