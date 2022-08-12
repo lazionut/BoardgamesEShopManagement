@@ -8,10 +8,9 @@ namespace BoardgamesEShopManagement.Domain.Entities
 {
     public class Review : EntityBase
     {
-        public int CategoryId { get; set; }
-        public int ReviewId { get; set; }
-        public string ReviewAuthor { get; set; }
+        public int BoardgameId { get; init; }
         public string ReviewTitle { get; set; }
+        public string ReviewAuthor { get; init; }
         public string ReviewContent { get; set; }
     }
 }

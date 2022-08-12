@@ -9,10 +9,11 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardg
 {
     public class CreateBoardgameRequest : IRequest<int>
     {
-        public int BoardgameId { get; set; }
+        public int CategoryId { get; set; }
         public string BoardgameImage { get; set; } = null!;
         public string BoardgameName { get; set; } = null!;
         public string BoardgameDescription { get; set; } = null!;
         public decimal BoardgamePrice { get; set; }
+        public string BoardgameLink { get; set; } = null!;
     }
 }

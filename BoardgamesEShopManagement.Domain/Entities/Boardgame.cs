@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BoardgamesEShopManagement.Domain.Exceptions;
-
 namespace BoardgamesEShopManagement.Domain.Entities
 {
     public class Boardgame : EntityBase, IComparable<Boardgame>

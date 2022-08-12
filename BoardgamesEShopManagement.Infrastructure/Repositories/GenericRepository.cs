@@ -1,32 +1,38 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using BoardgamesEShopManagement.Application.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Exceptions;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
-    public abstract class GenericRepository<T> : IRepository<T> where T : EntityBase, new()
+    public abstract class GenericRepository<T> : IGenericRepository<T> where T : EntityBase
     {
-        private List<T> _genericItems = new List<T>();
+        protected readonly List<T> genericItems = new();
 
         public void Create(T item)
         {
             if (item == null)
                 throw new GenericItemException($"{item} can\'t be created!");
 
-            _genericItems.Add(item);
+            genericItems.Add(item);
+            item.Id = genericItems.Count;
         }
 
         public IEnumerable<T> GetAll()
         {
-            return _genericItems;
+            return genericItems;
         }
 
         public T GetById(int id)
         {
             if (id >= 0)
             {
-                return _genericItems.FirstOrDefault(item => item.Id == id);
+                return genericItems.FirstOrDefault(item => item.Id == id);
             }
             else
             {
@@ -34,25 +40,12 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             }
         }
 
-        public void Update(int id)
+        public bool Delete(int id)
         {
             if (id >= 0)
             {
-                T searchedItem = _genericItems.FirstOrDefault(item => item.Id == id);
-                searchedItem = new T();
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
-        }
-
-        public void Delete(int id)
-        {
-            if (id >= 0)
-            {
-                T searchedItem = _genericItems.FirstOrDefault(item => item.Id == id);
-                _genericItems.Remove(searchedItem);
+                T searchedItem = genericItems.FirstOrDefault(item => item.Id == id);
+                return genericItems.Remove(searchedItem);
             }
             else
             {

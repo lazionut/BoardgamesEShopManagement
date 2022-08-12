@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BoardgamesEShopManagement.Domain\BoardgamesEShopManagement.Domain.csproj" />
     <ProjectReference Include="..\BoardgamesEShopManagement.Infrastructure\BoardgamesEShopManagement.Infrastructure.csproj" />
   </ItemGroup>
 
