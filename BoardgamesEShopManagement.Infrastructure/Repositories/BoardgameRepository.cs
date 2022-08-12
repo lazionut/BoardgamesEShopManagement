@@ -11,6 +11,15 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
     public class BoardgameRepository : GenericRepository<Boardgame>, IBoardgameRepository
     {
-        
+        public void WriteBoardgamesNames(string filePath, List<Boardgame> boardgamesList)
+        {
+            using (StreamWriter boardgameStreamWriter = new StreamWriter(filePath))
+            {
+                foreach (Boardgame boardgame in boardgamesList)
+                {
+                    boardgameStreamWriter.WriteLine(boardgame.BoardgameName);
+                }
+            }
+        }
     }
 }

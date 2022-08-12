@@ -10,6 +10,6 @@ namespace BoardgamesEShopManagement.Application.RepositoryInterfaces
 {
     public interface IBoardgameRepository : IRepository<Boardgame>
     {
-
+        public void WriteBoardgamesNames(string filePath, List<Boardgame> boardgamesList);
     }
 }

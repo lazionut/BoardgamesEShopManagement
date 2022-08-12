@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BoardgamesEShopManagement.Domain.Entities
 {
-    public abstract class EntityBase
+    public class WishlistItem : EntityBase
     {
-        public int Id { get; set; }
-        public DateTime CreationDate { get; init; }
+        public Boardgame Boardgame { get; set; }
+        public int Quantity { get; set; }
     }
 }
