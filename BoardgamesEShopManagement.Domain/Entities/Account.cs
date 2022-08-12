@@ -8,7 +8,6 @@ namespace BoardgamesEShopManagement.Domain.Entities
 {
     public class Account : EntityBase
     {
-        public int AccountId { get; set; }
-        public DateTime CreationDate { get; set; }
+
     }
 }

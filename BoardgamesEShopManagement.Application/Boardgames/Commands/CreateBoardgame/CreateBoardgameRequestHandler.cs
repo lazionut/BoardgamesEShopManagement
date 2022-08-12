@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Domain.Entities;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame
 {
-    internal class CreateBoardgameRequestHandler : IRequestHandler<CreateBoardgameRequest, int>
+    public class CreateBoardgameRequestHandler : IRequestHandler<CreateBoardgameRequest, int>
     {
         private readonly IBoardgameRepository _boardgameRepository;
 
@@ -21,9 +21,15 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardg
 
         public Task<int> Handle(CreateBoardgameRequest request, CancellationToken cancellationToken)
         {
-            Boardgame boardgame = new Boardgame { Id = request.BoardgameId, BoardgameImage = request.BoardgameImage, BoardgameName = request.BoardgameName, BoardgameDescription = request.BoardgameDescription, BoardgamePrice = request.BoardgamePrice };
-            //validari
-            //CommandHandler ca validator
+            Boardgame boardgame = new Boardgame
+            {
+                CategoryId = request.CategoryId,
+                BoardgameImage = request.BoardgameImage,
+                BoardgameName = request.BoardgameName,
+                BoardgameDescription = request.BoardgameDescription,
+                BoardgamePrice = request.BoardgamePrice,
+                BoardgameLink = request.BoardgameLink
+            };
             _boardgameRepository.Create(boardgame);
 
             return Task.FromResult(boardgame.Id);

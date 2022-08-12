@@ -9,5 +9,6 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
 {
     public class GetBoardgamesListQuery : IRequest<IEnumerable<BoardgamesListVm>>
     {
+
     }
 }

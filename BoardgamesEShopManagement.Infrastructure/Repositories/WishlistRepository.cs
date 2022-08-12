@@ -20,21 +20,34 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             wishlist.Id = wishlists.Count;
         }
 
-        public Wishlist GetById(int wishlistId)
-        {
-
-            return wishlists.FirstOrDefault(wishlist => wishlist.Id == wishlistId);
-        }
-
         public IEnumerable<Wishlist> GetWishlists()
         {
             return wishlists;
         }
 
+        public Wishlist GetWishlistById(int wishlistId)
+        {
+            if (wishlistId >= 0)
+            {
+                return wishlists.FirstOrDefault(wishlist => wishlist.Id == wishlistId);
+            }
+            else
+            {
+                throw new NegativeIdException();
+            }
+        }
+
         public bool DeleteWishlist(int wishlistId)
         {
-            Wishlist searchedWishlist = wishlists.FirstOrDefault(wishlist => wishlist.Id == wishlistId);
-            return wishlists.Remove(searchedWishlist);
+            if (wishlistId >= 0)
+            {
+                Wishlist searchedWishlist = wishlists.FirstOrDefault(wishlist => wishlist.Id == wishlistId);
+                return wishlists.Remove(searchedWishlist);
+            }
+            else
+            {
+                throw new NegativeIdException();
+            }
         }
     }
 }

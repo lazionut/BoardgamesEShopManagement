@@ -5,10 +5,39 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Domain.Exceptions;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
-    public class ReviewRepository : GenericRepository<Review>
+    public class ReviewRepository : GenericRepository<Review>, IReviewRepository
     {
+        public IEnumerable<Review> GetReviewsListperBoardgame(int boardgameId)
+        {
+            if (boardgameId >= 0)
+            {
+                return genericItems.Where(review => review.BoardgameId == boardgameId).ToList();
+            }
+            else
+            {
+                throw new NegativeIdException();
+            }
+        }
+
+        public Review Update(int reviewId, Review review)
+        {
+            if (reviewId >= 0)
+            {
+                Review searchedReview = genericItems.FirstOrDefault(review => review.Id == reviewId);
+                searchedReview.ReviewTitle = review.ReviewTitle ?? searchedReview.ReviewTitle;
+                searchedReview.ReviewContent = review.ReviewContent ?? searchedReview.ReviewContent;
+
+                return searchedReview;
+            }
+            else
+            {
+                throw new NegativeIdException();
+            }
+        }
     }
 }
