@@ -1,0 +1,118 @@
+USE [BoardgamesEShopDB]
+
+IF OBJECT_ID('dbo.Category', 'U') IS NOT NULL
+DROP TABLE dbo.Category
+GO
+
+CREATE TABLE dbo.Category
+(
+   Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+   Name [NVARCHAR](50) NOT NULL
+);
+GO
+
+IF OBJECT_ID('dbo.Boardgame', 'U') IS NOT NULL
+DROP TABLE dbo.Boardgame
+GO
+
+CREATE TABLE dbo.Boardgame
+(
+   Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+   Image [NVARCHAR](MAX),
+   Name [NVARCHAR](50) NOT NULL,
+   Description [NVARCHAR](4000),
+   Link [NVARCHAR](2000),
+   Price DECIMAL NOT NULL,
+   CategoryId INT NOT NULL FOREIGN KEY REFERENCES Category(Id)
+);
+GO
+
+IF OBJECT_ID('dbo.Review', 'U') IS NOT NULL
+DROP TABLE dbo.Review
+GO
+
+CREATE TABLE dbo.Review
+(
+   Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+   Title [NVARCHAR](50) NOT NULL,
+   Author [NVARCHAR](50) NOT NULL,
+   Content [NVARCHAR](4000),
+   BoardgameId INT NOT NULL FOREIGN KEY REFERENCES Boardgame(Id)
+);
+GO
+
+IF OBJECT_ID('dbo.Address', 'U') IS NOT NULL
+DROP TABLE dbo.Address
+GO
+
+CREATE TABLE dbo.Address
+(
+   Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+   Details [NVARCHAR](200) NOT NULL,
+   City [NVARCHAR](50) NOT NULL,
+   County [NVARCHAR](50) NOT NULL,
+   Country [NVARCHAR](50) NOT NULL,
+   Phone [NVARCHAR](50) NOT NULL,
+);
+GO
+
+IF OBJECT_ID('dbo.Person', 'U') IS NOT NULL
+DROP TABLE dbo.Person
+GO
+
+CREATE TABLE dbo.Person
+(
+   Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+   FirstName [NVARCHAR](50) NOT NULL,
+   LastName [NVARCHAR](50) NOT NULL,
+   Email [NVARCHAR](255) NOT NULL,
+   AddressId INT NOT NULL FOREIGN KEY REFERENCES Address(Id)
+);
+GO
+
+IF OBJECT_ID('dbo.Wishlist', 'U') IS NOT NULL
+DROP TABLE dbo.Wishlist
+GO
+
+CREATE TABLE dbo.Wishlist
+(
+   Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+   WishlistName [NVARCHAR](50) NOT NULL,
+);
+GO
+
+IF OBJECT_ID('dbo.WishlistItem', 'U') IS NOT NULL
+DROP TABLE dbo.WishlistItem
+GO
+
+CREATE TABLE dbo.WishlistItem
+(
+   WishlistId INT NOT NULL FOREIGN KEY REFERENCES Wishlist(Id),
+   BoardgameId INT NOT NULL FOREIGN KEY REFERENCES Boardgame(Id),
+   Quantity INT NOT NULL
+);
+GO
+
+IF OBJECT_ID('dbo.FinishedOrder', 'U') IS NOT NULL
+DROP TABLE dbo.FinishedOrder
+GO
+
+CREATE TABLE dbo.FinishedOrder
+(
+   Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+   Total DECIMAL NOT NULL,
+   Date DATETIME NOT NULL
+);
+GO
+
+IF OBJECT_ID('dbo.OrderItem', 'U') IS NOT NULL
+DROP TABLE dbo.OrderItem
+GO
+
+CREATE TABLE dbo.OrderItem
+(
+   OrderId INT NOT NULL FOREIGN KEY REFERENCES FinishedOrder(Id),
+   BoardgameId INT NOT NULL FOREIGN KEY REFERENCES Boardgame(Id),
+   Quantity INT NOT NULL
+);
+GO
