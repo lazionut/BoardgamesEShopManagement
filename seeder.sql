@@ -1,6 +1,6 @@
 USE [BoardgamesEShopDB]
 
-INSERT INTO dbo.Category (Name)
+INSERT INTO Category (Name)
 VALUES 
 ('Casual'),
 ('Short'),
@@ -13,7 +13,7 @@ VALUES
 ('Party'),
 ('Accessories')
 
-INSERT INTO dbo.Boardgame (Image, Name, Description, Link, Price, CategoryId)
+INSERT INTO Boardgame (Image, Name, Description, Link, Price, CategoryId)
 VALUES
 (NULL, 'Splendor', 'In Splendor, you lead a merchant guild. Using tokens representing gemstones, you will acquire developments which produce new gems (bonuses). These bonuses reduce the cost of your purchases and attract noble patrons. Each turn is quick: one, and only one, action! The first player to reach 15 prestige points by accumulating nobles and development cards triggers the end of the game.)', 'https://boardgamegeek.com/boardgame/148228/splendor', 140, 1),
 (NULL, 'Azul', 'Introduced by the Moors, azulejos (originally white and blue ceramic tiles) were fully embraced by the Portuguese when their king Manuel I, on a visit to the Alhambra palace in Southern Spain, was mesmerized by the stunning beauty of the Moorish decorative tiles. The king, awestruck by the interior beauty of the Alhambra, immediately ordered that his own palace in Portugal be decorated with similar wall tiles. As a tile-laying artist, you have been challenged to embellish the walls of the Royal Palace of Evora. In the game Azul, players take turns drafting colored tiles from suppliers to their player board. Later in the round, players score points based on how they''ve placed their tiles to decorate the palace. Extra points are scored for specific patterns and completing sets'' wasted supplies harm the player''s score. The player with the most points at the end of the game wins.', 'https://boardgamegeek.com/boardgame/230802/azul', 174, 8),
@@ -26,7 +26,7 @@ VALUES
 (NULL, 'Warhammer 40K Collection', 'For the glory.', NULL, 600.5, 4),
 (NULL, 'The Voyages of Marco Polo Insert', 'Awesome insert for you componentes!', NULL, 87, 10)
 
-INSERT INTO dbo.Review (Title, Author, Content, BoardgameId)
+INSERT INTO Review (Title, Author, Content, BoardgameId)
 VALUES
 ('Title1', 'Author1', 'Content1', 1),
 ('Title2', 'Author2', 'Content2', 2),
@@ -39,7 +39,20 @@ VALUES
 ('Title9', 'Author9', 'Content9', 9),
 ('Title10', 'Author10', 'Content10', 10)
 
-INSERT INTO dbo.Person (FirstName, LastName, Email, AddressId)
+INSERT INTO Address (Details, City, County, Country, Phone)
+VALUES
+('Str. Strada1', 'City1', 'County1', 'Country1', '0712345567'),
+('Str. Strada2', 'City2', 'County2', 'Country2', '0712345569'),
+('Str. Strada3', 'City3', 'County3', 'Country3', '0712345568'),
+('Str. Strada4', 'City4', 'County4', 'Country4', '0712345510'),
+('Str. Strada5', 'City5', 'County5', 'Country5', '0712345561'),
+('Str. Strada6', 'City6', 'County6', 'Country6', '0712345562'),
+('Str. Strada7', 'City7', 'County7', 'Country7', '0712345563'),
+('Str. Strada8', 'City8', 'County8', 'Country8', '0712345564'),
+('Str. Strada9', 'City9', 'County9', 'Country9', '0712345565'),
+('Str. Strada10', 'City10', 'County10', 'Country10', '0712345566')
+
+INSERT INTO Person (FirstName, LastName, Email, AddressId)
 VALUES
 ('FirstName1', 'LastName1', 'email1@gmail.com', 1),
 ('FirstName2', 'LastName2', 'email2@gmail.com', 2),
@@ -52,7 +65,7 @@ VALUES
 ('FirstName9', 'LastName9', 'email9@gmail.com', 9),
 ('FirstName10', 'LastName10', 'email10@gmail.com', 10)
 
-INSERT INTO dbo."Order" (Total, Date)
+INSERT INTO FinishedOrder (Total, Date)
 VALUES
 (214, '20220806 00:00:00 AM'),
 (140, '20220808 00:00:00 AM'),
@@ -65,7 +78,7 @@ VALUES
 (109, '20220817 00:00:00 AM'),
 (87, '20220817 00:00:00 AM')
 
-INSERT INTO dbo."OrderItem" (OrderId, BoardgameId, Quantity)
+INSERT INTO OrderItem (OrderId, BoardgameId, Quantity)
 VALUES
 (1, 1, 1),
 (1, 2, 1),
@@ -83,7 +96,7 @@ VALUES
 (9, 5, 1),
 (10, 2, 1)
 
-INSERT INTO dbo.Wishlist (WishlistName)
+INSERT INTO Wishlist (WishlistName)
 VALUES
 ('MyWishlist1'),
 ('MyWishlist2'),
@@ -96,7 +109,7 @@ VALUES
 ('MyWishlist9'),
 ('MyWishlist10')
 
-INSERT INTO dbo.WishlistItem (WishlistId, BoardgameId, Quantity)
+INSERT INTO WishlistItem (WishlistId, BoardgameId, Quantity)
 VALUES
 (1, 1, 1),
 (1, 2, 1),
