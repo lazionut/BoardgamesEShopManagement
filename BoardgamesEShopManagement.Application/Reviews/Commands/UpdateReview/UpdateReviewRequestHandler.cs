@@ -19,7 +19,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview
         }
         public Task<Review> Handle(UpdateReviewRequest request, CancellationToken cancellationToken)
         {
-            Review updatedReview = _reviewRepository.Update(request.ReviewId, request.Review);
+            Review updatedReview = _reviewRepository.UpdateReview(request.ReviewId, request.Review);
 
             return Task.FromResult(updatedReview);
         }

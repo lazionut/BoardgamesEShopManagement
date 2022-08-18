@@ -12,7 +12,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
     public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
-        public Category Update(int id, Category category)
+        public Category UpdateCategory(int id, Category category)
         {
             if (id >= 0)
             {

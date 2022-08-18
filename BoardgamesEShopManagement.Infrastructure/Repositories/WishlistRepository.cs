@@ -25,7 +25,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             return wishlists;
         }
 
-        public Wishlist GetWishlistById(int wishlistId)
+        public Wishlist GetWishlist(int wishlistId)
         {
             if (wishlistId >= 0)
             {

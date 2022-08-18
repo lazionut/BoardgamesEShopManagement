@@ -12,7 +12,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
     public class ReviewRepository : GenericRepository<Review>, IReviewRepository
     {
-        public IEnumerable<Review> GetReviewsListperBoardgame(int boardgameId)
+        public IEnumerable<Review> GetReviewsListPerBoardgame(int boardgameId)
         {
             if (boardgameId >= 0)
             {
@@ -24,7 +24,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             }
         }
 
-        public Review Update(int reviewId, Review review)
+        public Review UpdateReview(int reviewId, Review review)
         {
             if (reviewId >= 0)
             {

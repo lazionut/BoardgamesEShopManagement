@@ -20,7 +20,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPe
 
         public Task<IEnumerable<ReviewsListPerBoardgameVm>> Handle(GetReviewsListPerBoardgameQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<ReviewsListPerBoardgameVm> result = _reviewRepository.GetReviewsListperBoardgame(request.BoardgameId).Select(review => new ReviewsListPerBoardgameVm
+            IEnumerable<ReviewsListPerBoardgameVm> result = _reviewRepository.GetReviewsListPerBoardgame(request.BoardgameId).Select(review => new ReviewsListPerBoardgameVm
             {
                 ReviewId = review.Id,
                 ReviewTitle = review.ReviewTitle,

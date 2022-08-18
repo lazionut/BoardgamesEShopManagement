@@ -21,10 +21,10 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlis
 
         public Task<int> Handle(CreateWishlistRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<WishlistItem> wishlistBoardgames = request.WishlistBoardgames.Select(wishlistBoardgameDto =>
+            IEnumerable<WishlistItem> wishlistBoardgames = request.WishlistItems.Select(wishlistBoardgameDto =>
                 new WishlistItem { Boardgame = new Boardgame { BoardgameName = wishlistBoardgameDto.BoardgameName }, Quantity = wishlistBoardgameDto.Quantity });
 
-            Wishlist wishlist = new Wishlist { WishlistName = request.WishlistName, WishlistBoardgames = wishlistBoardgames.ToList() };
+            Wishlist wishlist = new Wishlist { WishlistName = request.WishlistName };
             _wishlistRepository.CreateWishlist(wishlist);
 
             return Task.FromResult(wishlist.Id);

@@ -24,7 +24,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             }
         }
 
-        public Boardgame Update(int boardgameId, Boardgame boardgame)
+        public Boardgame UpdateBoardgame(int boardgameId, Boardgame boardgame)
         {
             if (boardgameId >= 0)
             {

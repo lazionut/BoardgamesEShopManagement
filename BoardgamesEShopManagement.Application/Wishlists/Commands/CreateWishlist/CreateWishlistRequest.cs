@@ -10,6 +10,6 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlis
     public class CreateWishlistRequest : IRequest<int>
     {
         public string WishlistName { get; set; } = null!;
-        public List<WishlistBoardgameDto> WishlistBoardgames { get; set; } = null!;
+        public List<WishlistItemDto> WishlistItems { get; set; } = null!;
     }
 }

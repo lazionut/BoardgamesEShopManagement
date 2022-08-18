@@ -28,7 +28,7 @@ await mediator.Send(new CreateBoardgameRequest { BoardgameImage = "base64image2"
 await mediator.Send(new CreateBoardgameRequest { BoardgameImage = "base64image3", BoardgameName = "BoardgameName3", BoardgameDescription = "My third boardgame description", BoardgamePrice = 35m });
 var boardgames = await mediator.Send(new GetBoardgamesListQuery());
 
-var thirdBoardgamePrice = boardgames.FirstOrDefault(boardgame => boardgame.Id == 3)?.Price;
+var thirdBoardgamePrice = boardgames.FirstOrDefault(boardgame => boardgame.Id == 3)?.BoardgamePrice;
 var firstBoardgame = await mediator.Send(new GetBoardgameQuery { BoardgameId = 1 });
 var secondBoardgame = await mediator.Send(new GetBoardgameQuery { BoardgameId = 2 });
 Console.WriteLine("Current second boardgame is: " + secondBoardgame);
@@ -46,7 +46,7 @@ Console.WriteLine(isThirdBoardgameDeleted);
 await mediator.Send(new CreateWishlistRequest
 {
     WishlistName = "MyWishlist1",
-    WishlistBoardgames = new List<WishlistBoardgameDto>
+    WishlistItems = new List<WishlistItemDto>
                 {
                     new() { Quantity = 1, BoardgameName = "Boardgame1" },
                     new() { Quantity = 2, BoardgameName = "Boardgame2" }
@@ -55,7 +55,7 @@ await mediator.Send(new CreateWishlistRequest
 await mediator.Send(new CreateWishlistRequest
 {
     WishlistName = "MyWishlist2",
-    WishlistBoardgames = new List<WishlistBoardgameDto>
+    WishlistItems = new List<WishlistItemDto>
                 {
                     new() { Quantity = 1, BoardgameName = "Boardgame1" },
                     new() { Quantity = 2, BoardgameName = "Boardgame2" }
@@ -64,7 +64,7 @@ await mediator.Send(new CreateWishlistRequest
 var wishlistId = await mediator.Send(new CreateWishlistRequest
 {
     WishlistName = "MyWishlist3",
-    WishlistBoardgames = new List<WishlistBoardgameDto>
+    WishlistItems = new List<WishlistItemDto>
                 {
                     new() { Quantity = 1, BoardgameName = "Boardgame1" },
                     new() { Quantity = 2, BoardgameName = "Boardgame2" }

@@ -9,6 +9,6 @@ namespace BoardgamesEShopManagement.Domain.Entities
     public abstract class EntityBase
     {
         public int Id { get; set; }
-        public DateTime CreationDate { get; init; }
+        public string CreationDate { get; init; } = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
     }
 }

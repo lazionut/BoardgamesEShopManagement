@@ -19,7 +19,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardg
         }
         public Task<Boardgame> Handle(UpdateBoardgameRequest request, CancellationToken cancellationToken)
         {
-            Boardgame updatedBoardgame = _boardgameRepository.Update(request.BoardgameId, request.Boardgame);
+            Boardgame updatedBoardgame = _boardgameRepository.UpdateBoardgame(request.BoardgameId, request.Boardgame);
 
             return Task.FromResult(updatedBoardgame);
         }
