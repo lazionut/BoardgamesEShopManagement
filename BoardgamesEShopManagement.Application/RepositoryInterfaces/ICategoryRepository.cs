@@ -10,6 +10,6 @@ namespace BoardgamesEShopManagement.Application.RepositoryInterfaces
 {
     public interface ICategoryRepository : IGenericRepository<Category>
     {
-        Category Update(int categoryId, Category category);
+        Category UpdateCategory(int categoryId, Category category);
     }
 }

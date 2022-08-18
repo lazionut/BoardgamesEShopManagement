@@ -1,17 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BoardgamesEShopManagement.Domain.Entities
 {
-    internal class Address
+    public class Address : EntityBase
     {
-        public string AddressDetails { get; set; }      
-        public string City { get; set; }
-        public string County { get; set; }
-        public string Country { get; set; }
-        public string Phone { get; set; }
+        [MaxLength(200)]
+        public string Details { get; set; } = null!;
+        
+        [MaxLength(50)]
+        public string City { get; set; } = null!;
+
+        [MaxLength(50)]
+        public string County { get; set; } = null!;
+
+        [MaxLength(50)]
+        public string Country { get; set; } = null!;
+
+        [MaxLength(15)]
+        public string Phone { get; set; } = null!;
     }
 }

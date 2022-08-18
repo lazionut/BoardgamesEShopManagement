@@ -10,7 +10,7 @@ namespace BoardgamesEShopManagement.Application.RepositoryInterfaces
 {
     public interface IReviewRepository : IGenericRepository<Review>
     {
-        public IEnumerable<Review> GetReviewsListperBoardgame(int boardgameId);
-        Review Update(int reviewId, Review review);
+        public IEnumerable<Review> GetReviewsListPerBoardgame(int boardgameId);
+        Review UpdateReview(int reviewId, Review review);
     }
 }

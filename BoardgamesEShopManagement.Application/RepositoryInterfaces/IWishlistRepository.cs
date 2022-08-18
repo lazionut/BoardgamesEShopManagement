@@ -12,7 +12,7 @@ namespace BoardgamesEShopManagement.Application.RepositoryInterfaces
     {
         void CreateWishlist(Wishlist wishlist);
         IEnumerable<Wishlist> GetWishlists();
-        Wishlist GetWishlistById(int wishlistId);
+        Wishlist GetWishlist(int wishlistId);
         bool DeleteWishlist(int wishlistId);
     }
 }

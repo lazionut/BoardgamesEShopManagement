@@ -21,7 +21,7 @@ namespace BoardgamesEShopManagement.Application.Categories.Commands.UpdateCatego
 
         public Task<Category> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
         {
-            Category updatedCategory = _categoryRepository.Update(request.CategoryId, request.Category);
+            Category updatedCategory = _categoryRepository.UpdateCategory(request.CategoryId, request.Category);
 
             return Task.FromResult(updatedCategory);
         }

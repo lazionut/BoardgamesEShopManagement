@@ -9,6 +9,6 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategories
     public class CategoriesListVm
     {
         public int Id { get; set; }
-        public string Name { get; set; } = null!;
+        public string BoardgameName { get; set; } = null!;
     }
 }

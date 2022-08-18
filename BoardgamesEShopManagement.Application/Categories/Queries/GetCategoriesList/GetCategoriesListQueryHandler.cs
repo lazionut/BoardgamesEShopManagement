@@ -23,7 +23,7 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategories
             IEnumerable<CategoriesListVm> result = _categoryRepository.GetAll().Select(category => new CategoriesListVm
             {
                 Id = category.Id,
-                Name = category.CategoryName,
+                BoardgameName = category.CategoryName,
             });
 
             return Task.FromResult(result);

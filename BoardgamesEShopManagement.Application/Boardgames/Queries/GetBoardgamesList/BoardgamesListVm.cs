@@ -9,10 +9,10 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
     public class BoardgamesListVm
     {
         public int Id { get; set; }
-        public string Image { get; set; } = null!;
-        public string Name { get; set; } = null!;
-        public string Description { get; set; } = null!;
-        public decimal Price { get; set; }
-        public string Link { get; set; } = null!;
+        public string BoardgameImage { get; set; } = null!;
+        public string BoardgameName { get; set; } = null!;
+        public string BoardgameDescription { get; set; } = null!;
+        public decimal BoardgamePrice { get; set; }
+        public string BoardgameLink { get; set; } = null!;
     }
 }
