@@ -17,7 +17,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             if (id >= 0)
             {
                 Category searchedCategory = genericItems.FirstOrDefault(category => category.Id == id);
-                searchedCategory.CategoryName = category.CategoryName ?? searchedCategory.CategoryName;
+                searchedCategory.Name = category.Name ?? searchedCategory.Name;
 
                 return searchedCategory;
             }

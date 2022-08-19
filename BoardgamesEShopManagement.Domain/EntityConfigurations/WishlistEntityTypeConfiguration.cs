@@ -19,8 +19,8 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
                 .WithMany(boardgame => boardgame.Wishlists)
                 .UsingEntity<WishlistItem>
                 (
-                wi => wi.HasOne(x => x.Boardgame).WithMany().HasForeignKey(x => x.BoardgameId),
-                wi => wi.HasOne(x => x.Wishlist).WithMany().HasForeignKey(x => x.WishlistId)
+                wi => wi.HasOne(wi => wi.Boardgame).WithMany().HasForeignKey(wi => wi.BoardgameId),
+                wi => wi.HasOne(wi => wi.Wishlist).WithMany().HasForeignKey(wi => wi.WishlistId)
                 );
         }
     }

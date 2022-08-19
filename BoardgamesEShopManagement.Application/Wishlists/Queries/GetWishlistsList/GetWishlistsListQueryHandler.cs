@@ -23,7 +23,7 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistLis
             IEnumerable<WishlistListVm> result = _wishlistRepository.GetWishlists().Select(wishlist => new WishlistListVm
             {
                 WishlistId = wishlist.Id,
-                WishlistName = wishlist.WishlistName,
+                WishlistName = wishlist.Name,
                 /*WishlistItems = wishlist.WishlistItems.Select(boardgame => new WishlistItemListDto
                 {
                     WishlistBoardgameId = boardgame.Id,

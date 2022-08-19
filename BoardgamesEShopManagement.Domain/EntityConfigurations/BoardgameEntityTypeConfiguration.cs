@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
 
 namespace BoardgamesEShopManagement.Domain.EntityConfigurations
 {
@@ -17,8 +16,7 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
         {
             boardgameConfiguration
                 .HasOne(boardgame => boardgame.Category)
-                .WithMany(category => category.Boardgames)
-                .HasForeignKey(x => x.CategoryId);
+                .WithMany(category => category.Boardgames);
         }
     }
 }

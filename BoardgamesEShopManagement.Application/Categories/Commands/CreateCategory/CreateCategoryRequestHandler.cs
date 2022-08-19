@@ -24,7 +24,7 @@ namespace BoardgamesEShopManagement.Application.Categories.Commands.CreateCatego
             Category category = new Category
             {
                 Id = request.CategoryId,
-                CategoryName = request.CategoryName
+                Name = request.CategoryName
             };
             _categoryRepository.Create(category);
 

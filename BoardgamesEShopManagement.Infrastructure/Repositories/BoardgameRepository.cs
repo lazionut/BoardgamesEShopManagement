@@ -30,11 +30,11 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             {
                 Boardgame searchedBoardgame = genericItems.FirstOrDefault(boardgame => boardgame.Id == boardgameId);
                 searchedBoardgame.CategoryId = boardgame.CategoryId;
-                searchedBoardgame.BoardgameImage = boardgame.BoardgameImage ?? searchedBoardgame.BoardgameImage;
-                searchedBoardgame.BoardgameName = boardgame.BoardgameName ?? searchedBoardgame.BoardgameName;
-                searchedBoardgame.BoardgameDescription = boardgame.BoardgameDescription ?? searchedBoardgame.BoardgameDescription;
-                searchedBoardgame.BoardgamePrice = boardgame.BoardgamePrice;
-                searchedBoardgame.BoardgameLink = boardgame.BoardgameLink ?? searchedBoardgame.BoardgameLink;
+                searchedBoardgame.Image = boardgame.Image ?? searchedBoardgame.Image;
+                searchedBoardgame.Name = boardgame.Name ?? searchedBoardgame.Name;
+                searchedBoardgame.Description = boardgame.Description ?? searchedBoardgame.Description;
+                searchedBoardgame.Price = boardgame.Price;
+                searchedBoardgame.Link = boardgame.Link ?? searchedBoardgame.Link;
 
                 return searchedBoardgame;
             }
@@ -49,7 +49,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             {
                 foreach (Boardgame boardgame in boardgamesList)
                 {
-                    boardgameStreamWriter.WriteLine(boardgame.BoardgameName);
+                    boardgameStreamWriter.WriteLine(boardgame.Name);
                 }
             }
         }

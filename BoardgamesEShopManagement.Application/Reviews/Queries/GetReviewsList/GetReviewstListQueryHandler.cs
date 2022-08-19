@@ -24,9 +24,10 @@ namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsList
             {
                 BoardgameId = review.BoardgameId,
                 ReviewId = review.Id,
-                ReviewTitle = review.ReviewTitle,
-                ReviewAuthor = review.ReviewAuthor,
-                ReviewContent = review.ReviewContent
+                ReviewTitle = review.Title,
+                ReviewAuthor = review.Author,
+                ReviewScore = review.Score,
+                ReviewContent = review.Content
             });
 
             return Task.FromResult(result);

@@ -23,11 +23,11 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
             IEnumerable<BoardgamesPerCategoryListVm> result = _boardgameRepository.GetBoardgamesPerCategory(request.CategoryId).Select(boardgame => new BoardgamesPerCategoryListVm
             {
                 Id = boardgame.Id,
-                BoardgameImage = boardgame.BoardgameImage,
-                BoardgameName = boardgame.BoardgameName,
-                BoardgameDescription = boardgame.BoardgameDescription,
-                BoardgamePrice = boardgame.BoardgamePrice,
-                BoardgameLink = boardgame.BoardgameLink
+                BoardgameImage = boardgame.Image,
+                BoardgameName = boardgame.Name,
+                BoardgameDescription = boardgame.Description,
+                BoardgamePrice = boardgame.Price,
+                BoardgameLink = boardgame.Link
             });
 
             return Task.FromResult(result);

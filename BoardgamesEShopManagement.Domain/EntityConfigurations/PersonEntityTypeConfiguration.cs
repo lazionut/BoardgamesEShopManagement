@@ -15,7 +15,9 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
         public void Configure(EntityTypeBuilder<Person> personConfiguration)
         {
             personConfiguration
-                .OwnsOne(person => person.Address);
+                .HasOne(person => person.Address)
+                .WithOne(address => address.Person)
+                .HasForeignKey<Person>(address => address.AddressId);
         }
     }
 }

@@ -16,11 +16,11 @@ namespace BoardgamesEShopManagement.Test
         [Fact]
         public void AddWishlistToWishlistList()
         {
-            Boardgame newBoardgame = new Boardgame { CategoryId = 1, BoardgameImage = "base64image", BoardgameName = "NewBoardgame", BoardgameDescription = "New boardgame description", BoardgamePrice = 30m };
+            Boardgame newBoardgame = new Boardgame { CategoryId = 1, Image = "base64image", Name = "NewBoardgame", Description = "New boardgame description", Price = 30m };
             WishlistItem wishlistItem = new WishlistItem { Boardgame = newBoardgame, Quantity = 1 };
             List<WishlistItem> boardgamesWishlistItemList = new();
             boardgamesWishlistItemList.Add(wishlistItem);
-            Wishlist newWishlist = new Wishlist { WishlistName = "MyWishlist" };
+            Wishlist newWishlist = new Wishlist { Name = "MyWishlist" };
 
             WishlistRepository wishlistRepository = new();
             wishlistRepository.CreateWishlist(newWishlist);
@@ -32,11 +32,11 @@ namespace BoardgamesEShopManagement.Test
         [Fact]
         public void GetWishlistByIdFromWishlistsList()
         {
-            Boardgame newBoardgame = new Boardgame { CategoryId = 1, BoardgameImage = "base64image", BoardgameName = "NewBoardgame", BoardgameDescription = "New boardgame description", BoardgamePrice = 30m };
+            Boardgame newBoardgame = new Boardgame { CategoryId = 1, Image = "base64image", Name = "NewBoardgame", Description = "New boardgame description", Price = 30m };
             WishlistItem wishlistItem = new WishlistItem { Boardgame = newBoardgame, Quantity = 1 };
             List<WishlistItem> boardgamesWishlistItemList = new();
             boardgamesWishlistItemList.Add(wishlistItem);
-            Wishlist newWishlist = new Wishlist { WishlistName = "MyWishlist" };
+            Wishlist newWishlist = new Wishlist { Name = "MyWishlist" };
 
             WishlistRepository wishlistRepository = new();
             wishlistRepository.CreateWishlist(newWishlist);
@@ -49,9 +49,9 @@ namespace BoardgamesEShopManagement.Test
         [Fact]
         public void GetWishlistsList()
         {
-            Boardgame firstNewBoardgame = new Boardgame { CategoryId = 1, BoardgameImage = "base64image1", BoardgameName = "NewBoardgame1", BoardgameDescription = "New boardgame1 description", BoardgamePrice = 40m };
-            Boardgame secondNewBoardgame = new Boardgame { CategoryId = 2, BoardgameImage = "base64image2", BoardgameName = "NewBoardgame2", BoardgameDescription = "New boardgame2 description", BoardgamePrice = 43m };
-            Boardgame thirdNewBoardgame = new Boardgame { CategoryId = 1, BoardgameImage = "base64image3", BoardgameName = "NewBoardgame3", BoardgameDescription = "New boardgame3 description", BoardgamePrice = 37m };
+            Boardgame firstNewBoardgame = new Boardgame { CategoryId = 1, Image = "base64image1", Name = "NewBoardgame1", Description = "New boardgame1 description", Price = 40m };
+            Boardgame secondNewBoardgame = new Boardgame { CategoryId = 2, Image = "base64image2", Name = "NewBoardgame2", Description = "New boardgame2 description", Price = 43m };
+            Boardgame thirdNewBoardgame = new Boardgame { CategoryId = 1, Image = "base64image3", Name = "NewBoardgame3", Description = "New boardgame3 description", Price = 37m };
             WishlistItem firstWishlistItem = new WishlistItem { Boardgame = firstNewBoardgame, Quantity = 2 };
             WishlistItem secondWishlistItem = new WishlistItem { Boardgame = secondNewBoardgame, Quantity = 1 };
             WishlistItem thirdWishlistItem = new WishlistItem { Boardgame = thirdNewBoardgame, Quantity = 3 };
@@ -59,8 +59,8 @@ namespace BoardgamesEShopManagement.Test
             boardgamesWishlistItemList.Add(firstWishlistItem);
             boardgamesWishlistItemList.Add(secondWishlistItem);
             boardgamesWishlistItemList.Add(thirdWishlistItem);
-            Wishlist firstNewWishlist = new Wishlist { WishlistName = "MyWishlist" };
-            Wishlist secondNewWishlist = new Wishlist { WishlistName = "MySameWishlist" };
+            Wishlist firstNewWishlist = new Wishlist { Name = "MyWishlist" };
+            Wishlist secondNewWishlist = new Wishlist { Name = "MySameWishlist" };
 
             WishlistRepository wishlistRepository = new();
             wishlistRepository.CreateWishlist(firstNewWishlist);
@@ -76,11 +76,11 @@ namespace BoardgamesEShopManagement.Test
         [Fact]
         public void DeleteWishlistFromWishlistsList()
         {
-            Boardgame newBoardgame = new Boardgame { CategoryId = 3, BoardgameImage = "base64image", BoardgameName = "NewBoardgame", BoardgameDescription = "New boardgame description", BoardgamePrice = 30m };
+            Boardgame newBoardgame = new Boardgame { CategoryId = 3, Image = "base64image", Name = "NewBoardgame", Description = "New boardgame description", Price = 30m };
             WishlistItem wishlistItem = new WishlistItem { Boardgame = newBoardgame, Quantity = 1 };
             List<WishlistItem> boardgamesWishlistItemList = new();
             boardgamesWishlistItemList.Add(wishlistItem);
-            Wishlist newWishlist = new Wishlist { WishlistName = "MyWishlist" };
+            Wishlist newWishlist = new Wishlist { Name = "MyWishlist" };
 
             WishlistRepository wishlistRepository = new();
             wishlistRepository.DeleteWishlist(newWishlist.Id);

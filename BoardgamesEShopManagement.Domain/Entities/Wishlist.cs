@@ -10,7 +10,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
     public class Wishlist : EntityBase
     {
         [MaxLength(50)]
-        public string WishlistName { get; set; } = null!;
+        public string Name { get; set; } = null!;
         public ICollection<Boardgame> Boardgames { get; set; } = null!;
     }
 }

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace BoardgamesEShopManagement.Domain.Entities
 {
-    public class WishlistItem
+    public class WishlistItem : EntityBase
     {
-        public int BoardgameId { get; set; }
-        public Boardgame Boardgame { get; set; } = null!;
         public int WishlistId { get; set; }
         public Wishlist Wishlist { get; set; } = null!;
+        public int BoardgameId { get; set; }
+        public Boardgame Boardgame { get; set; } = null!;
         public int Quantity { get; set; }
     }
 }

@@ -18,10 +18,11 @@ namespace BoardgamesEShopManagement.Domain.Entities
         [MaxLength(50)]
         public string County { get; set; } = null!;
 
-        [MaxLength(50)]
+        [MaxLength(150)]
         public string Country { get; set; } = null!;
 
-        [MaxLength(15)]
+        [MaxLength(30)]
         public string Phone { get; set; } = null!;
+        public Person Person { get; set; } = null!;
     }
 }
