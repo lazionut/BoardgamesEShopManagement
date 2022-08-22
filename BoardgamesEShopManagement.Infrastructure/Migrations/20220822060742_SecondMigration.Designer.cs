@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoardgamesEShopManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20220819123824_SecondMigration")]
+    [Migration("20220822060742_SecondMigration")]
     partial class SecondMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -78,7 +78,7 @@ namespace BoardgamesEShopManagement.Infrastructure
                new Faker<Domain.Entities.Person>()
                 .RuleFor(person => person.FirstName, faker => faker.Person.FirstName)
                 .RuleFor(person => person.LastName, faker => faker.Person.LastName)
-                .RuleFor(review => review.Email, faker => faker.Address.County())
+                .RuleFor(review => review.Email, faker => faker.Internet.Email())
                 .RuleFor(review => review.AddressId, addressId)
                 .Generate());
         }
@@ -163,7 +163,7 @@ namespace BoardgamesEShopManagement.Infrastructure
                     .RuleFor(boardgame => boardgame.Name, boardgameName)
                     .RuleFor(boardgame => boardgame.Description, (_, boardgame) => boardgame.Name.ToUpper())
                     .RuleFor(boardgame => boardgame.Link, faker => faker.PickRandom(boardgameLinks))
-                    .RuleFor(boardgame => boardgame.Price, faker => faker.Random.Decimal(100, 5_000))
+                    .RuleFor(boardgame => boardgame.Price, faker => faker.Random.Decimal(50, 1500))
                     .RuleFor(boardgame => boardgame.CategoryId, faker => faker.Random.Number(1, 10))
                     .Generate());
         }
@@ -239,7 +239,7 @@ namespace BoardgamesEShopManagement.Infrastructure
             return buyerNames.ToList().Select(buyerName =>
                 new Faker<Order>()
                     .RuleFor(order => order.BuyerName, buyerName)
-                    .RuleFor(order => order.Total, faker => faker.Random.Decimal(100, 5_000))
+                    .RuleFor(order => order.Total, faker => faker.Random.Decimal(50, 10000))
                     .Generate());
         }
 
