@@ -22,7 +22,7 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlis
         public Task<int> Handle(CreateOrder request, CancellationToken cancellationToken)
         {
             IEnumerable<OrderItem> orderItems = request.OrderItems.Select(orderItemDto =>
-                new OrderItem {Boardgame = new Boardgame { BoardgameName = orderItemDto.BoardgameName, BoardgamePrice = orderItemDto.Price }, Quantity = orderItemDto.Quantity });
+                new OrderItem {Boardgame = new Boardgame { Name = orderItemDto.BoardgameName, Price = orderItemDto.Price }, Quantity = orderItemDto.Quantity });
 
             Order order = new Order { BuyerName = request.BuyerName };
             _orderRepository.CreateOrder(order);

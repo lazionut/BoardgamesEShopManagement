@@ -12,6 +12,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsList
         public int ReviewId { get; set; }
         public string ReviewTitle { get; set; } = null!;
         public string ReviewAuthor { get; set; } = null!;
+        public byte ReviewScore { get; set; } 
         public string ReviewContent { get; set; } = null!;
     }
 }

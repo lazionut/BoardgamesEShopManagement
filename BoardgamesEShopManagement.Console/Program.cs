@@ -1,89 +1,180 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
 
-using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList;
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
-using BoardgamesEShopManagement.Infrastructure.Repositories;
-using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistList;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
-using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
-using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsList;
+using BoardgamesEShopManagement.Infrastructure;
 
-var diContainer = new ServiceCollection()
-    .AddMediatR(typeof(IBoardgameRepository))
-    .AddScoped<IBoardgameRepository, BoardgameRepository>()
-    .AddScoped<IWishlistRepository, WishlistRepository>()
-    .AddScoped<IReviewRepository, ReviewRepository>()
-    .BuildServiceProvider();
+await using ShopContext context = new ShopContext();
 
-var mediator = diContainer.GetRequiredService<IMediator>();
+Seeder.SeedData();
 
-var firstBoardgameId = await mediator.Send(new CreateBoardgameRequest { BoardgameImage = "base64image1", BoardgameName = "BoardgameName", BoardgameDescription = "My first boardgame description", BoardgamePrice = 20m });
-await mediator.Send(new CreateBoardgameRequest { BoardgameImage = "base64image2", BoardgameName = "BoardgameName2", BoardgameDescription = "My second boardgame description", BoardgamePrice = 45m });
-await mediator.Send(new CreateBoardgameRequest { BoardgameImage = "base64image3", BoardgameName = "BoardgameName3", BoardgameDescription = "My third boardgame description", BoardgamePrice = 35m });
-var boardgames = await mediator.Send(new GetBoardgamesListQuery());
+var maximumOrderedBoardgames = await context.OrderItems.GroupBy(orderItem => orderItem.BoardgameId)
+    .Select(orderItemGroup => new
+    {
+        BoardgameId = orderItemGroup.Key,
+        MaximumQuantity = orderItemGroup.Max(boardgame => boardgame.Quantity),
+    })
+    .ToListAsync();
 
-var thirdBoardgamePrice = boardgames.FirstOrDefault(boardgame => boardgame.Id == 3)?.BoardgamePrice;
-var firstBoardgame = await mediator.Send(new GetBoardgameQuery { BoardgameId = 1 });
-var secondBoardgame = await mediator.Send(new GetBoardgameQuery { BoardgameId = 2 });
-Console.WriteLine("Current second boardgame is: " + secondBoardgame);
-await mediator.Send(new UpdateBoardgameRequest { BoardgameId = 2, Boardgame = new Boardgame { BoardgameImage = "base64image2", BoardgameName = "BoardgameName5", BoardgamePrice = 13m } });
-secondBoardgame = await mediator.Send(new GetBoardgameQuery { BoardgameId = 2 });
-Console.WriteLine("Updated second boardgame is: " + secondBoardgame);
-var isThirdBoardgameDeleted = await mediator.Send(new DeleteBoardgameRequest { BoardgameId = 3 });
-
-Console.WriteLine(firstBoardgameId);
-Console.WriteLine(thirdBoardgamePrice);
-Console.WriteLine(firstBoardgame);
-Console.WriteLine(isThirdBoardgameDeleted);
+maximumOrderedBoardgames.ForEach(orderItemGroup => Console.WriteLine("Boardgame with id "
+    + orderItemGroup.BoardgameId
+    + " it was maximum ordered of "
+    + orderItemGroup.MaximumQuantity
+    + " times "));
+Console.WriteLine('\n');
 
 
-await mediator.Send(new CreateWishlistRequest
-{
-    WishlistName = "MyWishlist1",
-    WishlistItems = new List<WishlistItemDto>
-                {
-                    new() { Quantity = 1, BoardgameName = "Boardgame1" },
-                    new() { Quantity = 2, BoardgameName = "Boardgame2" }
-                }
-});
-await mediator.Send(new CreateWishlistRequest
-{
-    WishlistName = "MyWishlist2",
-    WishlistItems = new List<WishlistItemDto>
-                {
-                    new() { Quantity = 1, BoardgameName = "Boardgame1" },
-                    new() { Quantity = 2, BoardgameName = "Boardgame2" }
-                }
-});
-var wishlistId = await mediator.Send(new CreateWishlistRequest
-{
-    WishlistName = "MyWishlist3",
-    WishlistItems = new List<WishlistItemDto>
-                {
-                    new() { Quantity = 1, BoardgameName = "Boardgame1" },
-                    new() { Quantity = 2, BoardgameName = "Boardgame2" }
-                }
-});
+var linkPerBoardgame = await context.Boardgames
+        .GroupBy(boardgame => boardgame.Link)
+        .Select(linkGroup => new
+        {
+            Link = linkGroup.Key,
+            Count = linkGroup.Count()
+        })
+        .ToListAsync();
 
-var wishlists = await mediator.Send(new GetWishlistsListQuery());
+linkPerBoardgame.ForEach(linkGroup => Console.WriteLine(linkGroup.Link
+    + " appears "
+    + linkGroup.Count
+    + " times"));
+Console.WriteLine('\n');
 
 
-Console.WriteLine($"Order created with {wishlistId}");
-var secondWishlistName = wishlists.FirstOrDefault(wishlist => wishlist.WishlistId == 2)?.WishlistName;
-Console.WriteLine(secondWishlistName);
+var boardgamesThatCostsHigherThanAValue = await context.Boardgames
+    .GroupBy(boardgame => new { boardgame.Name, boardgame.Price })
+    .Select(priceGroup => new
+    {
+        Name = priceGroup.Key.Name,
+        Price = priceGroup.Key.Price
+    })
+    .Where(priceGroup => priceGroup.Price > 500)
+    .ToListAsync();
 
-await mediator.Send(new CreateReviewRequest { BoardgameId = 1, ReviewTitle = "This is awesome", ReviewAuthor = "MyAuthor1", ReviewContent = "My review about this boardgame!" });
-var secondReviewId = await mediator.Send(new CreateReviewRequest { BoardgameId = 1, ReviewTitle = "This is awesome", ReviewAuthor = "MyAuthor2", ReviewContent = "My review about this boardgame!" });
-await mediator.Send(new CreateReviewRequest { BoardgameId = 1, ReviewTitle = "This is awesome", ReviewAuthor = "MyAuthor3", ReviewContent = "My review about this boardgame!" });
-var reviews = await mediator.Send(new GetReviewsListQuery());
+boardgamesThatCostsHigherThanAValue.ForEach(priceGroup => Console.WriteLine(priceGroup.Name
+    + " that costs "
+    + priceGroup.Price
+    + ", so it has a price higher than 500"));
+Console.WriteLine('\n');
 
-var secondReviewAuthor = reviews.FirstOrDefault(review => review.ReviewId == 2)?.ReviewAuthor;
 
-Console.WriteLine(secondReviewId);
-Console.WriteLine(secondReviewAuthor);
+var pricesOfBoardgamesWithLink = await context.Boardgames
+    .GroupBy(boardgame => boardgame.Link)
+    .Select(boardgameGroup => new
+    {
+        Link = boardgameGroup.Key,
+        TotalPrice = boardgameGroup.Sum(boardgame => boardgame.Price)
+    })
+    .ToListAsync();
+
+pricesOfBoardgamesWithLink.ForEach(boardgameGroup => Console.WriteLine(
+    "Boardgames with link " + boardgameGroup.Link
+    + " have a total costs of "
+    + boardgameGroup.TotalPrice));
+Console.WriteLine('\n');
+
+
+var averageReviewScore = await context.Reviews
+     .GroupBy(review => review.Boardgame.Name)
+     .Select(reviewGroup => new
+     {
+         Name = reviewGroup.Key,
+         AverageScore = reviewGroup.Average(review => review.Score),
+         Count = reviewGroup.Count()
+     })
+.ToListAsync();
+
+averageReviewScore.ForEach(review => Console.WriteLine("Boardgame "
+    + review.Name
+    + " has an average of "
+    + review.AverageScore
+    + " stars and "
+    + review.Count
+    + " reviews"));
+Console.WriteLine('\n');
+
+
+var minimumWishlishtedBoardgames = await context.WishlistItems.GroupBy(orderItem => orderItem.BoardgameId)
+    .Select(wishlistItemGroup => new
+    {
+        BoardgameId = wishlistItemGroup.Key,
+        MinimumQuantity = wishlistItemGroup.Max(boardgame => boardgame.Quantity),
+    })
+    .ToListAsync();
+
+minimumWishlishtedBoardgames.ForEach(wishlistItemGroup => Console.WriteLine("Boardgame with id "
+    + wishlistItemGroup.BoardgameId
+    + " was minimum wishlisted of "
+    + wishlistItemGroup.MinimumQuantity
+    + " times "));
+Console.WriteLine('\n');
+
+
+var reviewsPerBoardgameWithPrefix = await context.Boardgames
+                        .SelectMany(boardgame => boardgame.Reviews, (b, r) =>
+                            new
+                            {
+                                b.Name,
+                                r.Author,
+                                r.Content
+                            }
+                        )
+                        .Where(boardgame => boardgame.Name.StartsWith("P") || boardgame.Name.StartsWith("T"))
+                        .ToListAsync();
+
+reviewsPerBoardgameWithPrefix.ForEach(boardgameReviews => Console.WriteLine("Boardgame that starts with P or T "
+    + boardgameReviews.Name
+    + " has a review by "
+    + boardgameReviews.Author
+    + " which contains "
+    + boardgameReviews.Content));
+Console.WriteLine('\n');
+
+
+var boardgamesOrderedMoreThanAValue = await context.Boardgames
+                        .SelectMany(order => order.Orders, (b, o) =>
+                        new
+                        {
+                            o.BuyerName,
+                            b.Name,
+                            o.Total
+                        })
+                        .Where(boardgameOrder => boardgameOrder.Total > 300)
+                        .ToListAsync();
+
+boardgamesOrderedMoreThanAValue.ForEach(boardgameReviews => Console.WriteLine(
+      boardgameReviews.BuyerName
+    + " bought "
+    + boardgameReviews.Name
+    + " with a total value of higher than 300"));
+Console.WriteLine('\n');
+
+
+var wishlistsNumberPerBoardgames = await context.Boardgames
+    .SelectMany(boardgame => boardgame.Wishlists, (b, w) =>
+    new
+    {
+        b.Name,
+        w.Boardgames.Count
+    })
+    .ToListAsync();
+
+wishlistsNumberPerBoardgames.ForEach(boardgameWishlist => Console.WriteLine("Boardgame "
+     + boardgameWishlist.Name
+     + " was wishlisted "
+     + boardgameWishlist.Count
+     + " times"));
+Console.WriteLine('\n');
+
+
+var moreThanAValueOrderedBoardgames = await context.Boardgames
+    .SelectMany(boardgame => boardgame.Orders, (b, o) =>
+    new
+    {
+        b.Name,
+        o.Boardgames.Count,
+    })
+    .Where(boardgameOrder => boardgameOrder.Count > 2)
+    .ToListAsync();
+
+moreThanAValueOrderedBoardgames.ForEach(boardgameOrder => Console.WriteLine("Boardgame "
+     + boardgameOrder.Name
+     + " was ordered more than 2 times"));
+Console.WriteLine('\n');

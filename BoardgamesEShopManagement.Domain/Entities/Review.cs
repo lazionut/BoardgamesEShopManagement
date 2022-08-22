@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,13 +12,17 @@ namespace BoardgamesEShopManagement.Domain.Entities
     public class Review : EntityBase
     {
         [MaxLength(50)]
-        public string ReviewTitle { get; set; } = null!;
+        public string Title { get; set; } = null!;
 
         [MaxLength(50)]
-        public string ReviewAuthor { get; set; } = null!;
+        public string Author { get; set; } = null!;
+
+        [Column(TypeName = "tinyint")]
+        [Range(1,5)]
+        public byte Score { get; set; }
 
         [MaxLength(4000)]
-        public string ReviewContent { get; set; } = null!;
+        public string Content { get; set; } = null!;
         public Boardgame Boardgame { get; set; } = null!;
         public int BoardgameId { get; set; }
     }

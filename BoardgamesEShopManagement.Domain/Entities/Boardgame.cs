@@ -9,17 +9,17 @@ namespace BoardgamesEShopManagement.Domain.Entities
 {
     public class Boardgame : EntityBase, IComparable<Boardgame>
     {
-        public string? BoardgameImage { get; set; }
+        public string? Image { get; set; }
 
         [MaxLength(50)]
-        public string BoardgameName { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         [MaxLength(4000)]
-        public string? BoardgameDescription { get; set; }
-        public decimal BoardgamePrice { get; set; }
+        public string? Description { get; set; }
+        public decimal Price { get; set; }
 
         [MaxLength(2000)]
-        public string? BoardgameLink { get; set; }
+        public string? Link { get; set; }
         public Category Category { get; set; } = null!;
         public int CategoryId { get; set; }
         public ICollection<Review> Reviews { get; set; } = null!;
@@ -28,16 +28,16 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         public override string ToString()
         {
-            return $"{Id} -> {BoardgameName} - {BoardgameDescription} | ({BoardgamePrice})";
+            return $"{Id} -> {Name} - {Description} | ({Price})";
         }
 
         public int CompareTo(Boardgame boardgame)
         {
-            if (this.BoardgamePrice > boardgame.BoardgamePrice)
+            if (this.Price > boardgame.Price)
             {
                 return 1;
             }
-            else if (this.BoardgamePrice < boardgame.BoardgamePrice)
+            else if (this.Price < boardgame.Price)
             {
                 return -1;
             }

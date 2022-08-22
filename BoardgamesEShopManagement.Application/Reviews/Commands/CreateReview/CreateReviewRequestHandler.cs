@@ -24,9 +24,10 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
             Review review = new Review
             {
                 BoardgameId = request.BoardgameId,
-                ReviewTitle = request.ReviewTitle,
-                ReviewAuthor = request.ReviewAuthor,
-                ReviewContent = request.ReviewContent
+                Title = request.ReviewTitle,
+                Author = request.ReviewAuthor,
+                Score = request.ReviewScore,
+                Content = request.ReviewContent
             };
             _reviewRepository.Create(review);
 

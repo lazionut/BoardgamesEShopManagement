@@ -23,9 +23,10 @@ namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPe
             IEnumerable<ReviewsListPerBoardgameVm> result = _reviewRepository.GetReviewsListPerBoardgame(request.BoardgameId).Select(review => new ReviewsListPerBoardgameVm
             {
                 ReviewId = review.Id,
-                ReviewTitle = review.ReviewTitle,
-                ReviewAuthor = review.ReviewAuthor,
-                ReviewContent = review.ReviewContent
+                ReviewTitle = review.Title,
+                ReviewAuthor = review.Author,
+                ReviewScore = review.Score,
+                ReviewContent = review.Content
             });
 
             return Task.FromResult(result);

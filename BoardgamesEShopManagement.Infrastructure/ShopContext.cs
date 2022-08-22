@@ -33,14 +33,15 @@ namespace BoardgamesEShopManagement.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Boardgame>().Property(boardgame => boardgame.BoardgamePrice).HasPrecision(6, 2);
+            modelBuilder.Entity<Boardgame>().Property(boardgame => boardgame.Price).HasPrecision(6, 2);
             modelBuilder.Entity<Order>().Property(order => order.Total).HasPrecision(8, 2);
-            modelBuilder.Entity<WishlistItem>().HasNoKey();
-            modelBuilder.Entity<OrderItem>().HasNoKey();
 
+            modelBuilder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new BoardgameEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PersonEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ReviewEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new WishlistEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
         }
     }
 }

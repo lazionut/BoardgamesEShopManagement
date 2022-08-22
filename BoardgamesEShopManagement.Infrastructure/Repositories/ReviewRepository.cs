@@ -29,8 +29,8 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             if (reviewId >= 0)
             {
                 Review searchedReview = genericItems.FirstOrDefault(review => review.Id == reviewId);
-                searchedReview.ReviewTitle = review.ReviewTitle ?? searchedReview.ReviewTitle;
-                searchedReview.ReviewContent = review.ReviewContent ?? searchedReview.ReviewContent;
+                searchedReview.Title = review.Title ?? searchedReview.Title;
+                searchedReview.Content = review.Content ?? searchedReview.Content;
 
                 return searchedReview;
             }

@@ -24,11 +24,11 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardg
             Boardgame boardgame = new Boardgame
             {
                 CategoryId = request.CategoryId,
-                BoardgameImage = request.BoardgameImage,
-                BoardgameName = request.BoardgameName,
-                BoardgameDescription = request.BoardgameDescription,
-                BoardgamePrice = request.BoardgamePrice,
-                BoardgameLink = request.BoardgameLink
+                Image = request.BoardgameImage,
+                Name = request.BoardgameName,
+                Description = request.BoardgameDescription,
+                Price = request.BoardgamePrice,
+                Link = request.BoardgameLink
             };
             _boardgameRepository.Create(boardgame);
 
