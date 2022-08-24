@@ -5,32 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Domain.Entities;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory
 {
-    public class GetBoardgamesPerCategoryListQueryHandler : IRequestHandler<GetBoardgamesPerCategoryListQuery, IEnumerable<BoardgamesPerCategoryListVm>>
+    public class GetBoardgamesPerCategoryListQueryHandler : IRequestHandler<GetBoardgamesPerCategoryListQuery, List<Boardgame>>
     {
-        private readonly IBoardgameRepository _boardgameRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetBoardgamesPerCategoryListQueryHandler(IBoardgameRepository boardgameRepository)
+        public GetBoardgamesPerCategoryListQueryHandler(IUnitOfWork unitOfWork)
         {
-            _boardgameRepository = boardgameRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<IEnumerable<BoardgamesPerCategoryListVm>> Handle(GetBoardgamesPerCategoryListQuery request, CancellationToken cancellationToken)
+        public async Task<List<Boardgame>> Handle(GetBoardgamesPerCategoryListQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<BoardgamesPerCategoryListVm> result = _boardgameRepository.GetBoardgamesPerCategory(request.CategoryId).Select(boardgame => new BoardgamesPerCategoryListVm
-            {
-                Id = boardgame.Id,
-                BoardgameImage = boardgame.Image,
-                BoardgameName = boardgame.Name,
-                BoardgameDescription = boardgame.Description,
-                BoardgamePrice = boardgame.Price,
-                BoardgameLink = boardgame.Link
-            });
-
-            return Task.FromResult(result);
+            return await _unitOfWork.BoardgameRepository.GetBoardgamesPerCategory(request.CategoryId);
         }
     }
 }

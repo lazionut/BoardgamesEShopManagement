@@ -5,14 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
+using BoardgamesEShopManagement.Domain.Entities;
+
 namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
 {
-    public class CreateReviewRequest : IRequest<int>
+    public class CreateReviewRequest : IRequest<Review>
     {
-        public int BoardgameId { get; set; }
         public string ReviewTitle { get; set; } = null!;
         public string ReviewAuthor { get; set; } = null!;
         public byte ReviewScore { get; set; }
         public string ReviewContent { get; set; } = null!;
+        public int BoardgameId { get; set; }
+        public int AccountId { get; set; }
     }
 }

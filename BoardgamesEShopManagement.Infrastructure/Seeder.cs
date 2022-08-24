@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Bogus;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using Bogus.DataSets;
 
 namespace BoardgamesEShopManagement.Infrastructure
 {
@@ -21,7 +20,7 @@ namespace BoardgamesEShopManagement.Infrastructure
             context.Database.EnsureCreated();
 
             List<Domain.Entities.Address> addresses = GetPreconfiguredAddress().ToList();
-            List<Domain.Entities.Person> persons = GetPreconfiguredPerson().ToList();
+            List<Account> accounts = GetPreconfiguredAccount().ToList();
             List<Category> categories = GetPreconfiguredCategories().ToList();
             List<Boardgame> boardgames = GetPreconfiguredBoardgames().ToList();
             List<Review> reviews = GetPreconfiguredReviews().ToList();
@@ -31,7 +30,10 @@ namespace BoardgamesEShopManagement.Infrastructure
             List<OrderItem> orderItems = GetPreconfiguredOrderItems().ToList();
 
             context.Addresses.AddRange(addresses);
-            context.Persons.AddRange(persons);
+
+            context.SaveChanges();
+
+            context.Accounts.AddRange(accounts);
             context.Categories.AddRange(categories);
 
             context.SaveChanges();
@@ -70,15 +72,16 @@ namespace BoardgamesEShopManagement.Infrastructure
                    .Generate());
         }
 
-        private static IEnumerable<Domain.Entities.Person> GetPreconfiguredPerson()
+        private static IEnumerable<Account> GetPreconfiguredAccount()
         {
             List<int> addressIds = Enumerable.Range(1, 10).ToList();
 
             return addressIds.ToList().Select(addressId =>
-               new Faker<Domain.Entities.Person>()
+               new Faker<Account>()
                 .RuleFor(person => person.FirstName, faker => faker.Person.FirstName)
                 .RuleFor(person => person.LastName, faker => faker.Person.LastName)
                 .RuleFor(review => review.Email, faker => faker.Internet.Email())
+                .RuleFor(review => review.Password, faker => faker.Internet.Password())
                 .RuleFor(review => review.AddressId, addressId)
                 .Generate());
         }
@@ -191,6 +194,7 @@ namespace BoardgamesEShopManagement.Infrastructure
                     .RuleFor(review => review.Score, faker => faker.Random.Byte(1, 5))
                     .RuleFor(review => review.Content, faker => faker.Rant.Review())
                     .RuleFor(review => review.BoardgameId, faker => faker.Random.Int(1, 10))
+                    .RuleFor(review => review.AccountId, faker => faker.Random.Int(1, 10))
                     .Generate());
         }
 
@@ -213,13 +217,14 @@ namespace BoardgamesEShopManagement.Infrastructure
             return wishlistNames.ToList().Select(wishlistName =>
                 new Faker<Wishlist>()
                     .RuleFor(wishlist => wishlist.Name, wishlistName)
+                    .RuleFor(wishlist => wishlist.AccountId, faker => faker.Random.Number(1, 10))
                     .Generate());
         }
 
         private static IEnumerable<WishlistItem> GetPreconfiguredWishlistItems()
         {
             List<int> wishlistIds = Enumerable.Range(1, 10)
-                .Select(_ => new Faker().Random.Number(1, 10))
+                //.Select(_ => new Faker().Random.Number(1, 10))
                 .ToList();
 
             return wishlistIds.ToList().Select(wishlistId =>
@@ -232,21 +237,21 @@ namespace BoardgamesEShopManagement.Infrastructure
 
         private static IEnumerable<Order> GetPreconfiguredOrders()
         {
-            List<string> buyerNames = Enumerable.Range(1, 10)
-                 .Select(_ => new Faker().Person.FullName)
+            List<decimal> orderTotals = Enumerable.Range(1, 10)
+                 .Select(_ => new Faker().Random.Decimal(50, 10000))
                  .ToList();
 
-            return buyerNames.ToList().Select(buyerName =>
+            return orderTotals.ToList().Select(orderTotal =>
                 new Faker<Order>()
-                    .RuleFor(order => order.BuyerName, buyerName)
-                    .RuleFor(order => order.Total, faker => faker.Random.Decimal(50, 10000))
+                    .RuleFor(order => order.Total, orderTotal)
+                    .RuleFor(order => order.AccountId, faker => faker.Random.Number(1, 10))
                     .Generate());
         }
 
         private static IEnumerable<OrderItem> GetPreconfiguredOrderItems()
         {
             List<int> orderIds = Enumerable.Range(1, 10)
-                .Select(_ => new Faker().Random.Number(1, 10))
+                //.Select(_ => new Faker().Random.Number(1, 10))
                 .ToList();
 
             return orderIds.ToList().Select(orderId =>

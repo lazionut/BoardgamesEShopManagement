@@ -6,28 +6,41 @@ using System.Threading.Tasks;
 using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist
 {
-    public class CreateWishlistCommandHandler : IRequestHandler<CreateWishlistRequest, int>
+    public class CreateWishlistCommandHandler : IRequestHandler<CreateWishlistRequest, Wishlist>
     {
-        private readonly IWishlistRepository _wishlistRepository;
 
-        public CreateWishlistCommandHandler(IWishlistRepository wishlistRepository)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateWishlistCommandHandler(IUnitOfWork unitOfWork)
         {
-            _wishlistRepository = wishlistRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<int> Handle(CreateWishlistRequest request, CancellationToken cancellationToken)
+        public async Task<Wishlist> Handle(CreateWishlistRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<WishlistItem> wishlistBoardgames = request.WishlistItems.Select(wishlistBoardgameDto =>
-                new WishlistItem { Boardgame = new Boardgame { Name = wishlistBoardgameDto.BoardgameName }, Quantity = wishlistBoardgameDto.Quantity });
+            Boardgame boardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
+            Wishlist wishlist = await _unitOfWork.WishlistRepository.GetById(request.WishlistId);
 
-            Wishlist wishlist = new Wishlist { Name = request.WishlistName };
-            _wishlistRepository.CreateWishlist(wishlist);
+            if (boardgame != null && wishlist != null)
+            {
+                //decimal boardgamePrice = await _unitOfWork.BoardgameRepository.GetBoardgamePrice(request.BoardgameId);
+                //Order newOrder = new Order { Total = request.Total, AccountId = request.AccountId };
 
-            return Task.FromResult(wishlist.Id);
+                await _unitOfWork.WishlistRepository.Create(request.WishlistId, request.BoardgameId, wishlist);
+                await _unitOfWork.Save();
+
+                return wishlist;
+            }
+            else
+            {
+                return null;
+            }
         }
+        
     }
 }

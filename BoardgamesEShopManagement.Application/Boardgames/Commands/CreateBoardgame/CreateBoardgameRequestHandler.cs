@@ -5,34 +5,37 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame
 {
-    public class CreateBoardgameRequestHandler : IRequestHandler<CreateBoardgameRequest, int>
+    public class CreateBoardgameRequestHandler : IRequestHandler<CreateBoardgameRequest, Boardgame>
     {
-        private readonly IBoardgameRepository _boardgameRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateBoardgameRequestHandler(IBoardgameRepository boardgameRepository)
+        public CreateBoardgameRequestHandler(IUnitOfWork unitOfWork)
         {
-            _boardgameRepository = boardgameRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<int> Handle(CreateBoardgameRequest request, CancellationToken cancellationToken)
+        public async Task<Boardgame> Handle(CreateBoardgameRequest request, CancellationToken cancellationToken)
         {
             Boardgame boardgame = new Boardgame
             {
-                CategoryId = request.CategoryId,
                 Image = request.BoardgameImage,
                 Name = request.BoardgameName,
                 Description = request.BoardgameDescription,
                 Price = request.BoardgamePrice,
-                Link = request.BoardgameLink
+                Link = request.BoardgameLink,
+                CategoryId = request.CategoryId,
             };
-            _boardgameRepository.Create(boardgame);
 
-            return Task.FromResult(boardgame.Id);
+            await _unitOfWork.BoardgameRepository.Create(boardgame);
+            await _unitOfWork.Save();
+
+            return boardgame;
         }
     }
 }

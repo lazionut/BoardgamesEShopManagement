@@ -5,33 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
 {
-    internal class CreateReviewRequestHandler : IRequestHandler<CreateReviewRequest, int>
+    public class CreateReviewRequestHandler : IRequestHandler<CreateReviewRequest, Review>
     {
-        private readonly IReviewRepository _reviewRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateReviewRequestHandler(IReviewRepository reviewRepository)
+        public CreateReviewRequestHandler(IUnitOfWork unitOfWork)
         {
-            _reviewRepository = reviewRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<int> Handle(CreateReviewRequest request, CancellationToken cancellationToken)
+        public async Task<Review> Handle(CreateReviewRequest request, CancellationToken cancellationToken)
         {
             Review review = new Review
             {
-                BoardgameId = request.BoardgameId,
                 Title = request.ReviewTitle,
                 Author = request.ReviewAuthor,
                 Score = request.ReviewScore,
-                Content = request.ReviewContent
+                Content = request.ReviewContent,
+                BoardgameId = request.BoardgameId,
+                AccountId = request.AccountId,
             };
-            _reviewRepository.Create(review);
 
-            return Task.FromResult(review.Id);
+            await _unitOfWork.ReviewRepository.Create(review);
+            await _unitOfWork.Save();
+
+            return review;
         }
     }
 }

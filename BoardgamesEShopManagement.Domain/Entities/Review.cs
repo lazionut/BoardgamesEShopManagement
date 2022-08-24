@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +13,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
         [MaxLength(50)]
         public string Title { get; set; } = null!;
 
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Author { get; set; } = null!;
 
         [Column(TypeName = "tinyint")]
@@ -25,5 +24,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
         public string Content { get; set; } = null!;
         public Boardgame Boardgame { get; set; } = null!;
         public int BoardgameId { get; set; }
+        public Account Account { get; set; } = null!;
+        public int AccountId { get; set; }
     }
 }

@@ -23,6 +23,6 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [MaxLength(30)]
         public string Phone { get; set; } = null!;
-        public Person Person { get; set; } = null!;
+        public Account Account { get; set; } = null!;
     }
 }

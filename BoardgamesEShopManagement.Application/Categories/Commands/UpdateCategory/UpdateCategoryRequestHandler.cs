@@ -5,25 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory
 {
-    internal class UpdateCategoryRequestHandler : IRequestHandler<UpdateCategoryRequest, Category>
+    public class UpdateCategoryRequestHandler : IRequestHandler<UpdateCategoryRequest, Category>
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateCategoryRequestHandler(ICategoryRepository categoryRepository)
+        public UpdateCategoryRequestHandler(IUnitOfWork unitOfWork)
         {
-            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<Category> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<Category> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
         {
-            Category updatedCategory = _categoryRepository.UpdateCategory(request.CategoryId, request.Category);
+            Category updatedCategory = await _unitOfWork.CategoryRepository.UpdateCategory(request.CategoryId, request.Category);
 
-            return Task.FromResult(updatedCategory);
+            await _unitOfWork.Save();
+
+            return updatedCategory;
         }
     }
 }

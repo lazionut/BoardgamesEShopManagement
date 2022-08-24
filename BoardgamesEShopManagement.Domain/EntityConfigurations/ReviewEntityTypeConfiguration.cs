@@ -18,6 +18,11 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
                 .HasOne(review => review.Boardgame)
                 .WithMany(boardgame => boardgame.Reviews)
                 .HasForeignKey(review => review.BoardgameId);
+
+            reviewConfiguration
+                .HasOne(review => review.Account)
+                .WithMany(account => account.Review)
+                .HasForeignKey(review => review.AccountId);
         }
     }
 }

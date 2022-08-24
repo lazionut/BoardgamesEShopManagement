@@ -6,28 +6,38 @@ using System.Threading.Tasks;
 using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract;
 
-namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist
+namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 {
-    public class CreateOrderCommandHandler : IRequestHandler<CreateOrder, int>
+    public class CreateOrderCommandHandler : IRequestHandler<CreateOrderRequest, Order>
     {
-        private readonly IOrderRepository _orderRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateOrderCommandHandler(IOrderRepository orderRepository)
+        public CreateOrderCommandHandler(IUnitOfWork unitOfWork)
         {
-            _orderRepository = orderRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<int> Handle(CreateOrder request, CancellationToken cancellationToken)
+        public async Task<Order> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
         {
-            IEnumerable<OrderItem> orderItems = request.OrderItems.Select(orderItemDto =>
-                new OrderItem {Boardgame = new Boardgame { Name = orderItemDto.BoardgameName, Price = orderItemDto.Price }, Quantity = orderItemDto.Quantity });
+            Boardgame boardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
+            Order order = await _unitOfWork.OrderRepository.GetById(request.OrderId);
 
-            Order order = new Order { BuyerName = request.BuyerName };
-            _orderRepository.CreateOrder(order);
+            if (boardgame != null && order != null)
+            {
+                //decimal boardgamePrice = await _unitOfWork.BoardgameRepository.GetBoardgamePrice(request.BoardgameId);
+                //Order newOrder = new Order { Total = request.Total, AccountId = request.AccountId };
 
-            return Task.FromResult(order.Id);
+                await _unitOfWork.OrderRepository.Create(request.OrderId, request.BoardgameId, order);
+                await _unitOfWork.Save();
+
+                return order;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

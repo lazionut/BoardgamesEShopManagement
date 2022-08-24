@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BoardgamesEShopManagement.Domain.Entities
 {
-    public class WishlistItem : EntityBase
+    public class WishlistItem
     {
         public int WishlistId { get; set; }
         public Wishlist Wishlist { get; set; } = null!;

@@ -5,32 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList
 {
-    public class GetBoardgameQueryHandler : IRequestHandler<GetBoardgamesListQuery, IEnumerable<BoardgamesListVm>>
+    public class GetBoardgameListQueryHandler : IRequestHandler<GetBoardgamesListQuery, List<Boardgame>>
     {
-        private readonly IBoardgameRepository _boardgameRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetBoardgameQueryHandler(IBoardgameRepository boardgameRepository)
+        public GetBoardgameListQueryHandler(IUnitOfWork unitOfWork)
         {
-            _boardgameRepository = boardgameRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<IEnumerable<BoardgamesListVm>> Handle(GetBoardgamesListQuery request, CancellationToken cancellationToken)
+        public async Task<List<Boardgame>> Handle(GetBoardgamesListQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<BoardgamesListVm> result = _boardgameRepository.GetAll().Select(boardgame => new BoardgamesListVm
-            {
-                Id = boardgame.Id,
-                BoardgameImage = boardgame.Image,
-                BoardgameName = boardgame.Name,
-                BoardgameDescription = boardgame.Description,
-                BoardgamePrice = boardgame.Price,
-                BoardgameLink = boardgame.Link
-            });
-
-            return Task.FromResult(result);
+            return await _unitOfWork.BoardgameRepository.GetAll();
         }
     }
 }

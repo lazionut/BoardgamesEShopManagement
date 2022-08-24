@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist
+namespace BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlist
 {
     public class DeleteOrderRequest : IRequest<bool>
     {

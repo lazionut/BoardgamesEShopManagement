@@ -22,6 +22,11 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
                 oi => oi.HasOne(oi => oi.Boardgame).WithMany().HasForeignKey(oi => oi.BoardgameId),
                 oi => oi.HasOne(oi => oi.Order).WithMany().HasForeignKey(oi => oi.OrderId)
                 );
+
+            orderConfiguration
+                .HasOne(order => order.Account)
+                .WithMany(account => account.Orders)
+                .HasForeignKey(order => order.AccountId);
         }
     }
 }
