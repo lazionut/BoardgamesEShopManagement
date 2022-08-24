@@ -5,32 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsList
 {
-    public class GetReviewsListQueryHandler : IRequestHandler<GetReviewsListQuery, IEnumerable<ReviewListVm>>
+    public class GetReviewsListQueryHandler : IRequestHandler<GetReviewsListQuery, List<Review>>
     {
-        private readonly IReviewRepository _reviewRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetReviewsListQueryHandler(IReviewRepository reviewRepository)
+        public GetReviewsListQueryHandler(IUnitOfWork unitOfWork)
         {
-            _reviewRepository = reviewRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<IEnumerable<ReviewListVm>> Handle(GetReviewsListQuery query, CancellationToken cancellationToken)
+        public async Task<List<Review>> Handle(GetReviewsListQuery query, CancellationToken cancellationToken)
         {
-            IEnumerable<ReviewListVm> result = _reviewRepository.GetAll().Select(review => new ReviewListVm
-            {
-                BoardgameId = review.BoardgameId,
-                ReviewId = review.Id,
-                ReviewTitle = review.Title,
-                ReviewAuthor = review.Author,
-                ReviewScore = review.Score,
-                ReviewContent = review.Content
-            });
-
-            return Task.FromResult(result);
+            return await _unitOfWork.ReviewRepository.GetAll();
         }
     }
 }

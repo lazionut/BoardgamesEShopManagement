@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
+using BoardgamesEShopManagement.Domain.Entities;
+
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory
 {
-    public class GetBoardgamesPerCategoryListQuery : IRequest<IEnumerable<BoardgamesPerCategoryListVm>>
+    public class GetBoardgamesPerCategoryListQuery : IRequest<List<Boardgame>>
     {
         public int CategoryId { get; set; }
     }

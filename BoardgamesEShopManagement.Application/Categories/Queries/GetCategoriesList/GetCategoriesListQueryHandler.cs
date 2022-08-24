@@ -5,28 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList
 {
-    public class GetCategoriesListQueryHandler : IRequestHandler<GetCategoriesListQuery, IEnumerable<CategoriesListVm>>
+    public class GetCategoriesListQueryHandler : IRequestHandler<GetCategoriesListQuery, List<Category>>
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GetCategoriesListQueryHandler(ICategoryRepository categoryRepository)
+        public GetCategoriesListQueryHandler(IUnitOfWork unitOfWork)
         {
-            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<IEnumerable<CategoriesListVm>> Handle(GetCategoriesListQuery request, CancellationToken cancellationToken)
+        public async Task<List<Category>> Handle(GetCategoriesListQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<CategoriesListVm> result = _categoryRepository.GetAll().Select(category => new CategoriesListVm
-            {
-                Id = category.Id,
-                BoardgameName = category.Name,
-            });
-
-            return Task.FromResult(result);
+            return await _unitOfWork.CategoryRepository.GetAll();
         }
     }
 }

@@ -5,25 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
-using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Categories.Commands.DeleteCategory
 {
-    internal class DeleteCategoryRequestHandler : IRequestHandler<DeleteCategoryRequest, bool>
+    public class DeleteCategoryRequestHandler : IRequestHandler<DeleteCategoryRequest, bool>
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteCategoryRequestHandler(ICategoryRepository categoryRepository)
+        public DeleteCategoryRequestHandler(IUnitOfWork unitOfWork)
         {
-            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<bool> Handle(DeleteCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteCategoryRequest request, CancellationToken cancellationToken)
         {
-            bool updatedCategory = _categoryRepository.Delete(request.CategoryId);
+            bool isCategoryDeleted = await _unitOfWork.CategoryRepository.Delete(request.CategoryId);
 
-            return Task.FromResult(updatedCategory);
+            await _unitOfWork.Save();
+
+            return isCategoryDeleted;
         }
     }
 }

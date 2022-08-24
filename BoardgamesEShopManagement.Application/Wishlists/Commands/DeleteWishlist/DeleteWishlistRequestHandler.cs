@@ -5,22 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist
 {
     public class DeleteWishlistRequestHandler : IRequestHandler<DeleteWishlistRequest, bool>
     {
-        private readonly IWishlistRepository _wishlistRepository;
-        public DeleteWishlistRequestHandler(IWishlistRepository wishlistRepository)
-        {
-            _wishlistRepository = wishlistRepository;
-        }
-        public Task<bool> Handle(DeleteWishlistRequest request, CancellationToken cancellationToken)
-        {
-            bool isDeleted = _wishlistRepository.DeleteWishlist(request.WishlistId);
+        private readonly IUnitOfWork _unitOfWork;
 
-            return Task.FromResult(isDeleted);
+        public DeleteWishlistRequestHandler(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<bool> Handle(DeleteWishlistRequest request, CancellationToken cancellationToken)
+        {
+            bool isWishlistDeleted = await _unitOfWork.WishlistRepository.Delete(request.WishlistId);
+
+            await _unitOfWork.Save();
+
+            return isWishlistDeleted;
         }
     }
 }

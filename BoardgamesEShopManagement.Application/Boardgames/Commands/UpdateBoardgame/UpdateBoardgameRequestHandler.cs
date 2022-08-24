@@ -6,22 +6,27 @@ using System.Threading.Tasks;
 using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame
 {
     public class UpdateBoardgameRequestHandler : IRequestHandler<UpdateBoardgameRequest, Boardgame>
     {
-        private readonly IBoardgameRepository _boardgameRepository;
-        public UpdateBoardgameRequestHandler(IBoardgameRepository boardgameRepository)
-        {
-            _boardgameRepository = boardgameRepository;
-        }
-        public Task<Boardgame> Handle(UpdateBoardgameRequest request, CancellationToken cancellationToken)
-        {
-            Boardgame updatedBoardgame = _boardgameRepository.UpdateBoardgame(request.BoardgameId, request.Boardgame);
+        private readonly IUnitOfWork _unitOfWork;
 
-            return Task.FromResult(updatedBoardgame);
+        public UpdateBoardgameRequestHandler(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<Boardgame> Handle(UpdateBoardgameRequest request, CancellationToken cancellationToken)
+        {
+            Boardgame updatedBoardgame = await _unitOfWork.BoardgameRepository.UpdateBoardgame(request.BoardgameId, request.Boardgame);
+
+            await _unitOfWork.Save();
+
+            return updatedBoardgame;
         }
     }
 }

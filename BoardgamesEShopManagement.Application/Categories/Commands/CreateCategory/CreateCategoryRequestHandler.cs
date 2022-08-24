@@ -5,30 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Categories.Commands.CreateCategory
 {
-    internal class CreateCategoryRequestHandler : IRequestHandler<CreateCategoryRequest, int>
+    public class CreateCategoryRequestHandler : IRequestHandler<CreateCategoryRequest, Category>
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CreateCategoryRequestHandler(ICategoryRepository categoryRepository)
+        public CreateCategoryRequestHandler(IUnitOfWork unitOfWork)
         {
-            _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<int> Handle(CreateCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<Category> Handle(CreateCategoryRequest request, CancellationToken cancellationToken)
         {
-            Category category = new Category
-            {
-                Id = request.CategoryId,
-                Name = request.CategoryName
-            };
-            _categoryRepository.Create(category);
+            Category category = new Category { Name = request.CategoryName };
 
-            return Task.FromResult(category.Id);
+            await _unitOfWork.CategoryRepository.Create(category);
+            await _unitOfWork.Save();
+
+            return category;
         }
     }
 }

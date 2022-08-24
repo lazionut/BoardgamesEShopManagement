@@ -9,9 +9,9 @@ namespace BoardgamesEShopManagement.Domain.Entities
 {
     public class Order : EntityBase
     {
-        [MaxLength(100)]
-        public string BuyerName { get; set; } = null!;
         public decimal Total { get; set; }
+        public Account Account { get; set; } = null!;
+        public int AccountId { get; set; }
         public ICollection<Boardgame> Boardgames { get; set; } = null!;
     }
 }

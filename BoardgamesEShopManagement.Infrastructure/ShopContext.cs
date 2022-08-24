@@ -13,11 +13,20 @@ namespace BoardgamesEShopManagement.Infrastructure
 {
     public class ShopContext : DbContext
     {
+        public ShopContext()
+        {
+        }
+
+        public ShopContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        {
+
+        }
+
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Boardgame> Boardgames => Set<Boardgame>();
         public DbSet<Review> Reviews => Set<Review>();
         public DbSet<Address> Addresses => Set<Address>();
-        public DbSet<Person> Persons => Set<Person>();
+        public DbSet<Account> Accounts => Set<Account>();
         public DbSet<Wishlist> Wishlists => Set<Wishlist>();
         public DbSet<WishlistItem> WishlistItems => Set<WishlistItem>();
         public DbSet<Order> Orders => Set<Order>();
@@ -26,9 +35,9 @@ namespace BoardgamesEShopManagement.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-            .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BoardgamesEShopDBDev")
-            .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
-            .EnableSensitiveDataLogging();
+                .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BoardgamesEShopDBDev")
+                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+                .EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,10 +47,10 @@ namespace BoardgamesEShopManagement.Infrastructure
 
             modelBuilder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new BoardgameEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new PersonEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ReviewEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new WishlistEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new WishlistEntityTypeConfiguration());
         }
     }
 }

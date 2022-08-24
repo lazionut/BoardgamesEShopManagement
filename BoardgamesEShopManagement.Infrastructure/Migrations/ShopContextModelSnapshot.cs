@@ -22,6 +22,48 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Account", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique();
+
+                    b.ToTable("Accounts");
+                });
+
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Address", b =>
                 {
                     b.Property<int>("Id")
@@ -133,10 +175,8 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("BuyerName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
@@ -147,22 +187,15 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountId");
+
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.OrderItem", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<int>("BoardgameId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -170,50 +203,11 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("BoardgameId");
+                    b.HasKey("BoardgameId", "OrderId");
 
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Person", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique();
-
-                    b.ToTable("Persons");
                 });
 
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Review", b =>
@@ -224,10 +218,13 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Author")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("BoardgameId")
                         .HasColumnType("int");
@@ -250,6 +247,8 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountId");
+
                     b.HasIndex("BoardgameId");
 
                     b.ToTable("Reviews");
@@ -263,6 +262,9 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
@@ -273,36 +275,38 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AccountId");
+
                     b.ToTable("Wishlists");
                 });
 
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.WishlistItem", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<int>("BoardgameId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<int>("WishlistId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
-                    b.HasIndex("BoardgameId");
+                    b.HasKey("BoardgameId", "WishlistId");
 
                     b.HasIndex("WishlistId");
 
                     b.ToTable("WishlistItems");
+                });
+
+            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Account", b =>
+                {
+                    b.HasOne("BoardgamesEShopManagement.Domain.Entities.Address", "Address")
+                        .WithOne("Account")
+                        .HasForeignKey("BoardgamesEShopManagement.Domain.Entities.Account", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Boardgame", b =>
@@ -314,6 +318,17 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("BoardgamesEShopManagement.Domain.Entities.Account", "Account")
+                        .WithMany("Orders")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.OrderItem", b =>
@@ -335,26 +350,34 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Person", b =>
+            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Review", b =>
                 {
-                    b.HasOne("BoardgamesEShopManagement.Domain.Entities.Address", "Address")
-                        .WithOne("Person")
-                        .HasForeignKey("BoardgamesEShopManagement.Domain.Entities.Person", "AddressId")
+                    b.HasOne("BoardgamesEShopManagement.Domain.Entities.Account", "Account")
+                        .WithMany("Review")
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
-                });
-
-            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Review", b =>
-                {
                     b.HasOne("BoardgamesEShopManagement.Domain.Entities.Boardgame", "Boardgame")
                         .WithMany("Reviews")
                         .HasForeignKey("BoardgameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Account");
+
                     b.Navigation("Boardgame");
+                });
+
+            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Wishlist", b =>
+                {
+                    b.HasOne("BoardgamesEShopManagement.Domain.Entities.Account", "Account")
+                        .WithMany("Wishlist")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.WishlistItem", b =>
@@ -376,9 +399,18 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
                     b.Navigation("Wishlist");
                 });
 
+            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Account", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Review");
+
+                    b.Navigation("Wishlist");
+                });
+
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Address", b =>
                 {
-                    b.Navigation("Person")
+                    b.Navigation("Account")
                         .IsRequired();
                 });
 

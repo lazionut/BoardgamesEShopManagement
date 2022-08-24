@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
+using BoardgamesEShopManagement.Domain.Entities;
+
 namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsList
 {
-    public class GetReviewsListQuery : IRequest<IEnumerable<ReviewListVm>>
+    public class GetReviewsListQuery : IRequest<List<Review>>
     {
 
     }
