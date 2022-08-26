@@ -11,7 +11,6 @@ using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlist;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;

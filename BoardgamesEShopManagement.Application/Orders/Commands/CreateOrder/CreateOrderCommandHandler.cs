@@ -26,9 +26,6 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
             if (boardgame != null && order != null)
             {
-                //decimal boardgamePrice = await _unitOfWork.BoardgameRepository.GetBoardgamePrice(request.BoardgameId);
-                //Order newOrder = new Order { Total = request.Total, AccountId = request.AccountId };
-
                 await _unitOfWork.OrderRepository.Create(request.OrderId, request.BoardgameId, order);
                 await _unitOfWork.Save();
 

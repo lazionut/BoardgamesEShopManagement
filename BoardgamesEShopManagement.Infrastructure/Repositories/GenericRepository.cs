@@ -25,7 +25,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             if (item == null)
                 throw new GenericItemException($"{item} can\'t be created!");
 
-            _context.Set<T>().AddAsync(item);
+            await _context.Set<T>().AddAsync(item);
         }
 
         public async Task<List<T>> GetAll()
@@ -45,12 +45,26 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             }
         }
 
+        public async Task Update(T item)
+        {
+                _context.Update(item);
+        }
+
         public async Task<bool> Delete(int id)
         {
             if (id >= 0)
             {
-                T searchedItem = await _context.Set<T>().SingleOrDefaultAsync(item => item.Id == id);
-                return _context.Set<T>().Remove(searchedItem) != null ? true : false;
+                T? searchedItem = await _context.Set<T>().SingleOrDefaultAsync(item => item.Id == id);
+
+                if (searchedItem != null)
+                {
+                    _context.Set<T>().Remove(searchedItem);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {

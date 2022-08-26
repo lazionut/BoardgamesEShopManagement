@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory;
+using System.Net;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress
 {
@@ -23,7 +23,20 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress
 
         public async Task<Address> Handle(UpdateAddressRequest request, CancellationToken cancellationToken)
         {
-            Address updatedAddress = await _unitOfWork.AddressRepository.UpdateAddress(request.AddressId, request.Address);
+            Address updatedAddress = await _unitOfWork.AddressRepository.GetById(request.AddressId);
+
+            if (updatedAddress == null)
+            {
+                return null;
+            }
+
+            updatedAddress.Details = request.AddressDetails ?? updatedAddress.Details;
+            updatedAddress.City = request.AddressCity ?? updatedAddress.City;
+            updatedAddress.County = request.AddressCounty ?? updatedAddress.County;
+            updatedAddress.Country = request.AddressCountry ?? updatedAddress.Country;
+            updatedAddress.Phone = request.AddressPhone ?? updatedAddress.Phone;
+
+            await _unitOfWork.AddressRepository.Update(updatedAddress);
 
             await _unitOfWork.Save();
 

@@ -15,7 +15,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
         public string ReviewAuthor { get; set; } = null!;
         public byte ReviewScore { get; set; }
         public string ReviewContent { get; set; } = null!;
-        public int BoardgameId { get; set; }
-        public int AccountId { get; set; }
+        public int ReviewBoardgameId { get; set; }
+        public int ReviewAccountId { get; set; }
     }
 }

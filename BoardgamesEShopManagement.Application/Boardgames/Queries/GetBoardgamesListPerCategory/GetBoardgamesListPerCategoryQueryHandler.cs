@@ -5,22 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory
 {
-    public class GetBoardgamesPerCategoryListQueryHandler : IRequestHandler<GetBoardgamesPerCategoryListQuery, List<Boardgame>>
+    public class GetBoardgamesListPerCategoryQueryHandler : IRequestHandler<GetBoardgamesListPerCategoryQuery, List<Boardgame>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetBoardgamesPerCategoryListQueryHandler(IUnitOfWork unitOfWork)
+        public GetBoardgamesListPerCategoryQueryHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Boardgame>> Handle(GetBoardgamesPerCategoryListQuery request, CancellationToken cancellationToken)
+        public async Task<List<Boardgame>> Handle(GetBoardgamesListPerCategoryQuery request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.BoardgameRepository.GetBoardgamesPerCategory(request.CategoryId);
         }

@@ -11,8 +11,8 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
     public interface IBoardgameRepository : IGenericRepository<Boardgame>
     {
         Task<List<Boardgame>> GetBoardgamesPerCategory(int categoryId);
+        Task<List<Boardgame>> GetBoardgamesByName(string characters);
         Task<decimal> GetBoardgamePrice(int boardgameId);
-        Task<Boardgame> UpdateBoardgame(int boardgameId, Boardgame boardgame);
         void WriteBoardgamesNames(string filePath, List<Boardgame> boardgamesList);
     }
 }

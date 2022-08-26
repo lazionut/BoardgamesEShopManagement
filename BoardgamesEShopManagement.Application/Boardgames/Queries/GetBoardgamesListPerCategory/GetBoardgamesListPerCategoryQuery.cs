@@ -9,7 +9,7 @@ using BoardgamesEShopManagement.Domain.Entities;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory
 {
-    public class GetBoardgamesPerCategoryListQuery : IRequest<List<Boardgame>>
+    public class GetBoardgamesListPerCategoryQuery : IRequest<List<Boardgame>>
     {
         public int CategoryId { get; set; }
     }

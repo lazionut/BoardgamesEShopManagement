@@ -12,10 +12,10 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress
 {
     public class CreateAddressRequest : IRequest<Address>
     {
-        public string Details { get; set; } = null!;
-        public string City { get; set; } = null!;
-        public string County { get; set; } = null!;
-        public string Country { get; set; } = null!;
-        public string Phone { get; set; } = null!;
+        public string AddressDetails { get; set; } = null!;
+        public string AddressCity { get; set; } = null!;
+        public string AddressCounty { get; set; } = null!;
+        public string AddressCountry { get; set; } = null!;
+        public string AddressPhone { get; set; } = null!;
     }
 }

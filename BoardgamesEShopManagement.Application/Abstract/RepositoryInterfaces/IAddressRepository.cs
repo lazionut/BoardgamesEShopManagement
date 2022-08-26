@@ -11,6 +11,6 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
 {
     public interface IAddressRepository : IGenericRepository<Address>
     {
-        Task<Address> UpdateAddress(int addressId, Address address);
+
     }
 }

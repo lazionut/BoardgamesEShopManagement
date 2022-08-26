@@ -1,15 +1,16 @@
-﻿using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.Infrastructure.Repositories;
-using BoardgamesEShopManagement.Infrastructure;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+
+using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Infrastructure.Repositories;
+using BoardgamesEShopManagement.Infrastructure;
 
 namespace BoardgamesEShopManagement.ConsolePresentation
 {

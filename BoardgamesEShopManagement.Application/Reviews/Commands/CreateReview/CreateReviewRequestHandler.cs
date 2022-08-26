@@ -27,8 +27,8 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
                 Author = request.ReviewAuthor,
                 Score = request.ReviewScore,
                 Content = request.ReviewContent,
-                BoardgameId = request.BoardgameId,
-                AccountId = request.AccountId,
+                BoardgameId = request.ReviewBoardgameId,
+                AccountId = request.ReviewAccountId,
             };
 
             await _unitOfWork.ReviewRepository.Create(review);

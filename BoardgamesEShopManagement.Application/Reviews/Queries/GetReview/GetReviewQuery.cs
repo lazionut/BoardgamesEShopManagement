@@ -7,10 +7,10 @@ using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Addresses.Queries.GetAddressesList
+namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategory
 {
-    public class GetAddressesListQuery : IRequest<List<Address>>
+    public class GetReviewQuery : IRequest<Review>
     {
-
+        public int ReviewId { get; set; }
     }
 }

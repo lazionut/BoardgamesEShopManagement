@@ -11,6 +11,5 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
     public interface IReviewRepository : IGenericRepository<Review>
     {
         Task<List<Review>> GetReviewsListPerBoardgame(int boardgameId);
-        Task<Review> UpdateReview(int reviewId, Review review);
     }
 }

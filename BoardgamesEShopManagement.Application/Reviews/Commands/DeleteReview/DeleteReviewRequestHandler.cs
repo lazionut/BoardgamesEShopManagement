@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview

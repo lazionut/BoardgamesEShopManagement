@@ -12,6 +12,6 @@ namespace BoardgamesEShopManagement.Application.Categories.Commands.UpdateCatego
     public class UpdateCategoryRequest : IRequest<Category>
     {
         public int CategoryId { get; set; }
-        public Category Category { get; set; } = null!;
+        public string CategoryName { get; set; } = null!;
     }
 }

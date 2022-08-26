@@ -31,23 +31,5 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 throw new NegativeIdException();
             }
         }
-
-        public async Task<Review> UpdateReview(int reviewId, Review review)
-        {
-            if (reviewId >= 0)
-            {
-                Review searchedReview = await _context.Reviews.SingleOrDefaultAsync(review => review.Id == reviewId);
-                searchedReview.Title = review.Title ?? searchedReview.Title;
-                searchedReview.Content = review.Content ?? searchedReview.Content;
-
-                _context.Update(searchedReview);
-
-                return searchedReview;
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
-        }
     }
 }

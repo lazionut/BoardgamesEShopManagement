@@ -10,6 +10,6 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
 {
     public interface IAccountRepository : IGenericRepository<Account>
     {
-        Task<Account> UpdateAccount(int accountId, Account account);
+
     }
 }

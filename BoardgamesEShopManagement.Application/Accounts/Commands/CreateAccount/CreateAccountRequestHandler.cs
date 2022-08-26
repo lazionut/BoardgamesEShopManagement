@@ -23,10 +23,11 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
         {
             Account account = new Account
             {
-                Email = request.Email,
-                Password = request.Password,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
+                Email = request.AccountEmail,
+                Password = request.AccountPassword,
+                FirstName = request.AccountFirstName,
+                LastName = request.AccountLastName,
+                AddressId = request.AccountAddressId
             };
 
             await _unitOfWork.AccountRepository.Create(account);
