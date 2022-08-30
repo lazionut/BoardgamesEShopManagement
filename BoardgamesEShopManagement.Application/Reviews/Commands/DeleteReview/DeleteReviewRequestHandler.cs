@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Domain.Entities;
 
 namespace BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview
 {
-    public class DeleteReviewRequestHandler : IRequestHandler<DeleteReviewRequest, bool>
+    public class DeleteReviewRequestHandler : IRequestHandler<DeleteReviewRequest, Review>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -20,13 +19,18 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(DeleteReviewRequest request, CancellationToken cancellationToken)
+        public async Task<Review> Handle(DeleteReviewRequest request, CancellationToken cancellationToken)
         {
-            bool isReviewDeleted = await _unitOfWork.ReviewRepository.Delete(request.ReviewId);
+            Review deletedReview = await _unitOfWork.ReviewRepository.Delete(request.ReviewId);
+
+            if (deletedReview == null)
+            {
+                return null;
+            }
 
             await _unitOfWork.Save();
 
-            return isReviewDeleted;
+            return deletedReview;
         }
     }
 }

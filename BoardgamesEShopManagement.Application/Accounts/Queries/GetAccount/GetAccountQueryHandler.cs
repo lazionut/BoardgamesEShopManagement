@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetCategory;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount
 {

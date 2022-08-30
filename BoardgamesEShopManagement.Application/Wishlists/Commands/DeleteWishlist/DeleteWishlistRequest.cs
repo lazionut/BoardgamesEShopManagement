@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
+using BoardgamesEShopManagement.Domain.Entities;
+
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist
 {
-    public class DeleteWishlistRequest : IRequest<bool>
+    public class DeleteWishlistRequest : IRequest<Wishlist>
     {
         public int WishlistId { get; set; }
     }

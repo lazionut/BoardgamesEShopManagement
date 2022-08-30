@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
+using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress
 {
-    public class DeleteAddressRequestHandler : IRequestHandler<DeleteAddressRequest, bool>
+    public class DeleteAddressRequestHandler : IRequestHandler<DeleteAddressRequest, Address>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -18,13 +19,18 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(DeleteAddressRequest request, CancellationToken cancellationToken)
+        public async Task<Address> Handle(DeleteAddressRequest request, CancellationToken cancellationToken)
         {
-            bool isAddressDeleted = await _unitOfWork.AddressRepository.Delete(request.AddressId);
+            Address deletedAddress = await _unitOfWork.AddressRepository.Delete(request.AddressId);
+
+            if (deletedAddress == null)
+            {
+                return null;
+            }
 
             await _unitOfWork.Save();
 
-            return isAddressDeleted;
+            return deletedAddress;
         }
     }
 }

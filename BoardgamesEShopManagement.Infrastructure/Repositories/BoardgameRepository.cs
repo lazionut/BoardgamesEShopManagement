@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using BoardgamesEShopManagement.Domain.Exceptions;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -22,50 +21,17 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task<List<Boardgame>> GetBoardgamesPerCategory(int categoryId)
         {
-            if (categoryId >= 0)
-            {
-                return await _context.Boardgames.Where(boardgame => boardgame.CategoryId == categoryId).ToListAsync();
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+
+            return await _context.Boardgames
+                .Where(boardgame => boardgame.CategoryId == categoryId)
+                .ToListAsync();
         }
 
-        public async Task<decimal> GetBoardgamePrice(int boardgameId)
+        public async Task<List<Boardgame>> GetBoardgamesByName(string characters)
         {
-            if (boardgameId >= 0)
-            {
-                Boardgame searchedBoardgame = await _context.Boardgames.SingleOrDefaultAsync(boardgame => boardgame.Id == boardgameId);
-
-                return searchedBoardgame.Price;
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
-        }
-
-        public async Task<Boardgame> UpdateBoardgame(int boardgameId, Boardgame boardgame)
-        {
-            if (boardgameId >= 0)
-            {
-                Boardgame searchedBoardgame = await _context.Boardgames.SingleOrDefaultAsync(boardgame => boardgame.Id == boardgameId);
-                searchedBoardgame.CategoryId = boardgame.CategoryId;
-                searchedBoardgame.Image = boardgame.Image ?? searchedBoardgame.Image;
-                searchedBoardgame.Name = boardgame.Name ?? searchedBoardgame.Name;
-                searchedBoardgame.Description = boardgame.Description ?? searchedBoardgame.Description;
-                searchedBoardgame.Price = boardgame.Price;
-                searchedBoardgame.Link = boardgame.Link ?? searchedBoardgame.Link;
-
-                _context.Update(searchedBoardgame);
-
-                return searchedBoardgame;
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+            return await _context.Boardgames
+               .Where(boardgame => boardgame.Name.Contains(characters))
+               .ToListAsync();
         }
 
         public void WriteBoardgamesNames(string filePath, List<Boardgame> boardgamesList)

@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
+using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Categories.Commands.DeleteCategory
 {
-    public class DeleteCategoryRequestHandler : IRequestHandler<DeleteCategoryRequest, bool>
+    public class DeleteCategoryRequestHandler : IRequestHandler<DeleteCategoryRequest, Category>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -18,13 +19,18 @@ namespace BoardgamesEShopManagement.Application.Categories.Commands.DeleteCatego
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(DeleteCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<Category> Handle(DeleteCategoryRequest request, CancellationToken cancellationToken)
         {
-            bool isCategoryDeleted = await _unitOfWork.CategoryRepository.Delete(request.CategoryId);
+            Category deletedCategory = await _unitOfWork.CategoryRepository.Delete(request.CategoryId);
+
+            if (deletedCategory == null)
+            {
+                return null;
+            }
 
             await _unitOfWork.Save();
 
-            return isCategoryDeleted;
+            return deletedCategory;
         }
     }
 }

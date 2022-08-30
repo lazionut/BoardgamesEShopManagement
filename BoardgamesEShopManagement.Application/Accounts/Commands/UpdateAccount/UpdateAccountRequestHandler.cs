@@ -21,7 +21,20 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
 
         public async Task<Account> Handle(UpdateAccountRequest request, CancellationToken cancellationToken)
         {
-            Account updatedAccount = await _unitOfWork.AccountRepository.UpdateAccount(request.AccountId, request.Account);
+            Account updatedAccount = await _unitOfWork.AccountRepository.GetById(request.AccountId);
+
+            if (updatedAccount == null)
+            {
+                //await Task.FromResult(null);
+                return null;
+            }
+
+            updatedAccount.FirstName = request.AccountFirstName;
+            updatedAccount.LastName = request.AccountLastName;
+            updatedAccount.Email = request.AccountEmail;
+            updatedAccount.Password = request.AccountPassword;
+
+            await _unitOfWork.AccountRepository.Update(updatedAccount);
 
             await _unitOfWork.Save();
 

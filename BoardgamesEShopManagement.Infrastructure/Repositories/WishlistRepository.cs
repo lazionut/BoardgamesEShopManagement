@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using BoardgamesEShopManagement.Domain.Exceptions;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -20,75 +19,58 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task Create(int wishlistId, int boardgameId, Wishlist wishlist)
+        public async Task Create(Wishlist wishlist)
         {
-            Wishlist? searchedWishlist = await _context.Wishlists
+            await _context.Wishlists.AddAsync(wishlist);
+        }
+
+        public async Task CreateItem(int wishlistId, int boardgameId, Wishlist wishlist)
+        {
+            Wishlist searchedWishlist = await _context.Wishlists
                 .Include(wishlist => wishlist.Boardgames)
                 .SingleOrDefaultAsync(wishlist => wishlist.Id == wishlistId);
-            if (searchedWishlist == null)
-                throw new GenericItemException($"{searchedWishlist} can\'t be found!");
 
-            Boardgame? searchedBoardgame = await _context.Boardgames.SingleOrDefaultAsync(boardgame => boardgame.Id == boardgameId);
-            if (searchedBoardgame == null)
-                throw new GenericItemException($"{searchedBoardgame} can\'t be found!");
+            Boardgame searchedBoardgame = await _context.Boardgames
+                .SingleOrDefaultAsync(boardgame => boardgame.Id == boardgameId);
 
             wishlist.Boardgames.Add(searchedBoardgame);
         }
 
         public async Task<List<Wishlist>> GetWishlistsListPerAccount(int accountId)
         {
-            if (accountId >= 0)
-            {
-                return await _context.Wishlists
-                    .Include(wishlist => wishlist.Boardgames)
-                    .Where(wishlist => wishlist.AccountId == accountId)
-                    .ToListAsync();
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+            return await _context.Wishlists
+                .Include(wishlist => wishlist.Boardgames)
+                .Where(wishlist => wishlist.AccountId == accountId)
+                .ToListAsync();
         }
 
         public async Task<Wishlist> GetById(int wishlistId)
         {
-            if (wishlistId >= 0)
-            {
-                return await _context.Wishlists
-                    .Include(order => order.Boardgames)
-                    .SingleOrDefaultAsync(order => order.Id == wishlistId);
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+            return await _context.Wishlists
+                .Include(order => order.Boardgames)
+                .SingleOrDefaultAsync(order => order.Id == wishlistId);
         }
 
         public async Task<Wishlist> GetByAccount(int accountId, int wishlistId)
         {
-            if (wishlistId >= 0)
-            {
-                return await _context.Wishlists
-                    .Include(wishlist => wishlist.Boardgames)
-                    .SingleOrDefaultAsync(wishlist => wishlist.AccountId == accountId && wishlist.Id == wishlistId);
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+            return await _context.Wishlists
+                .Include(wishlist => wishlist.Boardgames)
+                .SingleOrDefaultAsync(wishlist => wishlist.AccountId == accountId && wishlist.Id == wishlistId);
         }
 
-        public async Task<bool> Delete(int wishlistId)
+        public async Task<Wishlist> Delete(int wishlistId)
         {
-            if (wishlistId >= 0)
+            Wishlist searchedWishlist = await _context.Wishlists
+                .SingleOrDefaultAsync(wishlist => wishlist.Id == wishlistId);
+
+            if (searchedWishlist == null)
             {
-                Wishlist? searchedWishlist = await _context.Wishlists.SingleOrDefaultAsync(wishlist => wishlist.Id == wishlistId);
-                return _context.Wishlists.Remove(searchedWishlist) != null ? true : false;
+                return null;
             }
-            else
-            {
-                throw new NegativeIdException();
-            }
+
+            _context.Wishlists.Remove(searchedWishlist);
+
+            return searchedWishlist;
         }
 
         public async Task Save()

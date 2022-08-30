@@ -23,6 +23,8 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [MaxLength(30)]
         public string Phone { get; set; } = null!;
+        public bool IsArchived { get; set; } = false;
+
         public Account Account { get; set; } = null!;
     }
 }

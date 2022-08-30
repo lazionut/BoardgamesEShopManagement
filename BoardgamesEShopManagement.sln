@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardgamesEShopManagement.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardgamesEShopManagement.Infrastructure", "BoardgamesEShopManagement.Infrastructure\BoardgamesEShopManagement.Infrastructure.csproj", "{BF9DF02D-A9DD-4E05-9CA5-30EE3C7217A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardgamesEShopManagement.Test", "BoardgamesEShopManagement.Test\BoardgamesEShopManagement.Test.csproj", "{A60FC33C-91DF-471D-BFF1-274A5B5DB607}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardgamesEShopManagement.Test", "BoardgamesEShopManagement.Test\BoardgamesEShopManagement.Test.csproj", "{A60FC33C-91DF-471D-BFF1-274A5B5DB607}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardgamesEShopManagement.API", "BoardgamesEShopManagement.API\BoardgamesEShopManagement.API.csproj", "{CAAE0215-B6A3-4E77-A4E9-2291445C851C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A60FC33C-91DF-471D-BFF1-274A5B5DB607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A60FC33C-91DF-471D-BFF1-274A5B5DB607}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A60FC33C-91DF-471D-BFF1-274A5B5DB607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAAE0215-B6A3-4E77-A4E9-2291445C851C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAAE0215-B6A3-4E77-A4E9-2291445C851C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAAE0215-B6A3-4E77-A4E9-2291445C851C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAAE0215-B6A3-4E77-A4E9-2291445C851C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

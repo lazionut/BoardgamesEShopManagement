@@ -16,7 +16,9 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
 
         Task<T> GetById(int id);
 
-        Task<bool> Delete(int id);
+        Task Update(T item);
+
+        Task<T> Delete(int id);
 
         Task Save();
     }

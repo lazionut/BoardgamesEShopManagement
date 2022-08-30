@@ -11,7 +11,6 @@ using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlist;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
@@ -53,15 +52,16 @@ namespace BoardgamesEShopManagement.ConsolePresentation
             Console.WriteLine($"Insert {nameof(addBoardgameCommand.BoardgamePrice)}:");
             addBoardgameCommand.BoardgamePrice = Convert.ToDecimal(Console.ReadLine());
 
-            Console.WriteLine($"Insert {nameof(addBoardgameCommand.CategoryId)}:");
-            addBoardgameCommand.CategoryId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine($"Insert {nameof(addBoardgameCommand.BoardgameCategoryId)}:");
+            addBoardgameCommand.BoardgameCategoryId = Convert.ToInt32(Console.ReadLine());
 
             return await mediator.Send(addBoardgameCommand);
         }
 
+        /*
         internal static async Task<Order> AddOrder(IMediator mediator)
         {
-            CreateOrderRequest addOrderCommand = new CreateOrderRequest();
+            CreateOrderItemRequest addOrderCommand = new CreateOrderItemRequest();
 
             Console.WriteLine($"Insert {nameof(addOrderCommand.Total)}:");
             addOrderCommand.Total = Convert.ToDecimal(Console.ReadLine());
@@ -77,7 +77,9 @@ namespace BoardgamesEShopManagement.ConsolePresentation
 
             return await mediator.Send(addOrderCommand);
         }
+        */
 
+        /*
         internal static async Task<Wishlist> AddWishlist(IMediator mediator)
         {
             CreateWishlistRequest addWishlistCommand = new CreateWishlistRequest();
@@ -93,6 +95,7 @@ namespace BoardgamesEShopManagement.ConsolePresentation
 
             return await mediator.Send(addWishlistCommand);
         }
+        */
 
         internal static async Task<Address> GetAddress(IMediator mediator)
         {
@@ -142,22 +145,21 @@ namespace BoardgamesEShopManagement.ConsolePresentation
             updateAccountCommand.AccountId = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine($"Insert {nameof(account.FirstName)}:");
-            account.FirstName = Console.ReadLine();
+            updateAccountCommand.AccountFirstName = Console.ReadLine();
 
             Console.WriteLine($"Insert {nameof(account.LastName)}:");
-            account.LastName = Console.ReadLine();
+            updateAccountCommand.AccountLastName = Console.ReadLine();
 
             Console.WriteLine($"Insert {nameof(account.Email)}:");
-            account.Email = Console.ReadLine();
+            updateAccountCommand.AccountEmail = Console.ReadLine();
 
             Console.WriteLine($"Insert {nameof(account.Password)}:");
-            account.Password = Console.ReadLine();
-
-            updateAccountCommand.Account = account;
+            updateAccountCommand.AccountPassword = Console.ReadLine();
 
             return await mediator.Send(updateAccountCommand);
         }
 
+        /*
         internal static async Task<bool> DeleteReview(IMediator mediator)
         {
             DeleteReviewRequest deleteReviewCommand = new DeleteReviewRequest();
@@ -167,5 +169,6 @@ namespace BoardgamesEShopManagement.ConsolePresentation
 
             return await mediator.Send(deleteReviewCommand);
         }
+        */
     }
 }

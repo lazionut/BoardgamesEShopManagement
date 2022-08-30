@@ -16,12 +16,18 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [MaxLength(4000)]
         public string? Description { get; set; }
+
+        [Range(0.1, double.PositiveInfinity)]
         public decimal Price { get; set; }
 
         [MaxLength(2000)]
         public string? Link { get; set; }
+
+        [Range(1, int.MaxValue)]
+        public int Quantity { get; set; }
         public Category Category { get; set; } = null!;
         public int CategoryId { get; set; }
+        public bool IsArchived { get; set; } = false;
         public ICollection<Review> Reviews { get; set; } = null!;
         public ICollection<Wishlist> Wishlists { get; set; } = null!;
         public ICollection<Order> Orders { get; set; } = null!;

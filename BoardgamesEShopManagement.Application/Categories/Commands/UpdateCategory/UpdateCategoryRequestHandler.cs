@@ -22,7 +22,16 @@ namespace BoardgamesEShopManagement.Application.Categories.Commands.UpdateCatego
 
         public async Task<Category> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
         {
-            Category updatedCategory = await _unitOfWork.CategoryRepository.UpdateCategory(request.CategoryId, request.Category);
+            Category updatedCategory = await _unitOfWork.CategoryRepository.GetById(request.CategoryId);
+
+            if (updatedCategory == null)
+            {
+                return null;
+            }
+
+            updatedCategory.Name = request.CategoryName;
+
+            await _unitOfWork.CategoryRepository.Update(updatedCategory);
 
             await _unitOfWork.Save();
 

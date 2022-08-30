@@ -23,11 +23,12 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress
         {
             Address address = new Address
             {
-                Details = request.Details,
-                City = request.City,
-                County = request.County,
-                Country = request.Country,
-                Phone = request.Phone,
+                Details = request.AddressDetails,
+                City = request.AddressCity,
+                County = request.AddressCounty,
+                Country = request.AddressCountry,
+                Phone = request.AddressPhone,
+                IsArchived = false
             };
 
             await _unitOfWork.AddressRepository.Create(address);

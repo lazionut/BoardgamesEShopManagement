@@ -14,14 +14,14 @@ while (true)
 {
     Console.WriteLine("Choose an option:");
     Console.WriteLine("1 Create boardgame");
-    Console.WriteLine("2 Create order");
+    //Console.WriteLine("2 Create order");
     Console.WriteLine("3 Create wishlist");
     Console.WriteLine("4 Get address");
     Console.WriteLine("5 Get categories");
     Console.WriteLine("6 Get specified wishlist per account");
     Console.WriteLine("7 Get orders per account");
     Console.WriteLine("8 Update account");
-    Console.WriteLine("9 Delete review");
+    //Console.WriteLine("9 Delete review");
     Console.WriteLine("0 Exit");
 
     Int32 action = Convert.ToInt32(Console.ReadLine());
@@ -32,14 +32,14 @@ while (true)
             Boardgame boardgame = await ConsoleInputs.AddBoardgame(mediator);
             ConsoleInputs.DisplayItem<Boardgame>(boardgame);
             break;
-        case 2:
+        /*case 2:
             Order order = await ConsoleInputs.AddOrder(mediator);
             ConsoleInputs.DisplayItem<Order>(order);
             break;
         case 3:
             Wishlist wishlist = await ConsoleInputs.AddWishlist(mediator);
             ConsoleInputs.DisplayItem<Wishlist>(wishlist);
-            break;
+            break;*/
         case 4:
             Address address = await ConsoleInputs.GetAddress(mediator);
             ConsoleInputs.DisplayItem<Address>(address);
@@ -60,10 +60,10 @@ while (true)
             Account account = await ConsoleInputs.UpdateAccount(mediator);
             ConsoleInputs.DisplayItem<Account>(account);
             break;
-        case 9:
+        /*case 9:
             bool isDeleted = await ConsoleInputs.DeleteReview(mediator);
             ConsoleInputs.DisplayItem<bool>(isDeleted);
-            break;
+            break;*/
         case 0:
             Environment.Exit(0);
             break;

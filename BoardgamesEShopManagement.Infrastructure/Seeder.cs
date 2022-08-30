@@ -167,6 +167,7 @@ namespace BoardgamesEShopManagement.Infrastructure
                     .RuleFor(boardgame => boardgame.Description, (_, boardgame) => boardgame.Name.ToUpper())
                     .RuleFor(boardgame => boardgame.Link, faker => faker.PickRandom(boardgameLinks))
                     .RuleFor(boardgame => boardgame.Price, faker => faker.Random.Decimal(50, 1500))
+                    .RuleFor(boardgame => boardgame.Quantity, faker => faker.Random.Int(1, 100))
                     .RuleFor(boardgame => boardgame.CategoryId, faker => faker.Random.Number(1, 10))
                     .Generate());
         }
@@ -231,7 +232,6 @@ namespace BoardgamesEShopManagement.Infrastructure
                 new Faker<WishlistItem>()
                     .RuleFor(wishlistItem => wishlistItem.WishlistId, wishlistId)
                     .RuleFor(wishlistItem => wishlistItem.BoardgameId, faker => faker.Random.Number(1, 10))
-                    .RuleFor(wishlistItem => wishlistItem.Quantity, faker => faker.Random.Number(1, 7))
                     .Generate());
         }
 
@@ -258,7 +258,6 @@ namespace BoardgamesEShopManagement.Infrastructure
                 new Faker<OrderItem>()
                     .RuleFor(orderItem => orderItem.OrderId, orderId)
                     .RuleFor(orderItem => orderItem.BoardgameId, faker => faker.Random.Number(1, 10))
-                    .RuleFor(orderItem => orderItem.Quantity, faker => faker.Random.Number(1, 9))
                     .Generate());
         }
     }

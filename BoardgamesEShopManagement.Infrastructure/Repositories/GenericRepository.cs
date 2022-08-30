@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Exceptions;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -22,10 +21,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task Create(T item)
         {
-            if (item == null)
-                throw new GenericItemException($"{item} can\'t be created!");
-
-            _context.Set<T>().AddAsync(item);
+            await _context.Set<T>().AddAsync(item);
         }
 
         public async Task<List<T>> GetAll()
@@ -35,27 +31,28 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task<T> GetById(int id)
         {
-            if (id >= 0)
-            {
-                return await _context.Set<T>().SingleOrDefaultAsync(item => item.Id == id);
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+            return await _context.Set<T>()
+                .SingleOrDefaultAsync(item => item.Id == id);
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task Update(T item)
         {
-            if (id >= 0)
+            _context.Update(item);
+        }
+
+        public async Task<T> Delete(int id)
+        {
+            T searchedItem = await _context.Set<T>()
+                .SingleOrDefaultAsync(item => item.Id == id);
+
+            if (searchedItem == null)
             {
-                T searchedItem = await _context.Set<T>().SingleOrDefaultAsync(item => item.Id == id);
-                return _context.Set<T>().Remove(searchedItem) != null ? true : false;
+                return null;
             }
-            else
-            {
-                throw new NegativeIdException();
-            }
+
+            _context.Set<T>().Remove(searchedItem);
+
+            return searchedItem;
         }
 
         public async Task Save()

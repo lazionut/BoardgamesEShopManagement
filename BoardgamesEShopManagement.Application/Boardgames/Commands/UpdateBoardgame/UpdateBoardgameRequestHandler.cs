@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Application.Abstract;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame
 {
@@ -22,7 +22,21 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardg
 
         public async Task<Boardgame> Handle(UpdateBoardgameRequest request, CancellationToken cancellationToken)
         {
-            Boardgame updatedBoardgame = await _unitOfWork.BoardgameRepository.UpdateBoardgame(request.BoardgameId, request.Boardgame);
+            Boardgame updatedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
+
+            if (updatedBoardgame == null)
+            {
+                return null;
+            }
+
+            updatedBoardgame.Image = request.BoardgameImage;
+            updatedBoardgame.Name = request.BoardgameName;
+            updatedBoardgame.Description = request.BoardgameDescription;
+            updatedBoardgame.Price = request.BoardgamePrice;
+            updatedBoardgame.Link = request.BoardgameLink;
+            updatedBoardgame.CategoryId = request.BoardgameCategoryId;
+
+            await _unitOfWork.BoardgameRepository.Update(updatedBoardgame);
 
             await _unitOfWork.Save();
 

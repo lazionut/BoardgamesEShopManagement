@@ -17,11 +17,11 @@ namespace BoardgamesEShopManagement.Domain.Entities
         public string Author { get; set; } = null!;
 
         [Column(TypeName = "tinyint")]
-        [Range(1,5)]
+        [Range(1, 5)]
         public byte Score { get; set; }
 
         [MaxLength(4000)]
-        public string Content { get; set; } = null!;
+        public string? Content { get; set; } = null!;
         public Boardgame Boardgame { get; set; } = null!;
         public int BoardgameId { get; set; }
         public Account Account { get; set; } = null!;

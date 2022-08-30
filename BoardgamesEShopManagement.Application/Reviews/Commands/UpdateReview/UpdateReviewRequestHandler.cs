@@ -21,7 +21,17 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview
 
         public async Task<Review> Handle(UpdateReviewRequest request, CancellationToken cancellationToken)
         {
-            Review updatedReview = await _unitOfWork.ReviewRepository.UpdateReview(request.ReviewId, request.Review);
+            Review updatedReview = await _unitOfWork.ReviewRepository.GetById(request.ReviewId);
+
+            if (updatedReview == null)
+            {
+                return null;
+            }
+
+            updatedReview.Title = request.ReviewTitle;
+            updatedReview.Content = request.ReviewContent;
+
+            await _unitOfWork.ReviewRepository.Update(updatedReview);
 
             await _unitOfWork.Save();
 

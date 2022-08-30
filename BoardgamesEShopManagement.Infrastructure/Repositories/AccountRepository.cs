@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using BoardgamesEShopManagement.Domain.Exceptions;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -20,24 +19,19 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Account> UpdateAccount(int accountId, Account account)
+        public async Task<Account> ArchiveAccount(int accountId)
         {
-            if (accountId >= 0)
-            {
-                Account searchedAccount = await _context.Accounts.SingleOrDefaultAsync(account => account.Id == accountId);
-                searchedAccount.FirstName = account.FirstName ?? searchedAccount.FirstName;
-                searchedAccount.LastName = account.LastName ?? searchedAccount.LastName;
-                searchedAccount.Email = account.Email ?? searchedAccount.Email;
-                searchedAccount.Password = account.Password ?? searchedAccount.Password;
+            Account searchedAccount = await _context.Accounts
+                .SingleOrDefaultAsync(account => account.Id == accountId);
 
-                _context.Update(searchedAccount);
+            searchedAccount.FirstName = "Anonymized";
+            searchedAccount.LastName = "Anonymized";
+            searchedAccount.Email = "Anonymized";
+            searchedAccount.Password = "";
+            searchedAccount.IsArchived = true;
 
-                return searchedAccount;
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+            return searchedAccount;
         }
+
     }
 }

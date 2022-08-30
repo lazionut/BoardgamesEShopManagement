@@ -17,6 +17,9 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
             boardgameConfiguration
                 .HasOne(boardgame => boardgame.Category)
                 .WithMany(category => category.Boardgames);
+
+            boardgameConfiguration
+                .HasQueryFilter(b => b.IsArchived == false);
         }
     }
 }

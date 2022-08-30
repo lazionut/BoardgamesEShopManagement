@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
@@ -29,7 +28,9 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardg
                 Description = request.BoardgameDescription,
                 Price = request.BoardgamePrice,
                 Link = request.BoardgameLink,
-                CategoryId = request.CategoryId,
+                Quantity = request.BoardgameQuantity,
+                CategoryId = request.BoardgameCategoryId,
+                IsArchived = false
             };
 
             await _unitOfWork.BoardgameRepository.Create(boardgame);
