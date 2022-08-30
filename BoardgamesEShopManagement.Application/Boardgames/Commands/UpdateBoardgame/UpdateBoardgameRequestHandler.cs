@@ -29,15 +29,12 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardg
                 return null;
             }
 
-            updatedBoardgame.Image = request.Image ?? updatedBoardgame.Image;
-            updatedBoardgame.Name = request.Name ?? updatedBoardgame.Name;
-            updatedBoardgame.Description = request.Description ?? updatedBoardgame.Description;
-            if (updatedBoardgame.Price != request.Price)
-            {
-                updatedBoardgame.Price = request.Price;
-            }
-            updatedBoardgame.Link = request.Link ?? updatedBoardgame.Link;
-            updatedBoardgame.CategoryId = request.CategoryId;
+            updatedBoardgame.Image = request.BoardgameImage;
+            updatedBoardgame.Name = request.BoardgameName;
+            updatedBoardgame.Description = request.BoardgameDescription;
+            updatedBoardgame.Price = request.BoardgamePrice;
+            updatedBoardgame.Link = request.BoardgameLink;
+            updatedBoardgame.CategoryId = request.BoardgameCategoryId;
 
             await _unitOfWork.BoardgameRepository.Update(updatedBoardgame);
 

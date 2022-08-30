@@ -28,6 +28,7 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress
                 County = request.AddressCounty,
                 Country = request.AddressCountry,
                 Phone = request.AddressPhone,
+                IsArchived = false
             };
 
             await _unitOfWork.AddressRepository.Create(address);

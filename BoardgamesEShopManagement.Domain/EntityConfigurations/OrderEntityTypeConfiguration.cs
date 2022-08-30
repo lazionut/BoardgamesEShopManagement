@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace BoardgamesEShopManagement.Domain.EntityConfigurations
 {

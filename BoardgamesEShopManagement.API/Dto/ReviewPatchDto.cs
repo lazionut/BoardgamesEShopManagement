@@ -2,12 +2,13 @@
 
 namespace BoardgamesEShopManagement.API.Dto
 {
-    public class ReviewPutDto
+    public class ReviewPatchDto
     {
+        [Required]
         [MaxLength(50)]
         public string ReviewTitle { get; set; } = null!;
 
         [MaxLength(4000)]
-        public string ReviewContent { get; set; } = null!;
+        public string? ReviewContent { get; set; }
     }
 }

@@ -25,13 +25,14 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
 
             if (updatedAccount == null)
             {
+                //await Task.FromResult(null);
                 return null;
             }
 
-            updatedAccount.FirstName = request.AccountFirstName ?? updatedAccount.FirstName;
-            updatedAccount.LastName = request.AccountLastName ?? updatedAccount.LastName;
-            updatedAccount.Email = request.AccountEmail ?? updatedAccount.Email;
-            updatedAccount.Password = request.AccountPassword ?? updatedAccount.Password;
+            updatedAccount.FirstName = request.AccountFirstName;
+            updatedAccount.LastName = request.AccountLastName;
+            updatedAccount.Email = request.AccountEmail;
+            updatedAccount.Password = request.AccountPassword;
 
             await _unitOfWork.AccountRepository.Update(updatedAccount);
 

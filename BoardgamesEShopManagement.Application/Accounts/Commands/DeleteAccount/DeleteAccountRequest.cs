@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
+using BoardgamesEShopManagement.Domain.Entities;
+
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount
 {
-    public class DeleteAccountRequest : IRequest<bool>
+    public class DeleteAccountRequest : IRequest<Account>
     {
         public int AccountId { get; set; }
     }

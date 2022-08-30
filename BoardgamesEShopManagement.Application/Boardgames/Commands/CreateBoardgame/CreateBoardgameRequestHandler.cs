@@ -28,7 +28,9 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardg
                 Description = request.BoardgameDescription,
                 Price = request.BoardgamePrice,
                 Link = request.BoardgameLink,
+                Quantity = request.BoardgameQuantity,
                 CategoryId = request.BoardgameCategoryId,
+                IsArchived = false
             };
 
             await _unitOfWork.BoardgameRepository.Create(boardgame);

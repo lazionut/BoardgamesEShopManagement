@@ -7,9 +7,9 @@ using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Categories.Queries.GetWishlistsListPerAccount
+namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccount
 {
-    public class GetWishlistListPerAccountQuery : IRequest<List<Wishlist>>
+    public class ArchiveAccountRequest : IRequest<Account>
     {
         public int AccountId { get; set; }
     }

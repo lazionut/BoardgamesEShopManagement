@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Exceptions;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -22,9 +21,6 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task Create(T item)
         {
-            if (item == null)
-                throw new GenericItemException($"{item} can\'t be created!");
-
             await _context.Set<T>().AddAsync(item);
         }
 
@@ -35,41 +31,28 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task<T> GetById(int id)
         {
-            if (id >= 0)
-            {
-                return await _context.Set<T>().SingleOrDefaultAsync(item => item.Id == id);
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+            return await _context.Set<T>()
+                .SingleOrDefaultAsync(item => item.Id == id);
         }
 
         public async Task Update(T item)
         {
-                _context.Update(item);
+            _context.Update(item);
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<T> Delete(int id)
         {
-            if (id >= 0)
-            {
-                T? searchedItem = await _context.Set<T>().SingleOrDefaultAsync(item => item.Id == id);
+            T searchedItem = await _context.Set<T>()
+                .SingleOrDefaultAsync(item => item.Id == id);
 
-                if (searchedItem != null)
-                {
-                    _context.Set<T>().Remove(searchedItem);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
+            if (searchedItem == null)
             {
-                throw new NegativeIdException();
+                return null;
             }
+
+            _context.Set<T>().Remove(searchedItem);
+
+            return searchedItem;
         }
 
         public async Task Save()

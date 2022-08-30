@@ -18,5 +18,20 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         {
             _context = context;
         }
+
+        public async Task<Account> ArchiveAccount(int accountId)
+        {
+            Account searchedAccount = await _context.Accounts
+                .SingleOrDefaultAsync(account => account.Id == accountId);
+
+            searchedAccount.FirstName = "Anonymized";
+            searchedAccount.LastName = "Anonymized";
+            searchedAccount.Email = "Anonymized";
+            searchedAccount.Password = "";
+            searchedAccount.IsArchived = true;
+
+            return searchedAccount;
+        }
+
     }
 }

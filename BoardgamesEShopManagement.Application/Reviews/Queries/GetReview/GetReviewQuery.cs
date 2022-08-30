@@ -7,7 +7,7 @@ using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategory
+namespace BoardgamesEShopManagement.Application.Categories.Queries.GetReview
 {
     public class GetReviewQuery : IRequest<Review>
     {

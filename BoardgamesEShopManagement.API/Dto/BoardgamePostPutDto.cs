@@ -1,5 +1,4 @@
-﻿using BoardgamesEShopManagement.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BoardgamesEShopManagement.API.Dto
 {
@@ -7,15 +6,24 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         public string? BoardgameImage { get; set; }
 
+        [Required]
         [MaxLength(50)]
         public string BoardgameName { get; set; } = null!;
 
         [MaxLength(4000)]
         public string? BoardgameDescription { get; set; }
+
+        [Required]
+        [Range(0.5, double.PositiveInfinity)]
         public decimal BoardgamePrice { get; set; }
 
         [MaxLength(2000)]
         public string? BoardgameLink { get; set; }
+
+        [Range(1, int.MaxValue)]
+        public int BoardgameQuantity { get; set; }
+
+        [Required]
         public int BoardgameCategoryId { get; set; }
     }
 }

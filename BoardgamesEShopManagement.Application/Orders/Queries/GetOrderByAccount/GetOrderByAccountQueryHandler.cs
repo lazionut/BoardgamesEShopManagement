@@ -21,7 +21,15 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetOrderByAcco
 
         public async Task<Order> Handle(GetOrderByAccountQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.OrderRepository.GetByAccount(request.AccountId, request.OrderId);
+            Order orderByAccount = await _unitOfWork.OrderRepository
+                .GetByAccount(request.AccountId, request.OrderId);
+
+            if (orderByAccount == null)
+            {
+                return null;
+            }
+
+            return orderByAccount;
         }
     }
 }

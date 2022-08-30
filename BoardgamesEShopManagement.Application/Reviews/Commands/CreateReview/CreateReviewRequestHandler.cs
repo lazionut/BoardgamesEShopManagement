@@ -21,10 +21,17 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
 
         public async Task<Review> Handle(CreateReviewRequest request, CancellationToken cancellationToken)
         {
+            Account account = await _unitOfWork.AccountRepository.GetById(request.ReviewAccountId);
+
+            if (account == null)
+            {
+                return null;
+            }
+
             Review review = new Review
             {
                 Title = request.ReviewTitle,
-                Author = request.ReviewAuthor,
+                Author = account.FirstName + ' ' + account.LastName,
                 Score = request.ReviewScore,
                 Content = request.ReviewContent,
                 BoardgameId = request.ReviewBoardgameId,

@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListByName;
-using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListByName;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
+using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
 
 namespace BoardgamesEShopManagement.Controllers
 {
-    [Route("api/boardgame")]
+    [Route("api/boardgames")]
     [ApiController]
     public class BoardgamesController : ControllerBase
     {
@@ -39,7 +40,8 @@ namespace BoardgamesEShopManagement.Controllers
                 BoardgameDescription = boardgame.BoardgameDescription,
                 BoardgamePrice = boardgame.BoardgamePrice,
                 BoardgameLink = boardgame.BoardgameLink,
-                BoardgameCategoryId = boardgame.BoardgameCategoryId
+                BoardgameQuantity = boardgame.BoardgameQuantity,
+                BoardgameCategoryId = boardgame.BoardgameCategoryId,
             };
 
             Boardgame result = await _mediator.Send(command);
@@ -62,7 +64,10 @@ namespace BoardgamesEShopManagement.Controllers
         [HttpGet("/api/boardgame/search")]
         public async Task<IActionResult> GetBoardgamesByName([FromQuery] string keywords)
         {
-            List<Boardgame> result = await _mediator.Send(new GetBoardgamesListByNameQuery { BoardgameNameCharacters = keywords });
+            List<Boardgame> result = await _mediator.Send(new GetBoardgamesListByNameQuery 
+            { 
+                BoardgameNameCharacters = keywords 
+            });
 
             List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
 
@@ -85,15 +90,43 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(mappedResult);
         }
 
+        [HttpGet]
+        [Route("{id}/review")]
+        public async Task<IActionResult> GetReviewsPerBoardgame(int id)
+        {
+            GetReviewsListPerBoardgameQuery query = new GetReviewsListPerBoardgameQuery { BoardgameId = id };
+
+            List<Review> result = await _mediator.Send(query);
+
+            List<ReviewGetDto> mappedResult = _mapper.Map<List<ReviewGetDto>>(result);
+
+            return Ok(mappedResult);
+        }
+
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteBoardgame(int id)
         {
             DeleteBoardgameRequest command = new DeleteBoardgameRequest { BoardgameId = id };
 
-            bool result = await _mediator.Send(command);
+            Boardgame result = await _mediator.Send(command);
 
-            if (result == false)
+            if (result == null)
+                return NotFound();
+
+            return Ok();
+        }
+
+
+        [HttpDelete]
+        [Route("{id}/archive")]
+        public async Task<IActionResult> ArchiveBoardgame(int id)
+        {
+            ArchiveBoardgameRequest command = new ArchiveBoardgameRequest { BoardgameId = id };
+
+            Boardgame result = await _mediator.Send(command);
+
+            if (result == null)
                 return NotFound();
 
             return Ok();

@@ -4,17 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.Application.Categories.Commands.CreateCategory;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategory;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList;
 using BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory;
 using BoardgamesEShopManagement.Application.Categories.Commands.DeleteCategory;
-using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
-using System.Security.Principal;
-using BoardgamesEShopManagement.Application.Categories.Commands.CreateCategory;
 
 namespace BoardgamesEShopManagement.Controllers
 {
-    [Route("api/category")]
+    [Route("api/categories")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
@@ -72,7 +70,10 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryPostPutDto updatedCategory)
         {
-            UpdateCategoryRequest command = new UpdateCategoryRequest { CategoryName = updatedCategory.CategoryName };
+            UpdateCategoryRequest command = new UpdateCategoryRequest { 
+                CategoryId = id,
+                CategoryName = updatedCategory.CategoryName 
+            };
 
             Category result = await _mediator.Send(command);
 
@@ -88,9 +89,9 @@ namespace BoardgamesEShopManagement.Controllers
         {
             DeleteCategoryRequest command = new DeleteCategoryRequest { CategoryId = id };
 
-            bool result = await _mediator.Send(command);
+            Category result = await _mediator.Send(command);
 
-            if (result == false)
+            if (result == null)
                 return NotFound();
 
             return Ok();

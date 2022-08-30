@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
+using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount
 {
-    public class DeleteAccountRequestHandler : IRequestHandler<DeleteAccountRequest, bool>
+    public class DeleteAccountRequestHandler : IRequestHandler<DeleteAccountRequest, Account>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -18,13 +19,18 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(DeleteAccountRequest request, CancellationToken cancellationToken)
+        public async Task<Account> Handle(DeleteAccountRequest request, CancellationToken cancellationToken)
         {
-            bool isAccountDeleted = await _unitOfWork.AccountRepository.Delete(request.AccountId);
+            Account deletedAccount = await _unitOfWork.AccountRepository.Delete(request.AccountId);
+
+            if (deletedAccount == null)
+            {
+                return null;
+            }
 
             await _unitOfWork.Save();
 
-            return isAccountDeleted;
+            return deletedAccount;
         }
     }
 }

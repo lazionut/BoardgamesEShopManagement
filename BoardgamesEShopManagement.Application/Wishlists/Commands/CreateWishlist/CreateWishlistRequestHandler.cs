@@ -10,36 +10,45 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist
 {
-    public class CreateWishlistCommandHandler : IRequestHandler<CreateWishlistRequest, Wishlist>
+    public class CreateWishlistRequestHandler : IRequestHandler<CreateWishlistRequest, Wishlist>
     {
-
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateWishlistCommandHandler(IUnitOfWork unitOfWork)
+        public CreateWishlistRequestHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         public async Task<Wishlist> Handle(CreateWishlistRequest request, CancellationToken cancellationToken)
         {
-            Boardgame boardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
-            Wishlist wishlist = await _unitOfWork.WishlistRepository.GetById(request.WishlistId);
-
-            if (boardgame != null && wishlist != null)
+            Wishlist wishlist = new Wishlist
             {
-                //decimal boardgamePrice = await _unitOfWork.BoardgameRepository.GetBoardgamePrice(request.BoardgameId);
-                //Order newOrder = new Order { Total = request.Total, AccountId = request.AccountId };
+                Name = request.WishlistName,
+                AccountId = request.WishlistAccountId,
+            };
 
-                await _unitOfWork.WishlistRepository.Create(request.WishlistId, request.BoardgameId, wishlist);
-                await _unitOfWork.Save();
+            await _unitOfWork.WishlistRepository.Create(wishlist);
+            await _unitOfWork.Save();
 
-                return wishlist;
-            }
-            else
+            foreach (int boardgameId in request.WishlistBoardgameIds)
             {
-                return null;
+                Boardgame boardgame = await _unitOfWork
+                    .BoardgameRepository
+                    .GetById(boardgameId);
+
+                if (boardgame == null)
+                {
+                    return null;
+                }
+
+                await _unitOfWork.WishlistRepository
+                    .CreateItem(wishlist.Id, boardgameId, wishlist);
             }
+
+            await _unitOfWork.Save();
+
+            return wishlist;
         }
-        
+
     }
 }

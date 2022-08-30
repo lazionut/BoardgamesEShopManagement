@@ -16,6 +16,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardg
         public string? BoardgameDescription { get; set; } = null!;
         public decimal BoardgamePrice { get; set; }
         public string? BoardgameLink { get; set; }
+        public int BoardgameQuantity { get; set; }
         public int BoardgameCategoryId { get; set; }
     }
 }

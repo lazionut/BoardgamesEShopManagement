@@ -30,11 +30,11 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress
                 return null;
             }
 
-            updatedAddress.Details = request.AddressDetails ?? updatedAddress.Details;
-            updatedAddress.City = request.AddressCity ?? updatedAddress.City;
-            updatedAddress.County = request.AddressCounty ?? updatedAddress.County;
-            updatedAddress.Country = request.AddressCountry ?? updatedAddress.Country;
-            updatedAddress.Phone = request.AddressPhone ?? updatedAddress.Phone;
+            updatedAddress.Details = request.AddressDetails;
+            updatedAddress.City = request.AddressCity;
+            updatedAddress.County = request.AddressCounty;
+            updatedAddress.Country = request.AddressCountry;
+            updatedAddress.Phone = request.AddressPhone;
 
             await _unitOfWork.AddressRepository.Update(updatedAddress);
 

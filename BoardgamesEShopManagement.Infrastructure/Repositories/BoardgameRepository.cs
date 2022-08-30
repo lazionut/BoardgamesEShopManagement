@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Exceptions;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
@@ -22,38 +21,17 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task<List<Boardgame>> GetBoardgamesPerCategory(int categoryId)
         {
-            if (categoryId >= 0)
-            {
-                return await _context.Boardgames
-                    .Where(boardgame => boardgame.CategoryId == categoryId)
-                    .ToListAsync();
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+
+            return await _context.Boardgames
+                .Where(boardgame => boardgame.CategoryId == categoryId)
+                .ToListAsync();
         }
 
         public async Task<List<Boardgame>> GetBoardgamesByName(string characters)
         {
-                return await _context.Boardgames
-                .Where(boardgame => boardgame.Name.Contains(characters))
-                .ToListAsync();
-        }
-
-        public async Task<decimal> GetBoardgamePrice(int boardgameId)
-        {
-            if (boardgameId >= 0)
-            {
-                Boardgame searchedBoardgame = await _context.Boardgames
-                    .SingleOrDefaultAsync(boardgame => boardgame.Id == boardgameId);
-
-                return searchedBoardgame.Price;
-            }
-            else
-            {
-                throw new NegativeIdException();
-            }
+            return await _context.Boardgames
+               .Where(boardgame => boardgame.Name.Contains(characters))
+               .ToListAsync();
         }
 
         public void WriteBoardgamesNames(string filePath, List<Boardgame> boardgamesList)

@@ -2,7 +2,7 @@
 
 namespace BoardgamesEShopManagement.API.Dto
 {
-    public class AddressPostDto
+    public class AddressPostPatchDto
     {
         [Required]
         [MaxLength(200)]

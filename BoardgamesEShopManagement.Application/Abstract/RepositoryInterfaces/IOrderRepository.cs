@@ -10,13 +10,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
 {
-    public interface IOrderRepository 
+    public interface IOrderRepository
     {
-        Task Create(int orderId, int boardgameId, Order order);
+        Task Create(Order order);
+        Task CreateItem(int orderId, int boardgameId, Order order);
         Task<List<Order>> GetOrdersListPerAccount(int accountId);
         Task<Order> GetById(int orderId);
         Task<Order> GetByAccount(int accountId, int orderId);
-        Task<bool> Delete(int orderId);
+        Task Update(Order order);
+        Task<Order> Delete(int orderId);
         Task Save();
     }
 }

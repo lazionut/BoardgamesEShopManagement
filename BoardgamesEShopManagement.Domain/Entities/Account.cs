@@ -20,6 +20,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [MaxLength(128)]
         public string Password { get; set; } = null!;
+        public bool IsArchived { get; set; } = false;
         public Address Address { get; set; } = null!;
         public int AddressId { get; set; }
         public ICollection<Review> Review { get; set; } = null!;

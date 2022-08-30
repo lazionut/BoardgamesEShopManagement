@@ -1,4 +1,6 @@
-﻿namespace BoardgamesEShopManagement.API.Dto
+﻿using BoardgamesEShopManagement.Domain.Entities;
+
+namespace BoardgamesEShopManagement.API.Dto
 {
     public class AddressGetDto
     {

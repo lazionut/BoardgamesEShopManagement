@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using BoardgamesEShopManagement.Domain.Exceptions;
-using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {

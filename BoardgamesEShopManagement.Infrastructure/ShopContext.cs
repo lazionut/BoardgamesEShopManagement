@@ -42,9 +42,6 @@ namespace BoardgamesEShopManagement.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Boardgame>().Property(boardgame => boardgame.Price).HasPrecision(6, 2);
-            modelBuilder.Entity<Order>().Property(order => order.Total).HasPrecision(8, 2);
-
             modelBuilder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new BoardgameEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new AccountEntityTypeConfiguration());

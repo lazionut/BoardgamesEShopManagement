@@ -28,8 +28,8 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview
                 return null;
             }
 
-            updatedReview.Title = request.ReviewTitle ?? updatedReview.Title;
-            updatedReview.Content = request.ReviewContent ?? updatedReview.Content;
+            updatedReview.Title = request.ReviewTitle;
+            updatedReview.Content = request.ReviewContent;
 
             await _unitOfWork.ReviewRepository.Update(updatedReview);
 

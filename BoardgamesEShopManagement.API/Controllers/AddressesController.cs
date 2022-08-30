@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
-using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
-using System.Security.Principal;
-using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress;
 
 namespace BoardgamesEShopManagement.Controllers
 {
-    [Route("api/address")]
+    [Route("api/addresses")]
     [ApiController]
     public class AddressesController : ControllerBase
     {
@@ -27,7 +27,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAddress([FromBody] AddressPostDto address)
+        public async Task<IActionResult> CreateAddress([FromBody] AddressPostPatchDto address)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -66,7 +66,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateAddress(int id, [FromBody] AddressPutDto updatedAddress)
+        public async Task<IActionResult> UpdateAddress(int id, [FromBody] AddressPostPatchDto updatedAddress)
         {
             UpdateAddressRequest command = new UpdateAddressRequest
             {
@@ -92,9 +92,24 @@ namespace BoardgamesEShopManagement.Controllers
         {
             DeleteAddressRequest command = new DeleteAddressRequest { AddressId = id };
 
-            bool result = await _mediator.Send(command);
+            Address result = await _mediator.Send(command);
 
-            if (result == false)
+            if (result == null)
+                return NotFound();
+
+            return Ok();
+        }
+
+
+        [HttpDelete]
+        [Route("{id}/archive")]
+        public async Task<IActionResult> ArchiveAddress(int id)
+        {
+            ArchiveAddressRequest command = new ArchiveAddressRequest { AddressId = id };
+
+            Address result = await _mediator.Send(command);
+
+            if (result == null)
                 return NotFound();
 
             return Ok();

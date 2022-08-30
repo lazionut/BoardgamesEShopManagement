@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame
 {
-    public class DeleteBoardgameRequestHandler : IRequestHandler<DeleteBoardgameRequest, bool>
+    public class DeleteBoardgameRequestHandler : IRequestHandler<DeleteBoardgameRequest, Boardgame>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,13 +19,18 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardg
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(DeleteBoardgameRequest request, CancellationToken cancellationToken)
+        public async Task<Boardgame> Handle(DeleteBoardgameRequest request, CancellationToken cancellationToken)
         {
-            bool isBoardgameDeleted = await _unitOfWork.BoardgameRepository.Delete(request.BoardgameId);
+            Boardgame deletedBoardgame = await _unitOfWork.BoardgameRepository.Delete(request.BoardgameId);
+
+            if (deletedBoardgame == null)
+            {
+                return null;
+            }
 
             await _unitOfWork.Save();
 
-            return isBoardgameDeleted;
+            return deletedBoardgame;
         }
     }
 }

@@ -8,7 +8,7 @@ using MediatR;
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
-namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategory
+namespace BoardgamesEShopManagement.Application.Categories.Queries.GetReview
 {
     public class GetReviewQueryHandler : IRequestHandler<GetReviewQuery, Review>
     {

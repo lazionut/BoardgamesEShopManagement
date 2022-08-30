@@ -29,7 +29,7 @@ namespace BoardgamesEShopManagement.Application.Categories.Commands.UpdateCatego
                 return null;
             }
 
-            updatedCategory.Name = request.CategoryName ?? updatedCategory.Name;
+            updatedCategory.Name = request.CategoryName;
 
             await _unitOfWork.CategoryRepository.Update(updatedCategory);
 

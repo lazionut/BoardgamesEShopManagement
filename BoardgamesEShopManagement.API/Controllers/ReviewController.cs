@@ -4,16 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgame;
+using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
+using BoardgamesEShopManagement.Application.Categories.Queries.GetReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
-using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
-using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetCategory;
 
 namespace BoardgamesEShopManagement.Controllers
 {
-    [Route("api/review")]
+    [Route("api/reviews")]
     [ApiController]
     public class ReviewsController : ControllerBase
     {
@@ -50,18 +48,6 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetReviewsPerBoardgame(int id)
-        {
-            GetReviewsListPerBoardgameQuery query = new GetReviewsListPerBoardgameQuery { BoardgameId = id };
-
-            List<Review> result = await _mediator.Send(query);
-
-            List<ReviewGetDto> mappedResult = _mapper.Map<List<ReviewGetDto>>(result);
-
-            return Ok(mappedResult);
-        }
-
-        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetReview(int id)
         {
@@ -77,9 +63,9 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(mappedResult);
         }
 
-        [HttpPut]
+        [HttpPatch]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewPutDto updatedReview)
+        public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewPatchDto updatedReview)
         {
             UpdateReviewRequest command = new UpdateReviewRequest
             {
@@ -102,9 +88,9 @@ namespace BoardgamesEShopManagement.Controllers
         {
             DeleteReviewRequest command = new DeleteReviewRequest { ReviewId = id };
 
-            bool result = await _mediator.Send(command);
+            Review result = await _mediator.Send(command);
 
-            if (result == false)
+            if (result == null)
                 return NotFound();
 
             return Ok();

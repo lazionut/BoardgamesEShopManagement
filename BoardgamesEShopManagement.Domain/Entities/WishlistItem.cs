@@ -12,6 +12,5 @@ namespace BoardgamesEShopManagement.Domain.Entities
         public Wishlist Wishlist { get; set; } = null!;
         public int BoardgameId { get; set; }
         public Boardgame Boardgame { get; set; } = null!;
-        public int Quantity { get; set; }
     }
 }

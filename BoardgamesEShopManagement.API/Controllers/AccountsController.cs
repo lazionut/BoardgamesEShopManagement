@@ -4,15 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsList;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
-using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
+using BoardgamesEShopManagement.Application.Wishlists.Queries.GetOrderByAccount;
+using BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersListPerAccount;
+using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
+using BoardgamesEShopManagement.Application.Categories.Queries.GetWishlistsListPerAccount;
+using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccount;
 
 namespace BoardgamesEShopManagement.Controllers
 {
-    [Route("api/account")]
+    [Route("api/accounts")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -33,11 +39,11 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateAccountRequest command = new CreateAccountRequest
             {
-                AccountAddressId = account.AccountAddressId,
                 AccountFirstName = account.AccountFirstName,
                 AccountLastName = account.AccountLastName,
                 AccountEmail = account.AccountEmail,
                 AccountPassword = account.AccountPassword,
+                AccountAddressId = account.AccountAddressId,
             };
 
             Account result = await _mediator.Send(command);
@@ -73,16 +79,114 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(mappedResult);
         }
 
-        [HttpPut]
-        [Route("{id}")]
-        public async Task<IActionResult> UpdateAccount(int id, [FromBody] AccountPutDto updatedAccount)
+        [HttpGet]
+        [Route("{accountId}/order/{orderId}")]
+        public async Task<IActionResult> GetOrderByAccount(int accountId, int orderId)
+        {
+            GetOrderByAccountQuery query = new GetOrderByAccountQuery { AccountId = accountId, OrderId = orderId };
+
+            Order result = await _mediator.Send(query);
+
+            if (result == null)
+                return NotFound();
+
+            OrderGetDto mappedResult = _mapper.Map<OrderGetDto>(result);
+
+            return Ok(mappedResult);
+        }
+
+        [HttpGet]
+        [Route("{id}/order")]
+        public async Task<IActionResult> GetOrdersPerAccount(int id)
+        {
+            GetOrdersListPerAccountQuery query = new GetOrdersListPerAccountQuery { AccountId = id };
+
+            List<Order> result = await _mediator.Send(query);
+
+            if (result == null)
+                return NotFound();
+
+            List<OrderGetDto> mappedResult = _mapper.Map<List<OrderGetDto>>(result);
+
+            return Ok(mappedResult);
+        }
+
+        [HttpGet]
+        [Route("{accountId}/wishlist/{wishlistId}")]
+        public async Task<IActionResult> GetWishlistByAccount(int accountId, int wishlistId)
+        {
+            GetWishlistByAccountQuery query = new GetWishlistByAccountQuery { AccountId = accountId, WishlistId = wishlistId };
+
+            Wishlist result = await _mediator.Send(query);
+
+            if (result == null)
+                return NotFound();
+
+            WishlistGetDto mappedResult = _mapper.Map<WishlistGetDto>(result);
+
+            return Ok(mappedResult);
+        }
+
+        [HttpGet]
+        [Route("{id}/wishlist")]
+        public async Task<IActionResult> GetWishlistsPerAccount(int id)
+        {
+            GetWishlistsListPerAccountQuery query = new GetWishlistsListPerAccountQuery { AccountId = id };
+
+            List<Wishlist> result = await _mediator.Send(query);
+
+            if (result == null)
+                return NotFound();
+
+            List<WishlistGetDto> mappedResult = _mapper.Map<List<WishlistGetDto>>(result);
+
+            return Ok(mappedResult);
+        }
+
+        [HttpPatch]
+        [Route("{id}/change-name")]
+        public async Task<IActionResult> UpdateAccountName(int id, [FromBody] AccountNamePatchDto updatedAccount)
         {
             UpdateAccountRequest command = new UpdateAccountRequest
             {
                 AccountId = id,
                 AccountFirstName = updatedAccount.AccountFirstName,
                 AccountLastName = updatedAccount.AccountLastName,
+            };
+
+            Account result = await _mediator.Send(command);
+
+            if (result == null)
+                return NotFound();
+
+            return NoContent();
+        }
+
+        [HttpPatch]
+        [Route("{id}/change-mail")]
+        public async Task<IActionResult> UpdateAccountMail(int id, [FromBody] AccountEmailPatchDto updatedAccount)
+        {
+            UpdateAccountRequest command = new UpdateAccountRequest
+            {
+                AccountId = id,
                 AccountEmail = updatedAccount.AccountEmail,
+            };
+
+            Account result = await _mediator.Send(command);
+
+            if (result == null)
+                return NotFound();
+
+            return NoContent();
+        }
+
+        [HttpPatch]
+        [Route("{id}/change-password")]
+        public async Task<IActionResult> UpdateAccountPassword(int id, [FromBody] AccountPasswordPatchDto updatedAccount)
+        {
+            UpdateAccountRequest command = new UpdateAccountRequest
+            {
+                AccountId = id,
                 AccountPassword = updatedAccount.AccountPassword,
             };
 
@@ -96,13 +200,27 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteAddress(int id)
+        public async Task<IActionResult> DeleteAccount(int id)
         {
-            DeleteAddressRequest command = new DeleteAddressRequest { AddressId = id };
+            DeleteAccountRequest command = new DeleteAccountRequest { AccountId = id };
 
-            bool result = await _mediator.Send(command);
+            Account result = await _mediator.Send(command);
 
-            if (result == false)
+            if (result == null)
+                return NotFound();
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{id}/archive")]
+        public async Task<IActionResult> ArchiveAccount(int id)
+        {
+            ArchiveAccountRequest command = new ArchiveAccountRequest { AccountId = id };
+
+            Account result = await _mediator.Send(command);
+
+            if (result == null)
                 return NotFound();
 
             return Ok();

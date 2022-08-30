@@ -27,7 +27,8 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
                 Password = request.AccountPassword,
                 FirstName = request.AccountFirstName,
                 LastName = request.AccountLastName,
-                AddressId = request.AccountAddressId
+                AddressId = request.AccountAddressId,
+                IsArchived = false
             };
 
             await _unitOfWork.AccountRepository.Create(account);
