@@ -91,7 +91,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/review")]
+        [Route("{id}/reviews")]
         public async Task<IActionResult> GetReviewsPerBoardgame(int id)
         {
             GetReviewsListPerBoardgameQuery query = new GetReviewsListPerBoardgameQuery { BoardgameId = id };

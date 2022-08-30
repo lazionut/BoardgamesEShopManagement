@@ -80,7 +80,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        [Route("{accountId}/order/{orderId}")]
+        [Route("{accountId}/orders/{orderId}")]
         public async Task<IActionResult> GetOrderByAccount(int accountId, int orderId)
         {
             GetOrderByAccountQuery query = new GetOrderByAccountQuery { AccountId = accountId, OrderId = orderId };
@@ -96,7 +96,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/order")]
+        [Route("{id}/orders")]
         public async Task<IActionResult> GetOrdersPerAccount(int id)
         {
             GetOrdersListPerAccountQuery query = new GetOrdersListPerAccountQuery { AccountId = id };
@@ -112,7 +112,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        [Route("{accountId}/wishlist/{wishlistId}")]
+        [Route("{accountId}/wishlists/{wishlistId}")]
         public async Task<IActionResult> GetWishlistByAccount(int accountId, int wishlistId)
         {
             GetWishlistByAccountQuery query = new GetWishlistByAccountQuery { AccountId = accountId, WishlistId = wishlistId };
@@ -128,7 +128,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/wishlist")]
+        [Route("{id}/wishlists")]
         public async Task<IActionResult> GetWishlistsPerAccount(int id)
         {
             GetWishlistsListPerAccountQuery query = new GetWishlistsListPerAccountQuery { AccountId = id };

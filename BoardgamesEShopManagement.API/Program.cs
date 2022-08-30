@@ -6,6 +6,7 @@ using BoardgamesEShopManagement.Infrastructure.Repositories;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.API.Profiles;
+using AmdarisEshop.Presentation.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMyMiddleware();
 
 app.MapControllers();
 

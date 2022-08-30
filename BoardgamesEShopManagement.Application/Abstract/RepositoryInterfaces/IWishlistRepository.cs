@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
