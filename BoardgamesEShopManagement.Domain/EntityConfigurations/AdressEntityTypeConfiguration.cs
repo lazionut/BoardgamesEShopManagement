@@ -10,16 +10,11 @@ using BoardgamesEShopManagement.Domain.Entities;
 
 namespace BoardgamesEShopManagement.Domain.EntityConfigurations
 {
-    public class AccountEntityTypeConfiguration : IEntityTypeConfiguration<Account>
+    public class AddressEntityTypeConfiguration : IEntityTypeConfiguration<Address>
     {
-        public void Configure(EntityTypeBuilder<Account> accountConfiguration)
+        public void Configure(EntityTypeBuilder<Address> addressConfiguration)
         {
-            accountConfiguration
-                .HasOne(account => account.Address)
-                .WithOne(address => address.Account)
-                .HasForeignKey<Account>(address => address.AddressId);
-
-            accountConfiguration
+            addressConfiguration
                 .HasQueryFilter(b => b.IsArchived == false);
         }
     }
