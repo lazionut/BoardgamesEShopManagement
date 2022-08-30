@@ -44,6 +44,7 @@ namespace BoardgamesEShopManagement.Infrastructure
         {
             modelBuilder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new BoardgameEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AddressEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new AccountEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ReviewEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
