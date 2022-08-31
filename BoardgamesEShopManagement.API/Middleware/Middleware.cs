@@ -1,4 +1,4 @@
-﻿namespace AmdarisEshop.Presentation.Middleware
+﻿namespace BoardgamesEShopManagement.API.Middleware
 {
     public class Middleware
     {
@@ -18,7 +18,7 @@
 
             await _next.Invoke(httpContext);
 
-            _logger.LogInformation("Reponse recevied");
+            _logger.LogInformation("Response received");
 
         }
     }

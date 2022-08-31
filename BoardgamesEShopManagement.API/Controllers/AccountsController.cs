@@ -13,7 +13,6 @@ using BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersListPerA
 using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetWishlistsListPerAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccount;
 
 namespace BoardgamesEShopManagement.Controllers
@@ -22,8 +21,8 @@ namespace BoardgamesEShopManagement.Controllers
     [ApiController]
     public class AccountsController : ControllerBase
     {
-        public readonly IMediator _mediator;
-        public readonly IMapper _mapper;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         public AccountsController(IMediator mediator, IMapper mapper)
         {

@@ -11,6 +11,7 @@ using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -18,8 +19,8 @@ namespace BoardgamesEShopManagement.Controllers
     [ApiController]
     public class BoardgamesController : ControllerBase
     {
-        public readonly IMediator _mediator;
-        public readonly IMapper _mapper;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         public BoardgamesController(IMediator mediator, IMapper mapper)
         {
@@ -61,7 +62,7 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(mappedResult);
         }
 
-        [HttpGet("/api/boardgame/search")]
+        [HttpGet("search")]
         public async Task<IActionResult> GetBoardgamesByName([FromQuery] string keywords)
         {
             List<Boardgame> result = await _mediator.Send(new GetBoardgamesListByNameQuery 

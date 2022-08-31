@@ -28,6 +28,10 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
                 .HasOne(order => order.Account)
                 .WithMany(account => account.Orders)
                 .HasForeignKey(order => order.AccountId);
+
+            orderConfiguration
+                .Property(order => order.Total)
+                .HasPrecision(18, 2);
         }
     }
 }

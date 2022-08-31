@@ -7,17 +7,19 @@ using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetWishlist;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist;
+using BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistItem;
+using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlistItem;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/wishlists")]
     [ApiController]
-    public class WishlistController : ControllerBase
+    public class WishlistsController : ControllerBase
     {
-        public readonly IMediator _mediator;
-        public readonly IMapper _mapper;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public WishlistController(IMediator mediator, IMapper mapper)
+        public WishlistsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -34,6 +36,26 @@ namespace BoardgamesEShopManagement.Controllers
                 WishlistName = wishlist.WishlistName,
                 WishlistAccountId = wishlist.WishlistAccountId,
                 WishlistBoardgameIds = wishlist.WishlistBoardgameIds
+            };
+
+            Wishlist result = await _mediator.Send(command);
+
+            WishlistGetDto mappedResult = _mapper.Map<WishlistGetDto>(result);
+
+            return CreatedAtAction(nameof(GetWishlist), new { id = mappedResult.WishlistId }, mappedResult);
+        }
+
+        [HttpPost]
+        [Route("boardgame")]
+        public async Task<IActionResult> CreateWishlistItem([FromBody] WishlistItemPostDto wishlistItem)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            CreateWishlistItemRequest command = new CreateWishlistItemRequest
+            {
+                WishlistId = wishlistItem.WishlistId,
+                WishlistBoardgameId = wishlistItem.WishlistBoardgameId
             };
 
             Wishlist result = await _mediator.Send(command);
@@ -68,6 +90,24 @@ namespace BoardgamesEShopManagement.Controllers
             Wishlist result = await _mediator.Send(command);
 
             if (result == null)
+                return NotFound();
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("{wishlistId}/boardgames/{boardgameId}")]
+        public async Task<IActionResult> DeleteWishlistItem(int wishlistId, int boardgameId)
+        {
+            DeleteWishlistItemRequest command = new DeleteWishlistItemRequest 
+            { 
+                WishlistId = wishlistId,
+                BoardgameId = boardgameId
+            };
+
+            bool result = await _mediator.Send(command);
+
+            if (result == false)
                 return NotFound();
 
             return Ok();
