@@ -7,31 +7,19 @@ using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using Microsoft.Extensions.Logging;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
     public class AccountRepository : GenericRepository<Account>, IAccountRepository
     {
         private readonly ShopContext _context;
+        private readonly ILogger<Account> _logger;
 
-        public AccountRepository(ShopContext context) : base(context)
+        public AccountRepository(ShopContext context, ILogger<Account> logger) : base(context, logger)
         {
             _context = context;
+            _logger = logger;
         }
-
-        public async Task<Account> ArchiveAccount(int accountId)
-        {
-            Account searchedAccount = await _context.Accounts
-                .SingleOrDefaultAsync(account => account.Id == accountId);
-
-            searchedAccount.FirstName = "Anonymized";
-            searchedAccount.LastName = "Anonymized";
-            searchedAccount.Email = "Anonymized";
-            searchedAccount.Password = "";
-            searchedAccount.IsArchived = true;
-
-            return searchedAccount;
-        }
-
     }
 }

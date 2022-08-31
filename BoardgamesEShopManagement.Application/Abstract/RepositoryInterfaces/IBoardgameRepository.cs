@@ -12,6 +12,5 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
     {
         Task<List<Boardgame>> GetBoardgamesPerCategory(int categoryId);
         Task<List<Boardgame>> GetBoardgamesByName(string characters);
-        void WriteBoardgamesNames(string filePath, List<Boardgame> boardgamesList);
     }
 }

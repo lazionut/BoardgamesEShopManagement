@@ -7,21 +7,24 @@ using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using Microsoft.Extensions.Logging;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
     public class BoardgameRepository : GenericRepository<Boardgame>, IBoardgameRepository
     {
         private readonly ShopContext _context;
+        private readonly ILogger<Boardgame> _logger;
 
-        public BoardgameRepository(ShopContext context) : base(context)
+        public BoardgameRepository(ShopContext context, ILogger<Boardgame> logger) : base(context, logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<List<Boardgame>> GetBoardgamesPerCategory(int categoryId)
         {
-
+            _logger.LogInformation("Getting the list of boardgames per category selected by it's identifier...");
             return await _context.Boardgames
                 .Where(boardgame => boardgame.CategoryId == categoryId)
                 .ToListAsync();
@@ -29,20 +32,10 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task<List<Boardgame>> GetBoardgamesByName(string characters)
         {
+            _logger.LogInformation("Getting the list of boardgames by searched keywords...");
             return await _context.Boardgames
                .Where(boardgame => boardgame.Name.Contains(characters))
                .ToListAsync();
-        }
-
-        public void WriteBoardgamesNames(string filePath, List<Boardgame> boardgamesList)
-        {
-            using (StreamWriter boardgameStreamWriter = new StreamWriter(filePath))
-            {
-                foreach (Boardgame boardgame in boardgamesList)
-                {
-                    boardgameStreamWriter.WriteLine(boardgame.Name);
-                }
-            }
         }
     }
 }

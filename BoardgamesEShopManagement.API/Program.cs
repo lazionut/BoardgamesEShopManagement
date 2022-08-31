@@ -6,7 +6,7 @@ using BoardgamesEShopManagement.Infrastructure.Repositories;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.API.Profiles;
-using AmdarisEshop.Presentation.Middleware;
+using BoardgamesEShopManagement.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +28,8 @@ builder.Services.AddDbContext<ShopContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddMediatR(typeof(ICategoryRepository));
 builder.Services.AddAutoMapper(typeof(CategoryProfile));
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 

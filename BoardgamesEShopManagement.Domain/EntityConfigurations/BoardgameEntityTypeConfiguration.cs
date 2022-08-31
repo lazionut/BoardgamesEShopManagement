@@ -19,6 +19,10 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
                 .WithMany(category => category.Boardgames);
 
             boardgameConfiguration
+                .Property(order => order.Price)
+                .HasPrecision(9, 2);
+
+            boardgameConfiguration
                 .HasQueryFilter(b => b.IsArchived == false);
         }
     }

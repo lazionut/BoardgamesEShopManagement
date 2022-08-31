@@ -23,12 +23,13 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistIt
         {
             Wishlist searchedWishlist = await _unitOfWork.WishlistRepository.GetById(request.WishlistId);
 
-            bool isWishlistDeleted = searchedWishlist.Boardgames
-                .Remove(await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId));
+            Boardgame searchedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
+
+            bool isWishlistItemDeleted = searchedWishlist.Boardgames.Remove(searchedBoardgame);
 
             await _unitOfWork.Save();
 
-            return isWishlistDeleted;
+            return isWishlistItemDeleted;
         }
     }
 }

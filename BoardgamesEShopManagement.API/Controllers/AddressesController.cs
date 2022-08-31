@@ -17,8 +17,8 @@ namespace BoardgamesEShopManagement.Controllers
     [ApiController]
     public class AddressesController : ControllerBase
     {
-        public readonly IMediator _mediator;
-        public readonly IMapper _mapper;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         public AddressesController(IMediator mediator, IMapper mapper)
         {

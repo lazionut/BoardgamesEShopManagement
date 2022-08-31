@@ -18,6 +18,9 @@ namespace BoardgamesEShopManagement.API.Profiles
 
             CreateMap<Wishlist, WishlistPostDto>()
                 .ForMember(w => w.WishlistAccountId, opt => opt.MapFrom(s => s.AccountId));
+
+            CreateMap<WishlistItem, WishlistItemPostDto>()
+                .ForMember(w => w.WishlistBoardgameId, opt => opt.MapFrom(s => s.BoardgameId));
         }
     }
 }

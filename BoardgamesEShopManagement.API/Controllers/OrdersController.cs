@@ -11,12 +11,12 @@ namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/orders")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrdersController : ControllerBase
     {
-        public readonly IMediator _mediator;
-        public readonly IMapper _mapper;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public OrderController(IMediator mediator, IMapper mapper)
+        public OrdersController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
