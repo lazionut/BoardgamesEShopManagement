@@ -27,7 +27,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAddress([FromBody] AddressPostPatchDto address)
+        public async Task<IActionResult> CreateAddress([FromBody] AddressPostPutDto address)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -66,7 +66,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateAddress(int id, [FromBody] AddressPostPatchDto updatedAddress)
+        public async Task<IActionResult> UpdateAddress(int id, [FromBody] AddressPostPutDto updatedAddress)
         {
             UpdateAddressRequest command = new UpdateAddressRequest
             {
