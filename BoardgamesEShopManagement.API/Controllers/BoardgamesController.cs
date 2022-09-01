@@ -11,7 +11,8 @@ using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory;
+using BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -102,6 +103,30 @@ namespace BoardgamesEShopManagement.Controllers
             List<ReviewGetDto> mappedResult = _mapper.Map<List<ReviewGetDto>>(result);
 
             return Ok(mappedResult);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateBoardgame(int id, [FromBody] BoardgamePostPutDto updatedBoardgame)
+        {
+            UpdateBoardgameRequest command = new UpdateBoardgameRequest
+            {
+                BoardgameId = id,
+                BoardgameImage = updatedBoardgame.BoardgameImage,
+                BoardgameName = updatedBoardgame.BoardgameName,
+                BoardgameDescription = updatedBoardgame.BoardgameDescription,
+                BoardgamePrice = updatedBoardgame.BoardgamePrice,
+                BoardgameLink = updatedBoardgame.BoardgameLink,
+                BoardgameQuantity = updatedBoardgame.BoardgameQuantity,
+                BoardgameCategoryId =  updatedBoardgame.BoardgameCategoryId
+            };
+
+            Boardgame result = await _mediator.Send(command);
+
+            if (result == null)
+                return NotFound();
+
+            return NoContent();
         }
 
         [HttpDelete]

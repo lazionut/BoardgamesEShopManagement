@@ -17,7 +17,7 @@ namespace BoardgamesEShopManagement.API.Profiles
                 .ForMember(a => a.AddressCountry, opt => opt.MapFrom(s => s.Country))
                 .ForMember(a => a.AddressPhone, opt => opt.MapFrom(s => s.Phone));
 
-            CreateMap<Address, AddressPostPatchDto>()
+            CreateMap<Address, AddressPostPutDto>()
                 .ForMember(a => a.AddressDetails, opt => opt.MapFrom(s => s.Details))
                 .ForMember(a => a.AddressCity, opt => opt.MapFrom(s => s.City))
                 .ForMember(a => a.AddressCounty, opt => opt.MapFrom(s => s.County))
