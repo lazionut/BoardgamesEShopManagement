@@ -32,7 +32,7 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
             decimal orderTotalPrice = 0;
             int boardgameIdsCounter = request.OrderBoardgameIds.Count;
-            for (int index = 0;  index< boardgameIdsCounter; ++index)
+            for (int index = 0; index < boardgameIdsCounter; ++index)
             {
                 Boardgame boardgame = await _unitOfWork
                     .BoardgameRepository
