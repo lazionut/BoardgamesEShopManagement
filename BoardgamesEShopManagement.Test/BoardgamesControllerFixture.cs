@@ -29,7 +29,6 @@ namespace BoardgamesEShopManagement.Test
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
 
-        /*
         [Fact]
         public async void Create_Boardgame_CreateBoardgameCommandIsCalled()
         {
@@ -59,6 +58,19 @@ namespace BoardgamesEShopManagement.Test
                       }
                 );
 
+            _mockMapper
+                .Setup(m => m.Map<BoardgameGetDto>(It.IsAny<Boardgame>()))
+                .Returns(new BoardgameGetDto
+                {
+                    BoardgameImage = null,
+                    BoardgameName = "BoardgameName",
+                    BoardgameDescription = "BoardgameDescription",
+                    BoardgamePrice = 100M,
+                    BoardgameLink = null,
+                    BoardgameQuantity = 10,
+                    BoardgameCategoryId = 3
+                });
+
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateBoardgame(new BoardgamePostPutDto
@@ -76,7 +88,6 @@ namespace BoardgamesEShopManagement.Test
 
             Assert.Equal(createBoardgameCommand.BoardgameName, ((BoardgameGetDto)okResult.Value).BoardgameName);
         }
-        */
 
         [Fact]
         public async void Get_Boardgames_List_GetBoardgamesListQueryIsCalled()
@@ -195,7 +206,6 @@ namespace BoardgamesEShopManagement.Test
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
         }
 
-        /*
         [Fact]
         public async void Update_Boardgame_UpdateBoardgameCommandIsCalled()
         {
@@ -212,6 +222,19 @@ namespace BoardgamesEShopManagement.Test
                     CategoryId = 1
                 });
 
+            _mockMapper
+                .Setup(m => m.Map<BoardgameGetDto>(It.IsAny<Boardgame>()))
+                .Returns(new BoardgameGetDto
+                {
+                    BoardgameImage = null,
+                    BoardgameName = "BoardgameName",
+                    BoardgameDescription = "BoardgameDescription",
+                    BoardgamePrice = 100M,
+                    BoardgameLink = null,
+                    BoardgameQuantity = 10,
+                    BoardgameCategoryId = 3
+                });
+
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.UpdateBoardgame(1, new BoardgamePostPutDto
@@ -225,11 +248,10 @@ namespace BoardgamesEShopManagement.Test
                 BoardgameCategoryId = 1
             });
 
-            OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
+            NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);
 
-            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NoContent, noContentResult.StatusCode);
         }
-        */
 
         [Fact]
         public async void Delete_Boardgame_DeleteBoardgameCommandIsCalled()

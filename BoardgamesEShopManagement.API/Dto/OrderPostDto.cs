@@ -8,9 +8,10 @@ namespace BoardgamesEShopManagement.API.Dto
         public int OrderAccountId { get; set; }
 
         [Required]
-        public List<int> OrderBoardgameQuantities { get; set; } = null!;
+        public List<int> OrderBoardgameIds { get; set; } = null!;
 
         [Required]
-        public List<int> OrderBoardgameIds { get; set; } = null!;
+        public List<int> OrderBoardgameQuantities { get; set; } = null!;
+
     }
 }

@@ -6,7 +6,7 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         public int OrderId { get; set; }
         public string OrderTotal { get; set; } = null!;
-        public string OrderAccountId { get; set; } = null!;
+        public int OrderAccountId { get; set; }
         public ICollection<object> OrderBoardgames { get; set; } = null!;
     }
 }

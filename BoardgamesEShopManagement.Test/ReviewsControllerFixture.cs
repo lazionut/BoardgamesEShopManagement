@@ -16,6 +16,7 @@ using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview;
+using BoardgamesEShopManagement.API.Dto;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -24,7 +25,6 @@ namespace BoardgamesEShopManagement.Test
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
 
-        /*
         [Fact]
         public async void Create_Review_CreateReviewCommandIsCalled()
         {
@@ -52,6 +52,19 @@ namespace BoardgamesEShopManagement.Test
                       }
                 );
 
+             _mockMapper
+                .Setup(m => m.Map<ReviewGetDto>(It.IsAny<Review>()))
+                .Returns(new ReviewGetDto
+                {
+                    ReviewTitle = "ReviewTitle",
+                    ReviewAuthor = "ReviewAuthor",
+                    ReviewScore = 3,
+                    ReviewContent = "ReviewContent",
+                    ReviewBoardgameId = 3,
+                    ReviewAccountId = 7
+                }
+                );
+
             ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateReview(new ReviewPostDto
@@ -66,9 +79,8 @@ namespace BoardgamesEShopManagement.Test
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createCategoryCommand.ReviewTitle, ((ReviewGetDto)okResult.Value).ReviewTitle);
+            Assert.Equal(createReviewCommand.ReviewTitle, ((ReviewGetDto)okResult.Value).ReviewTitle);
         }
-        */
 
         [Fact]
         public async void Get_Review_GetReviewQueryIsCalled()
@@ -95,7 +107,6 @@ namespace BoardgamesEShopManagement.Test
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
         }
 
-        /*
         [Fact]
         public async void Update_Review_UpdateReviewCommandIsCalled()
         {
@@ -103,22 +114,30 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Send(It.IsAny<UpdateReviewRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new Review
                 {
-                    Title = "ReviewTitle",
-                    Content = "ReviewContent",
+                    Title = "ReviewTitleUpdated",
+                    Content = "ReviewContentUpdated",
                 });
+
+            _mockMapper
+                .Setup(m => m.Map<ReviewGetDto>(It.IsAny<Review>()))
+                .Returns(new ReviewGetDto
+                {
+                    ReviewTitle = "ReviewTitleUpdated",
+                    ReviewContent = "ReviewTitleUpdated"
+                }
+                );
 
             ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.UpdateReview(1, new ReviewPatchDto {
-                ReviewTitle = "ReviewTitle",
-                ReviewContent = "ReviewContent"
+                ReviewTitle = "ReviewTitleUpdated",
+                ReviewContent = "ReviewTitleUpdated"
             });
 
-            OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
+            NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);
 
-            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NoContent, noContentResult.StatusCode);
         }
-        */
 
         [Fact]
         public async void Delete_Review_DeleteReviewCommandIsCalled()

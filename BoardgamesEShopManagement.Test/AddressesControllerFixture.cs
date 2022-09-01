@@ -26,7 +26,6 @@ namespace BoardgamesEShopManagement.Test
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
 
-        /*
         [Fact]
         public async void Create_Category_CreateCategoryCommandIsCalled()
         {
@@ -52,6 +51,17 @@ namespace BoardgamesEShopManagement.Test
                       }
                 );
 
+            _mockMapper
+                .Setup(m => m.Map<AddressGetDto>(It.IsAny<Address>()))
+                .Returns(new AddressGetDto
+                {
+                    AddressDetails = "CreatedDetails",
+                    AddressCity = "CreatedCity",
+                    AddressCounty = "CreatedCounty",
+                    AddressCountry = "CreatedCountry",
+                    AddressPhone = "0765123456"
+                });
+
             AddressesController controller = new AddressesController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateAddress(new AddressPostPutDto
@@ -67,7 +77,6 @@ namespace BoardgamesEShopManagement.Test
 
             Assert.Equal(createAddressCommand.AddressDetails, ((AddressGetDto)okResult.Value).AddressDetails);
         }
-        */
 
         [Fact]
         public async void Get_Address_GetAddressQueryIsCalled()
@@ -94,7 +103,6 @@ namespace BoardgamesEShopManagement.Test
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
         }
 
-        /*
         [Fact]
         public async void Update_Address_UpdateAddressCommandIsCalled()
         {
@@ -111,7 +119,7 @@ namespace BoardgamesEShopManagement.Test
 
             AddressesController controller = new AddressesController(_mockMediator.Object, _mockMapper.Object);
 
-            IActionResult result = await controller.UpdateAddress(1, new AddressPostPatchDto
+            IActionResult result = await controller.UpdateAddress(1, new AddressPostPutDto
             {
                 AddressDetails = "UpdatedDetails",
                 AddressCity = "UpdatedDetails",
@@ -120,11 +128,10 @@ namespace BoardgamesEShopManagement.Test
                 AddressPhone = "0711111111"
             });
 
-            OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
+            NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);
 
-            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NoContent, noContentResult.StatusCode);
         }
-        */
 
         [Fact]
         public async void Delete_Address_DeleteAddressCommandIsCalled()

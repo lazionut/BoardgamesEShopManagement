@@ -14,6 +14,7 @@ using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetOrder;
+using BoardgamesEShopManagement.API.Dto;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -22,7 +23,6 @@ namespace BoardgamesEShopManagement.Test
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
 
-        /*
         [Fact]
         public async void Create_Order_CreateOrderCommandIsCalled()
         {
@@ -30,7 +30,7 @@ namespace BoardgamesEShopManagement.Test
             {
                 OrderAccountId = 1,
                 OrderBoardgameIds = new List<int> { 1, 9, 10 },
-                OrderBoardgameQuantities = new List<int> { 1, 2, 3 }
+                OrderBoardgameQuantities = new List<int> { 1, 1, 1 }
             };
 
             _mockMediator
@@ -38,11 +38,18 @@ namespace BoardgamesEShopManagement.Test
                 .ReturnsAsync(
                       new Order
                       {
-                          Id = 11,
                           Total = 4778.76M,
                           AccountId = 1
                       }
                 );
+
+           _mockMediator
+                .Setup(m => m.Send(It.IsAny<OrderGetDto>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new Order
+                {
+                    Total = 4778.76M,
+                    AccountId = 1
+                });
 
             OrdersController controller = new OrdersController(_mockMediator.Object, _mockMapper.Object);
 
@@ -50,14 +57,13 @@ namespace BoardgamesEShopManagement.Test
             {
                 OrderAccountId = 1,
                 OrderBoardgameIds = new List<int> { 1, 9, 10 },
-                OrderBoardgameQuantities = new List<int> { 1, 2, 3 }
+                OrderBoardgameQuantities = new List<int> { 1, 1, 1 }
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
             Assert.Equal(createOrderCommand.OrderAccountId, ((OrderGetDto)okResult.Value).OrderAccountId);
         }
-        */
 
         [Fact]
         public async void Get_Order_GetOrderQueryIsCalled()

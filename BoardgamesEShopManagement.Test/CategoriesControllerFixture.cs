@@ -27,7 +27,6 @@ namespace BoardgamesEShopManagement.Test
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
 
-        /*
         [Fact]
         public async void Create_Category_CreateCategoryCommandIsCalled()
         {
@@ -45,6 +44,13 @@ namespace BoardgamesEShopManagement.Test
                       }
                 );
 
+            _mockMapper
+                .Setup(m => m.Map<CategoryGetDto>(It.IsAny<Category>()))
+                .Returns(new CategoryGetDto 
+                { 
+                    CategoryName = "TestCategory"
+                });
+
             CategoriesController controller = new CategoriesController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateCategory(new CategoryPostPutDto
@@ -56,7 +62,6 @@ namespace BoardgamesEShopManagement.Test
 
             Assert.Equal(createCategoryCommand.CategoryName, ((CategoryGetDto)okResult.Value).CategoryName);
         }
-        */
 
         [Fact]
         public async void Get_Categories_List_GetCategoriesListQueryIsCalled()
@@ -121,7 +126,6 @@ namespace BoardgamesEShopManagement.Test
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
         }
 
-        /*
         [Fact]
         public async void Update_Category_UpdateCategoryCommandIsCalled()
         {
@@ -133,16 +137,21 @@ namespace BoardgamesEShopManagement.Test
                     Name = "UpdatedCategoryName"
                 });
 
+            _mockMapper
+                .Setup(m => m.Map<CategoryPostPutDto>(It.IsAny<Category>()))
+                .Returns(new CategoryPostPutDto
+                { 
+                    CategoryName = "UpdatedCategoryName"
+                });
+
             CategoriesController controller = new CategoriesController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.UpdateCategory(1, new CategoryPostPutDto { CategoryName = "UpdatedCategoryName" });
 
-            OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
+            NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);
 
-            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
+            Assert.Equal((int)HttpStatusCode.NoContent, noContentResult.StatusCode);
         }
-        */
-
 
         [Fact]
         public async void Delete_Category_DeleteCategoryCommandIsCalled()
