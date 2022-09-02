@@ -21,7 +21,7 @@ namespace BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsList
 
         public async Task<List<Account>> Handle(GetAccountsListQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.AccountRepository.GetAll();
+            return await _unitOfWork.AccountRepository.GetAll(request.AccountPageIndex, request.AccountPageSize);
         }
     }
 }

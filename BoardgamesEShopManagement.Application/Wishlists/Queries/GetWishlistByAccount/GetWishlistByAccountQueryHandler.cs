@@ -21,7 +21,7 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByA
 
         public async Task<Wishlist> Handle(GetWishlistByAccountQuery request, CancellationToken cancellationToken)
         {
-            Wishlist wishlistByAccount =  await _unitOfWork.WishlistRepository.GetByAccount(request.AccountId, request.WishlistId);
+            Wishlist wishlistByAccount =  await _unitOfWork.WishlistRepository.GetByAccount(request.WishlistAccountId, request.WishlistId);
 
             if (wishlistByAccount == null)
             {

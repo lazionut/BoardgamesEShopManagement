@@ -110,8 +110,8 @@ namespace BoardgamesEShopManagement.ConsolePresentation
         {
             GetWishlistByAccountQuery getWishlistByAccountAccountQuery = new GetWishlistByAccountQuery();
 
-            Console.WriteLine($"Insert {nameof(getWishlistByAccountAccountQuery.AccountId)}");
-            getWishlistByAccountAccountQuery.AccountId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine($"Insert {nameof(getWishlistByAccountAccountQuery.WishlistAccountId)}");
+            getWishlistByAccountAccountQuery.WishlistAccountId = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine($"Insert {nameof(getWishlistByAccountAccountQuery.WishlistId)}");
             getWishlistByAccountAccountQuery.WishlistId = Convert.ToInt32(Console.ReadLine());
@@ -122,8 +122,8 @@ namespace BoardgamesEShopManagement.ConsolePresentation
         internal static async Task<List<Order>> GetOrdersListPerAccount(IMediator mediator)
         {
             GetOrdersListPerAccountQuery getOrdersPerAccountQuery = new GetOrdersListPerAccountQuery();
-            Console.WriteLine($"Insert {nameof(getOrdersPerAccountQuery.AccountId)}");
-            getOrdersPerAccountQuery.AccountId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine($"Insert {nameof(getOrdersPerAccountQuery.OrderAccountId)}");
+            getOrdersPerAccountQuery.OrderAccountId = Convert.ToInt32(Console.ReadLine());
 
             return await mediator.Send(getOrdersPerAccountQuery);
         }

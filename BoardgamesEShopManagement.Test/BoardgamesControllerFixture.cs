@@ -15,8 +15,9 @@ using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListSorted;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListByName;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
@@ -98,7 +99,21 @@ namespace BoardgamesEShopManagement.Test
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
-            await controller.GetBoardgames();
+            await controller.GetBoardgames(1, 5);
+
+            _mockMediator.Verify(x => x.Send(It.IsAny<GetBoardgamesListQuery>(), It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Fact]
+        public async void Get_Boardgames_List_Sorted_GetBoardgamesListSortedQueryIsCalled()
+        {
+            _mockMediator
+                .Setup(m => m.Send(It.IsAny<GetBoardgamesListSortedQuery>(), It.IsAny<CancellationToken>()))
+                .Verifiable();
+
+            BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
+
+            await controller.GetBoardgames(1, 5);
 
             _mockMediator.Verify(x => x.Send(It.IsAny<GetBoardgamesListQuery>(), It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -135,7 +150,7 @@ namespace BoardgamesEShopManagement.Test
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
-            IActionResult result = await controller.GetBoardgamesByName("p");
+            IActionResult result = await controller.GetBoardgamesByName("a", 1, 5, "name_ascending");
 
             OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
 
@@ -199,7 +214,7 @@ namespace BoardgamesEShopManagement.Test
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
-            IActionResult result = await controller.GetReviewsPerBoardgame(9);
+            IActionResult result = await controller.GetReviewsPerBoardgame(9, 0, 5);
 
             OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
 

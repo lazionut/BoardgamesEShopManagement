@@ -12,5 +12,8 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
     public class GetBoardgamesListPerCategoryQuery : IRequest<List<Boardgame>>
     {
         public int CategoryId { get; set; }
+        public int BoardgamePageIndex { get; set; }
+        public int BoardgamePageSize { get; set; }
+        public string BoardgameSortOrder { get; set; } = "name_ascending" ?? "name_ascending";
     }
 }

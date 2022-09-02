@@ -43,12 +43,14 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             wishlist.Boardgames.Add(searchedBoardgame);
         }
 
-        public async Task<List<Wishlist>> GetWishlistsListPerAccount(int accountId)
+        public async Task<List<Wishlist>> GetWishlistsListPerAccount(int accountId, int pageIndex, int pageSize)
         {
             _logger.LogInformation("Getting the list of wishlists by an account identifier...");
             return await _context.Wishlists
                 .Include(wishlist => wishlist.Boardgames)
                 .Where(wishlist => wishlist.AccountId == accountId)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
         }
 

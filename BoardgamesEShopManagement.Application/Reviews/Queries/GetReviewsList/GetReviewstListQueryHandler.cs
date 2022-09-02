@@ -19,9 +19,9 @@ namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsList
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Review>> Handle(GetReviewsListQuery query, CancellationToken cancellationToken)
+        public async Task<List<Review>> Handle(GetReviewsListQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.ReviewRepository.GetAll();
+            return await _unitOfWork.ReviewRepository.GetAll(request.ReviewPageIndex, request.ReviewPageSize);
         }
     }
 }

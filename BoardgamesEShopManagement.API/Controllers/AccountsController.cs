@@ -53,9 +53,15 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAccounts()
+        public async Task<IActionResult> GetAccounts(int pageIndex, int pageSize)
         {
-            List<Account> result = await _mediator.Send(new GetAccountsListQuery());
+            GetAccountsListQuery query = new GetAccountsListQuery
+            { 
+                AccountPageIndex = pageIndex, 
+                AccountPageSize = pageSize 
+            };
+
+            List<Account> result = await _mediator.Send(query);
 
             List<AccountGetDto> mappedResult = _mapper.Map<List<AccountGetDto>>(result);
 
@@ -96,9 +102,14 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpGet]
         [Route("{id}/orders")]
-        public async Task<IActionResult> GetOrdersPerAccount(int id)
+        public async Task<IActionResult> GetOrdersPerAccount(int id, int pageIndex, int pageSize)
         {
-            GetOrdersListPerAccountQuery query = new GetOrdersListPerAccountQuery { AccountId = id };
+            GetOrdersListPerAccountQuery query = new GetOrdersListPerAccountQuery
+            {
+                OrderAccountId = id,
+                OrderPageIndex = pageIndex,
+                OrderPageSize = pageSize
+            };
 
             List<Order> result = await _mediator.Send(query);
 
@@ -114,7 +125,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{accountId}/wishlists/{wishlistId}")]
         public async Task<IActionResult> GetWishlistByAccount(int accountId, int wishlistId)
         {
-            GetWishlistByAccountQuery query = new GetWishlistByAccountQuery { AccountId = accountId, WishlistId = wishlistId };
+            GetWishlistByAccountQuery query = new GetWishlistByAccountQuery { WishlistAccountId = accountId, WishlistId = wishlistId };
 
             Wishlist result = await _mediator.Send(query);
 
@@ -128,9 +139,14 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpGet]
         [Route("{id}/wishlists")]
-        public async Task<IActionResult> GetWishlistsPerAccount(int id)
+        public async Task<IActionResult> GetWishlistsPerAccount(int id, int pageIndex, int pageSize)
         {
-            GetWishlistsListPerAccountQuery query = new GetWishlistsListPerAccountQuery { AccountId = id };
+            GetWishlistsListPerAccountQuery query = new GetWishlistsListPerAccountQuery
+            {
+                WishlistAccountId = id,
+                WishlistOffset = pageIndex,
+                WishlistLimit = pageSize
+            };
 
             List<Wishlist> result = await _mediator.Send(query);
 

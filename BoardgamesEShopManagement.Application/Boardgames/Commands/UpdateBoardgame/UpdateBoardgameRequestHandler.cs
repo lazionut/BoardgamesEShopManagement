@@ -7,7 +7,6 @@ using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
-using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame
 {
@@ -21,7 +20,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardg
         }
 
         public async Task<Boardgame> Handle(UpdateBoardgameRequest request, CancellationToken cancellationToken)
-        {
+        { 
             Boardgame updatedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
 
             if (updatedBoardgame == null)

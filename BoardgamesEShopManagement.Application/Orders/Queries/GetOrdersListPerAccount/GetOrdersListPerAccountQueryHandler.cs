@@ -21,7 +21,8 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersList
 
         public async Task<List<Order>> Handle(GetOrdersListPerAccountQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.OrderRepository.GetOrdersListPerAccount(request.AccountId);
+            return await _unitOfWork.OrderRepository.GetOrdersListPerAccount
+                (request.OrderAccountId, request.OrderPageIndex, request.OrderPageSize);
         }
     }
 }

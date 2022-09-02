@@ -21,7 +21,8 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
 
         public async Task<List<Boardgame>> Handle(GetBoardgamesListPerCategoryQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.BoardgameRepository.GetBoardgamesPerCategory(request.CategoryId);
+            return await _unitOfWork.BoardgameRepository.GetBoardgamesPerCategory
+                (request.CategoryId, request.BoardgamePageIndex, request.BoardgamePageSize, request.BoardgameSortOrder);
         }
     }
 }

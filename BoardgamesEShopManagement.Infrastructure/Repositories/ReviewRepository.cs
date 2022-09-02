@@ -22,11 +22,13 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<List<Review>> GetReviewsListPerBoardgame(int boardgameId)
+        public async Task<List<Review>> GetReviewsListPerBoardgame(int boardgameId, int pageIndex, int pageSize)
         {
             _logger.LogInformation("Getting the list of reviews per desired boardgame...");
             return await _context.Reviews
                 .Where(review => review.BoardgameId == boardgameId)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
         }
     }

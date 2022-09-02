@@ -11,7 +11,7 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByA
 {
     public class GetWishlistByAccountQuery : IRequest<Wishlist>
     {
-        public int AccountId { get; set; }
+        public int WishlistAccountId { get; set; }
         public int WishlistId { get; set; }
     }
 }

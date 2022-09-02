@@ -21,7 +21,8 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategories
 
         public async Task<List<Category>> Handle(GetCategoriesListQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CategoryRepository.GetAll();
+            int countCategories = await _unitOfWork.CategoryRepository.GetCategoryCounter();
+            return await _unitOfWork.CategoryRepository.GetAll(1, countCategories);
         }
     }
 }

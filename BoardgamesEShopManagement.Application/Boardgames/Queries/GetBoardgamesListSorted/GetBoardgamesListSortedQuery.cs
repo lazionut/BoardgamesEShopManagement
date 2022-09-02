@@ -7,11 +7,12 @@ using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList
+namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListSorted
 {
-    public class GetBoardgamesListQuery : IRequest<List<Boardgame>>
+    public class GetBoardgamesListSortedQuery : IRequest<List<Boardgame>>
     {
         public int BoardgamePageIndex { get; set; }
         public int BoardgamePageSize { get; set; }
+        public string BoardgameSortOrder { get; set; } = "name_ascending";
     }
 }

@@ -21,7 +21,8 @@ namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPe
 
         public async Task<List<Review>> Handle(GetReviewsListPerBoardgameQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.ReviewRepository.GetReviewsListPerBoardgame(request.BoardgameId);
+            return await _unitOfWork.ReviewRepository.GetReviewsListPerBoardgame
+                (request.ReviewBoardgameId, request.ReviewPageIndex, request.ReviewPageSize);
         }
     }
 }

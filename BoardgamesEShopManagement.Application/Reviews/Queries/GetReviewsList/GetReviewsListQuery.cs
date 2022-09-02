@@ -11,6 +11,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsList
 {
     public class GetReviewsListQuery : IRequest<List<Review>>
     {
-
+        public int ReviewPageIndex { get; set; }
+        public int ReviewPageSize { get; set; }
     }
 }

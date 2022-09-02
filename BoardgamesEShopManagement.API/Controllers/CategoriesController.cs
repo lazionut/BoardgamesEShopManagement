@@ -44,7 +44,9 @@ namespace BoardgamesEShopManagement.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
-            List<Category> result = await _mediator.Send(new GetCategoriesListQuery());
+            GetCategoriesListQuery query = new GetCategoriesListQuery();
+
+            List<Category> result = await _mediator.Send(query);
 
             List<CategoryGetDto> mappedResult = _mapper.Map<List<CategoryGetDto>>(result);
 

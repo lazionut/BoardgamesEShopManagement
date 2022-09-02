@@ -11,6 +11,8 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersList
 {
     public class GetOrdersListPerAccountQuery : IRequest<List<Order>>
     {
-        public int AccountId { get; set; }
+        public int OrderAccountId { get; set; }
+        public int OrderPageIndex { get; set; }
+        public int OrderPageSize { get; set; }
     }
 }
