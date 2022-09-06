@@ -16,7 +16,8 @@ namespace BoardgamesEShopManagement.API.Profiles
                 .ForMember(r => r.ReviewAuthor, opt => opt.MapFrom(s => s.Author))
                 .ForMember(r => r.ReviewContent, opt => opt.MapFrom(s => s.Content))
                 .ForMember(r => r.ReviewBoardgameId, opt => opt.MapFrom(s => s.BoardgameId))
-                .ForMember(r => r.ReviewAccountId, opt => opt.MapFrom(s => s.AccountId));
+                .ForMember(r => r.ReviewAccountId, opt => opt.MapFrom(s => s.AccountId))
+                .ForMember(r => r.ReviewCreatedAt, opt => opt.MapFrom(s => s.CreatedAt.Date));
 
             CreateMap<Review, ReviewPostDto>()
                    .ForMember(r => r.ReviewTitle, opt => opt.MapFrom(s => s.Title))

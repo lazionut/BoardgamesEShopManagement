@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 {
-    public class CreateOrderRequestHandler : IRequestHandler<CreateOrderRequest, Order>
+    public class CreateOrderRequestHandler : IRequestHandler<CreateOrderRequest, Order?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,8 +19,15 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Order> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
+        public async Task<Order?> Handle(CreateOrderRequest request, CancellationToken cancellationToken)
         {
+            Account? searchedAccount = await _unitOfWork.AccountRepository.GetById(request.OrderAccountId);
+
+            if (searchedAccount == null)
+            {
+                return null;
+            }
+
             Order order = new Order
             {
                 AccountId = request.OrderAccountId,
@@ -34,7 +41,7 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
             int boardgameIdsCounter = request.OrderBoardgameIds.Count;
             for (int index = 0; index < boardgameIdsCounter; ++index)
             {
-                Boardgame boardgame = await _unitOfWork
+                Boardgame? boardgame = await _unitOfWork
                     .BoardgameRepository
                     .GetById(request.OrderBoardgameIds[index]);
 

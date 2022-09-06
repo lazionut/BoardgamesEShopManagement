@@ -13,6 +13,7 @@ namespace BoardgamesEShopManagement.API.Profiles
                 .ForMember(b => b.BoardgameId, opt => opt.MapFrom(s => s.Id))
                 .ForMember(b => b.BoardgameImage, opt => opt.MapFrom(s => s.Image))
                 .ForMember(b => b.BoardgameName, opt => opt.MapFrom(s => s.Name))
+                .ForMember(b => b.BoardgameReleaseYear, opt => opt.MapFrom(s => s.ReleaseYear))
                 .ForMember(b => b.BoardgameDescription, opt => opt.MapFrom(s => s.Description))
                 .ForMember(b => b.BoardgamePrice, opt => opt.MapFrom(s => s.Price))
                 .ForMember(b => b.BoardgameLink, opt => opt.MapFrom(s => s.Link))

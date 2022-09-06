@@ -9,5 +9,6 @@
         public string ReviewContent { get; set; } = null!;
         public int ReviewBoardgameId { get; set; }
         public int ReviewAccountId { get; set; }
+        public DateTime ReviewCreatedAt { get; set; }
     }
 }

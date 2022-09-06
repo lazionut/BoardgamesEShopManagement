@@ -164,6 +164,7 @@ namespace BoardgamesEShopManagement.Infrastructure
             return boardgameNames.ToList().Select(boardgameName =>
                 new Faker<Boardgame>()
                     .RuleFor(boardgame => boardgame.Name, boardgameName)
+                    .RuleFor(boardgame => boardgame.ReleaseYear, faker => faker.Random.Int(2000, 2020))
                     .RuleFor(boardgame => boardgame.Description, (_, boardgame) => boardgame.Name.ToUpper())
                     .RuleFor(boardgame => boardgame.Link, faker => faker.PickRandom(boardgameLinks))
                     .RuleFor(boardgame => boardgame.Price, faker => faker.Random.Decimal(50, 1500))

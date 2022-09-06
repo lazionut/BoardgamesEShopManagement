@@ -1,4 +1,4 @@
-﻿using BoardgamesEShopManagement.Domain.Entities;
+﻿using BoardgamesEShopManagement.Domain.Enumerations;
 
 namespace BoardgamesEShopManagement.API.Dto
 {
@@ -6,6 +6,7 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         public int OrderId { get; set; }
         public string OrderTotal { get; set; } = null!;
+        public OrderStatusEnum OrderStatus { get; set; }
         public int OrderAccountId { get; set; }
         public ICollection<object> OrderBoardgames { get; set; } = null!;
     }

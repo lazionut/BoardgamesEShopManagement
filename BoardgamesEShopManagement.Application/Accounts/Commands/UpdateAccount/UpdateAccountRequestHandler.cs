@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Utils;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
 {
-    public class UpdateAccountRequestHandler : IRequestHandler<UpdateAccountRequest, Account>
+    public class UpdateAccountRequestHandler : IRequestHandler<UpdateAccountRequest, Account?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,13 +20,12 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Account> Handle(UpdateAccountRequest request, CancellationToken cancellationToken)
+        public async Task<Account?> Handle(UpdateAccountRequest request, CancellationToken cancellationToken)
         {
-            Account updatedAccount = await _unitOfWork.AccountRepository.GetById(request.AccountId);
+            Account? updatedAccount = await _unitOfWork.AccountRepository.GetById(request.AccountId);
 
             if (updatedAccount == null)
             {
-                //await Task.FromResult(null);
                 return null;
             }
 
@@ -34,8 +34,9 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
             updatedAccount.Email = request.AccountEmail ?? updatedAccount.Email;
             updatedAccount.Password = request.AccountPassword ?? updatedAccount.Password;
 
-            await _unitOfWork.AccountRepository.Update(updatedAccount);
+            updatedAccount.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
+            await _unitOfWork.AccountRepository.Update(updatedAccount);
             await _unitOfWork.Save();
 
             return updatedAccount;

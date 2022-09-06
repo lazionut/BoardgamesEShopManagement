@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Enumerations;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using Microsoft.Extensions.Logging;
-using Microsoft.Data.SqlClient;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -23,32 +23,35 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<List<Boardgame>> GetBoardgamesSorted(int pageIndex, int pageSize, string sortOrder)
+        public async Task<List<Boardgame>?> GetBoardgamesSorted(int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder)
         {
             _logger.LogInformation("Getting the list of boardgames...");
             IQueryable<Boardgame> boardgame = _context.Boardgames;
 
-            if (pageIndex <= 0 || pageSize <= 0 || (sortOrder != "price_ascending" &&
-                sortOrder != "price_descending" && sortOrder != "name_ascending" && sortOrder != "name_descending"))
+            if (pageIndex <= 0 || pageSize <= 0 || !Enum.IsDefined(typeof(BoardgamesSortOrdersEnum), sortOrder))
             {
                 return null;
             }
 
             switch (sortOrder)
             {
-                case "price_ascending":
+                case BoardgamesSortOrdersEnum.ReleaseYearDescending:
+                    _logger.LogInformation("Getting the list of boardgames sorted descending by date...");
+                    boardgame = boardgame.OrderByDescending(b => b.ReleaseYear);
+                    break;
+                case BoardgamesSortOrdersEnum.PriceAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by price...");
                     boardgame = boardgame.OrderBy(b => b.Price);
                     break;
-                case "price_descending":
+                case BoardgamesSortOrdersEnum.PriceDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by price...");
                     boardgame = boardgame.OrderByDescending(b => b.Price);
                     break;
-                case "name_ascending":
+                case BoardgamesSortOrdersEnum.NameAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by name...");
                     boardgame = boardgame.OrderBy(b => b.Name);
                     break;
-                case "name_descending":
+                case BoardgamesSortOrdersEnum.NameDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by name...");
                     boardgame = boardgame.OrderByDescending(b => b.Name);
                     break;
@@ -60,33 +63,36 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Boardgame>> GetBoardgamesPerCategory(int categoryId, int pageIndex, int pageSize, string sortOrder)
+        public async Task<List<Boardgame>?> GetBoardgamesPerCategory(int categoryId, int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder)
         {
             _logger.LogInformation("Getting the list of boardgames per category selected by it's identifier...");
             IQueryable<Boardgame> boardgame = _context.Boardgames
                 .Where(boardgame => boardgame.CategoryId == categoryId);
 
-            if (pageIndex <= 0 || pageSize <= 0 || (sortOrder != "price_ascending" &&
-                sortOrder != "price_descending" && sortOrder != "name_ascending" && sortOrder != "name_descending"))
+            if (pageIndex <= 0 || pageSize <= 0 || !Enum.IsDefined(typeof(BoardgamesSortOrdersEnum), sortOrder))
             {
                 return null;
             }
 
             switch (sortOrder)
             {
-                case "price_ascending":
+                case BoardgamesSortOrdersEnum.ReleaseYearDescending:
+                    _logger.LogInformation("Getting the list of boardgames sorted descending by date...");
+                    boardgame = boardgame.OrderByDescending(b => b.ReleaseYear);
+                    break;
+                case BoardgamesSortOrdersEnum.PriceAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by price...");
                     boardgame = boardgame.OrderBy(b => b.Price);
                     break;
-                case "price_descending":
+                case BoardgamesSortOrdersEnum.PriceDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by price...");
                     boardgame = boardgame.OrderByDescending(b => b.Price);
                     break;
-                case "name_ascending":
+                case BoardgamesSortOrdersEnum.NameAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by name...");
                     boardgame = boardgame.OrderBy(b => b.Name);
                     break;
-                case "name_descending":
+                case BoardgamesSortOrdersEnum.NameDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by name...");
                     boardgame = boardgame.OrderByDescending(b => b.Name);
                     break;
@@ -98,33 +104,36 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Boardgame>> GetBoardgamesByName(string characters, int pageIndex, int pageSize, string sortOrder)
+        public async Task<List<Boardgame>?> GetBoardgamesByName(string characters, int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder)
         {
             _logger.LogInformation("Getting the list of boardgames by searched keywords...");
             IQueryable<Boardgame> boardgame = _context.Boardgames
                 .Where(boardgame => boardgame.Name.Contains(characters));
 
-            if (pageIndex <= 0 || pageSize <= 0 || (sortOrder != "price_ascending" &&
-                sortOrder != "price_descending" && sortOrder != "name_ascending" && sortOrder != "name_descending"))
+            if (pageIndex <= 0 || pageSize <= 0 || !Enum.IsDefined(typeof(BoardgamesSortOrdersEnum), sortOrder))
             {
                 return null;
             }
 
             switch (sortOrder)
             {
-                case "price_ascending":
+                case BoardgamesSortOrdersEnum.ReleaseYearDescending:
+                    _logger.LogInformation("Getting the list of boardgames sorted descending by date...");
+                    boardgame = boardgame.OrderByDescending(b => b.ReleaseYear);
+                    break;
+                case BoardgamesSortOrdersEnum.PriceAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by price...");
                     boardgame = boardgame.OrderBy(b => b.Price);
                     break;
-                case "price_descending":
+                case BoardgamesSortOrdersEnum.PriceDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by price...");
                     boardgame = boardgame.OrderByDescending(b => b.Price);
                     break;
-                case "name_ascending":
+                case BoardgamesSortOrdersEnum.NameAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by name...");
                     boardgame = boardgame.OrderBy(b => b.Name);
                     break;
-                case "name_descending":
+                case BoardgamesSortOrdersEnum.NameDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by name...");
                     boardgame = boardgame.OrderByDescending(b => b.Name);
                     break;

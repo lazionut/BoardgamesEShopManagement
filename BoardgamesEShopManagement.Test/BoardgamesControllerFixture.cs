@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Enumerations;
 using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
@@ -37,6 +38,7 @@ namespace BoardgamesEShopManagement.Test
             {
                 BoardgameImage = null,
                 BoardgameName = "BoardgameName",
+                BoardgameReleaseYear = 2010,
                 BoardgameDescription = "BoardgameDescription",
                 BoardgamePrice = 100M,
                 BoardgameLink = null,
@@ -51,6 +53,7 @@ namespace BoardgamesEShopManagement.Test
                       {
                           Image = null,
                           Name = "BoardgameName",
+                          ReleaseYear = 2010,
                           Description = "BoardgameDescription",
                           Price = 100M,
                           Link = null,
@@ -65,12 +68,13 @@ namespace BoardgamesEShopManagement.Test
                 {
                     BoardgameImage = null,
                     BoardgameName = "BoardgameName",
+                    BoardgameReleaseYear = 2010,
                     BoardgameDescription = "BoardgameDescription",
                     BoardgamePrice = 100M,
                     BoardgameLink = null,
                     BoardgameQuantity = 10,
                     BoardgameCategoryId = 3
-                });
+                }); ;
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
@@ -78,6 +82,7 @@ namespace BoardgamesEShopManagement.Test
             {
                 BoardgameImage = null,
                 BoardgameName = "BoardgameName",
+                BoardgameReleaseYear = 2010,
                 BoardgameDescription = "BoardgameDescription",
                 BoardgamePrice = 100M,
                 BoardgameLink = null,
@@ -150,7 +155,7 @@ namespace BoardgamesEShopManagement.Test
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
-            IActionResult result = await controller.GetBoardgamesByName("a", 1, 5, "name_ascending");
+            IActionResult result = await controller.GetBoardgamesByName("a", 1, 5, BoardgamesSortOrdersEnum.ReleaseYearDescending);
 
             OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
 

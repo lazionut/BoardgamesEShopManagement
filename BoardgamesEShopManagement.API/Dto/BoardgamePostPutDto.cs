@@ -10,6 +10,10 @@ namespace BoardgamesEShopManagement.API.Dto
         [MaxLength(50)]
         public string BoardgameName { get; set; } = null!;
 
+        [Required]
+        [Range(-3500, 9999)]
+        public int BoardgameReleaseYear { get; set; }
+
         [MaxLength(4000)]
         public string? BoardgameDescription { get; set; }
 

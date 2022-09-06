@@ -12,5 +12,6 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlis
     public class DeleteWishlistRequest : IRequest<Wishlist>
     {
         public int WishlistId { get; set; }
+        public int WishlistAccountId { get; set; }
     }
 }

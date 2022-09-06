@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame
 {
-    public class ArchiveBoardgameRequestHandler : IRequestHandler<ArchiveBoardgameRequest, Boardgame>
+    public class ArchiveBoardgameRequestHandler : IRequestHandler<ArchiveBoardgameRequest, Boardgame?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,10 +19,9 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoard
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Boardgame> Handle(ArchiveBoardgameRequest request, CancellationToken cancellationToken)
+        public async Task<Boardgame?> Handle(ArchiveBoardgameRequest request, CancellationToken cancellationToken)
         {
-            Boardgame searchedBoardgame = await _unitOfWork.BoardgameRepository
-                .GetById(request.BoardgameId);
+            Boardgame? searchedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
 
             if (searchedBoardgame == null)
             {

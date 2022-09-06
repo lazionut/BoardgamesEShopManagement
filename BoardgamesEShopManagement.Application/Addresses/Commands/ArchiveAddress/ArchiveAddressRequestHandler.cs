@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress
 {
-    public class ArchiveAddressRequestHandler : IRequestHandler<ArchiveAddressRequest, Address>
+    public class ArchiveAddressRequestHandler : IRequestHandler<ArchiveAddressRequest, Address?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,10 +19,9 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddre
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Address> Handle(ArchiveAddressRequest request, CancellationToken cancellationToken)
+        public async Task<Address?> Handle(ArchiveAddressRequest request, CancellationToken cancellationToken)
         {
-            Address searchedAddress = await _unitOfWork.AddressRepository
-                .GetById(request.AddressId);
+            Address? searchedAddress = await _unitOfWork.AddressRepository.GetById(request.AddressId);
 
             if (searchedAddress == null)
             {

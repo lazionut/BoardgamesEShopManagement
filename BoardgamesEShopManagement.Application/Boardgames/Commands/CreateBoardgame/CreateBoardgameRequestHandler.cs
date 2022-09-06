@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame
 {
-    public class CreateBoardgameRequestHandler : IRequestHandler<CreateBoardgameRequest, Boardgame>
+    public class CreateBoardgameRequestHandler : IRequestHandler<CreateBoardgameRequest, Boardgame?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,12 +19,20 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardg
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Boardgame> Handle(CreateBoardgameRequest request, CancellationToken cancellationToken)
+        public async Task<Boardgame?> Handle(CreateBoardgameRequest request, CancellationToken cancellationToken)
         {
+            Category? searchedCategory = await _unitOfWork.CategoryRepository.GetById(request.BoardgameCategoryId);
+
+            if (searchedCategory == null)
+            {
+                return null;
+            }
+
             Boardgame boardgame = new Boardgame
             {
                 Image = request.BoardgameImage,
                 Name = request.BoardgameName,
+                ReleaseYear = request.BoardgameReleaseYear,
                 Description = request.BoardgameDescription,
                 Price = request.BoardgamePrice,
                 Link = request.BoardgameLink,

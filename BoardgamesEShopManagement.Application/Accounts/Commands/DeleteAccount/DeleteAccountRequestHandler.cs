@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount
 {
-    public class DeleteAccountRequestHandler : IRequestHandler<DeleteAccountRequest, Account>
+    public class DeleteAccountRequestHandler : IRequestHandler<DeleteAccountRequest, Account?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,9 +19,9 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Account> Handle(DeleteAccountRequest request, CancellationToken cancellationToken)
+        public async Task<Account?> Handle(DeleteAccountRequest request, CancellationToken cancellationToken)
         {
-            Account deletedAccount = await _unitOfWork.AccountRepository.Delete(request.AccountId);
+            Account? deletedAccount = await _unitOfWork.AccountRepository.Delete(request.AccountId);
 
             if (deletedAccount == null)
             {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -25,7 +25,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         public async Task<int> GetCategoryCounter()
         {
             _logger.LogInformation("Getting the total number of category entries...");
-            int count = _context.Categories.Count();
+            int count = await _context.Categories.CountAsync();
             return count;
         }
 

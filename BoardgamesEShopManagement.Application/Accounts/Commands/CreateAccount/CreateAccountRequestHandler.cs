@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
 {
-    public class CreateAccountRequestHandler : IRequestHandler<CreateAccountRequest, Account>
+    public class CreateAccountRequestHandler : IRequestHandler<CreateAccountRequest, Account?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,8 +19,15 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Account> Handle(CreateAccountRequest request, CancellationToken cancellationToken)
+        public async Task<Account?> Handle(CreateAccountRequest request, CancellationToken cancellationToken)
         {
+            Address? searchedAddress = await _unitOfWork.AddressRepository.GetById(request.AccountAddressId);
+
+            if (searchedAddress == null)
+            {
+                return null;
+            }
+
             Account account = new Account
             {
                 Email = request.AccountEmail,

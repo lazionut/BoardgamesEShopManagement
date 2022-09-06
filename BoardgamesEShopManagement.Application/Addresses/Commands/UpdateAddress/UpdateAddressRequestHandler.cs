@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Utils;
 using BoardgamesEShopManagement.Application.Abstract;
-using System.Net;
-using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress
 {
-    public class UpdateAddressRequestHandler : IRequestHandler<UpdateAddressRequest, Address>
+    public class UpdateAddressRequestHandler : IRequestHandler<UpdateAddressRequest, Address?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -21,9 +20,9 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Address> Handle(UpdateAddressRequest request, CancellationToken cancellationToken)
+        public async Task<Address?> Handle(UpdateAddressRequest request, CancellationToken cancellationToken)
         {
-            Address updatedAddress = await _unitOfWork.AddressRepository.GetById(request.AddressId);
+            Address? updatedAddress = await _unitOfWork.AddressRepository.GetById(request.AddressId);
 
             if (updatedAddress == null)
             {
@@ -36,8 +35,9 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress
             updatedAddress.Country = request.AddressCountry;
             updatedAddress.Phone = request.AddressPhone;
 
-            await _unitOfWork.AddressRepository.Update(updatedAddress);
+            updatedAddress.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
+            await _unitOfWork.AddressRepository.Update(updatedAddress);
             await _unitOfWork.Save();
 
             return updatedAddress;

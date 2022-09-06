@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Enumerations;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory
 {
@@ -14,6 +15,6 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
         public int CategoryId { get; set; }
         public int BoardgamePageIndex { get; set; }
         public int BoardgamePageSize { get; set; }
-        public string BoardgameSortOrder { get; set; } = "name_ascending" ?? "name_ascending";
+        public BoardgamesSortOrdersEnum BoardgameSortOrder { get; set; }
     }
 }

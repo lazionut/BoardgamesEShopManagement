@@ -14,11 +14,11 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
 
         Task<List<T>> GetAll(int pageIndex, int pageSize);
 
-        Task<T> GetById(int id);
+        Task<T?> GetById(int id);
 
         Task Update(T item);
 
-        Task<T> Delete(int id);
+        Task<T?> Delete(int id);
 
         Task Save();
     }

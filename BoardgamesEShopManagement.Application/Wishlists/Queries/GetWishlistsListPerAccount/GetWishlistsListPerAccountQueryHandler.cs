@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Categories.Queries.GetWishlistsListPerAccount
 {
-    public class GetWishlistsListPerAccountQueryHandler : IRequestHandler<GetWishlistsListPerAccountQuery, List<Wishlist>>
+    public class GetWishlistsListPerAccountQueryHandler : IRequestHandler<GetWishlistsListPerAccountQuery, List<Wishlist>?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,10 +19,17 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetWishlistsL
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Wishlist>> Handle(GetWishlistsListPerAccountQuery request, CancellationToken cancellationToken)
+        public async Task<List<Wishlist>?> Handle(GetWishlistsListPerAccountQuery request, CancellationToken cancellationToken)
         {
+            Wishlist? searchedWishlist = await _unitOfWork.WishlistRepository.GetById(request.WishlistAccountId);
+
+            if (searchedWishlist == null)
+            {
+                return null;
+            }
+
             return await _unitOfWork.WishlistRepository.GetWishlistsListPerAccount
-                (request.WishlistAccountId, request.WishlistOffset, request.WishlistLimit);
+                (request.WishlistAccountId, request.WishlistPageIndex, request.WishlistPageSize);
         }
     }
 }

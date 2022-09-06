@@ -14,10 +14,10 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
         Task Create(Order order);
         Task CreateItem(int orderId, int boardgameId, Order order);
         Task<List<Order>> GetOrdersListPerAccount(int accountId, int pageIndex, int pageSize);
-        Task<Order> GetById(int orderId);
-        Task<Order> GetByAccount(int accountId, int orderId);
+        Task<Order?> GetById(int orderId);
+        Task<Order?> GetByAccount(int accountId, int orderId);
         Task Update(Order order);
-        Task<Order> Delete(int orderId);
+        Task<Order?> Delete(int orderId);
         Task Save();
     }
 }

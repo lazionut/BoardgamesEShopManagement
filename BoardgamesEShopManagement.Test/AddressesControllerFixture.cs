@@ -27,7 +27,7 @@ namespace BoardgamesEShopManagement.Test
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
 
         [Fact]
-        public async void Create_Category_CreateCategoryCommandIsCalled()
+        public async void Create_Address_CreateAddressCommandIsCalled()
         {
             CreateAddressRequest createAddressCommand = new CreateAddressRequest
             {

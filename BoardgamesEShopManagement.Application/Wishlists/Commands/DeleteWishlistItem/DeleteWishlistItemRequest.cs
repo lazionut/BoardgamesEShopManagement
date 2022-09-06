@@ -9,7 +9,8 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistIt
 {
     public class DeleteWishlistItemRequest : IRequest<bool>
     {
+        public int WishlistAccountId { get; set; }
         public int WishlistId { get; set; }
-        public int BoardgameId { get; set; }
+        public int WishlistBoardgameId { get; set; }
     }
 }

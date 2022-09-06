@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersListPerAccount
 {
-    public class GetOrdersListPerAccountQueryHandler : IRequestHandler<GetOrdersListPerAccountQuery, List<Order>>
+    public class GetOrdersListPerAccountQueryHandler : IRequestHandler<GetOrdersListPerAccountQuery, List<Order>?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,8 +19,15 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersList
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Order>> Handle(GetOrdersListPerAccountQuery request, CancellationToken cancellationToken)
+        public async Task<List<Order>?> Handle(GetOrdersListPerAccountQuery request, CancellationToken cancellationToken)
         {
+            Order? searchedOrder = await _unitOfWork.OrderRepository.GetById(request.OrderAccountId);
+
+            if (searchedOrder == null)
+            {
+                return null;
+            }
+
             return await _unitOfWork.OrderRepository.GetOrdersListPerAccount
                 (request.OrderAccountId, request.OrderPageIndex, request.OrderPageSize);
         }

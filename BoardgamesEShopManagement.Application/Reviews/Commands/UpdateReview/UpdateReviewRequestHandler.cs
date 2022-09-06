@@ -7,10 +7,11 @@ using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview
 {
-    public class UpdateReviewRequestHandler : IRequestHandler<UpdateReviewRequest, Review>
+    public class UpdateReviewRequestHandler : IRequestHandler<UpdateReviewRequest, Review?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,9 +20,9 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Review> Handle(UpdateReviewRequest request, CancellationToken cancellationToken)
+        public async Task<Review?> Handle(UpdateReviewRequest request, CancellationToken cancellationToken)
         {
-            Review updatedReview = await _unitOfWork.ReviewRepository.GetById(request.ReviewId);
+            Review? updatedReview = await _unitOfWork.ReviewRepository.GetById(request.ReviewId);
 
             if (updatedReview == null)
             {
@@ -31,8 +32,9 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview
             updatedReview.Title = request.ReviewTitle ?? updatedReview.Title;
             updatedReview.Content = request.ReviewContent ?? updatedReview.Content;
 
-            await _unitOfWork.ReviewRepository.Update(updatedReview);
+            updatedReview.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
+            await _unitOfWork.ReviewRepository.Update(updatedReview);
             await _unitOfWork.Save();
 
             return updatedReview;

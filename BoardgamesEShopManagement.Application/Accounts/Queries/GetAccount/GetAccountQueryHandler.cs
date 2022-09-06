@@ -10,7 +10,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount
 {
-    public class GetAccountQueryHandler : IRequestHandler<GetAccountQuery, Account>
+    public class GetAccountQueryHandler : IRequestHandler<GetAccountQuery, Account?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,7 +19,7 @@ namespace BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Account> Handle(GetAccountQuery request, CancellationToken cancellationToken)
+        public async Task<Account?> Handle(GetAccountQuery request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.AccountRepository.GetById(request.AccountId);
         }
