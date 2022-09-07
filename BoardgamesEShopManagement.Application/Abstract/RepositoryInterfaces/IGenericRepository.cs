@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using BoardgamesEShopManagement.Domain.Entities;
+﻿using BoardgamesEShopManagement.Domain.Entities;
 
 namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
 {
@@ -12,13 +6,13 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
     {
         Task Create(T item);
 
-        Task<List<T>> GetAll();
+        Task<List<T>> GetAll(int pageIndex, int pageSize);
 
-        Task<T> GetById(int id);
+        Task<T?> GetById(int id);
 
         Task Update(T item);
 
-        Task<T> Delete(int id);
+        Task<T?> Delete(int id);
 
         Task Save();
     }

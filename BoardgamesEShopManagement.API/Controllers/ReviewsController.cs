@@ -28,9 +28,11 @@ namespace BoardgamesEShopManagement.Controllers
         public async Task<IActionResult> CreateReview([FromBody] ReviewPostDto review)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
-            CreateReviewRequest command = new CreateReviewRequest
+            CreateReviewRequest? command = new CreateReviewRequest
             {
                 ReviewTitle = review.ReviewTitle,
                 ReviewAuthor = review.ReviewAuthor,
@@ -40,7 +42,12 @@ namespace BoardgamesEShopManagement.Controllers
                 ReviewAccountId = review.ReviewAccountId
             };
 
-            Review result = await _mediator.Send(command);
+            Review? result = await _mediator.Send(command);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             ReviewGetDto mappedResult = _mapper.Map<ReviewGetDto>(result);
 
@@ -51,12 +58,14 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetReview(int id)
         {
-            GetReviewQuery query = new GetReviewQuery { ReviewId = id };
+            GetReviewQuery? query = new GetReviewQuery { ReviewId = id };
 
-            Review result = await _mediator.Send(query);
+            Review? result = await _mediator.Send(query);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             ReviewGetDto mappedResult = _mapper.Map<ReviewGetDto>(result);
 
@@ -67,17 +76,19 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewPatchDto updatedReview)
         {
-            UpdateReviewRequest command = new UpdateReviewRequest
+            UpdateReviewRequest? command = new UpdateReviewRequest
             {
                 ReviewId = id,
                 ReviewTitle = updatedReview.ReviewTitle,
                 ReviewContent = updatedReview.ReviewContent,
             };
 
-            Review result = await _mediator.Send(command);
+            Review? result = await _mediator.Send(command);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             return NoContent();
         }
@@ -91,7 +102,9 @@ namespace BoardgamesEShopManagement.Controllers
             Review result = await _mediator.Send(command);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             return Ok();
         }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BoardgamesEShopManagement.Domain.Entities
 {
@@ -13,6 +8,9 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [MaxLength(50)]
         public string Name { get; set; } = null!;
+
+        [Range(-3500, 9999)]
+        public int ReleaseYear { get; set; }
 
         [MaxLength(4000)]
         public string? Description { get; set; }
@@ -25,6 +23,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
+
         public Category Category { get; set; } = null!;
         public int CategoryId { get; set; }
         public bool IsArchived { get; set; } = false;

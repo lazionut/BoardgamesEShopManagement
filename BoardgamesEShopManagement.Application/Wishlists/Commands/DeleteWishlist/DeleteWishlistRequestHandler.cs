@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist
 {
-    public class DeleteWishlistRequestHandler : IRequestHandler<DeleteWishlistRequest, Wishlist>
+    public class DeleteWishlistRequestHandler : IRequestHandler<DeleteWishlistRequest, Wishlist?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,9 +14,10 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlis
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Wishlist> Handle(DeleteWishlistRequest request, CancellationToken cancellationToken)
+        public async Task<Wishlist?> Handle(DeleteWishlistRequest request, CancellationToken cancellationToken)
         {
-            Wishlist deletedWishlist = await _unitOfWork.WishlistRepository.Delete(request.WishlistId);
+            Wishlist? deletedWishlist = await _unitOfWork.WishlistRepository.Delete
+                (request.WishlistAccountId, request.WishlistId);
 
             if (deletedWishlist == null)
             {

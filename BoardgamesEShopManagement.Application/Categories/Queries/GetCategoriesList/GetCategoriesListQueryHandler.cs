@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
@@ -21,7 +16,8 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategories
 
         public async Task<List<Category>> Handle(GetCategoriesListQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CategoryRepository.GetAll();
+            int countCategories = await _unitOfWork.CategoryRepository.GetCategoryCounter();
+            return await _unitOfWork.CategoryRepository.GetAll(1, countCategories);
         }
     }
 }

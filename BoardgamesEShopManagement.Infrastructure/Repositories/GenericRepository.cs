@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
@@ -28,13 +23,13 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             await _context.Set<T>().AddAsync(item);
         }
 
-        public async Task<List<T>> GetAll()
+        public async Task<List<T>> GetAll(int pageIndex, int pageSize)
         {
             _logger.LogInformation($"Getting the list of {typeof(T)}...");
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>().Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T?> GetById(int id)
         {
             _logger.LogInformation($"Getting {typeof(T)} by it's identifier...");
             return await _context.Set<T>()
@@ -47,10 +42,10 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _context.Update(item);
         }
 
-        public async Task<T> Delete(int id)
+        public async Task<T?> Delete(int id)
         {
             _logger.LogInformation($"Trying to get {typeof(T)} by it's identifier...");
-            T searchedItem = await _context.Set<T>()
+            T? searchedItem = await _context.Set<T>()
                 .SingleOrDefaultAsync(item => item.Id == id);
 
             if (searchedItem == null)

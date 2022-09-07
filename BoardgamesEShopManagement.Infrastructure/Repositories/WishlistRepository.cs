@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
@@ -28,31 +23,33 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             await _context.Wishlists.AddAsync(wishlist);
         }
 
-        public async Task CreateItem(int wishlistId, int boardgameId, Wishlist wishlist)
+        public async Task CreateItem(int accountId, int wishlistId, int boardgameId, Wishlist wishlist)
         {
-            _logger.LogInformation("Trying to find wishlist by it's identifier...");
-            Wishlist searchedWishlist = await _context.Wishlists
+            _logger.LogInformation("Finding wishlist by it's identifier...");
+            Wishlist? searchedWishlist = await _context.Wishlists
                 .Include(wishlist => wishlist.Boardgames)
-                .SingleOrDefaultAsync(wishlist => wishlist.Id == wishlistId);
+                .SingleAsync(wishlist => wishlist.Id == wishlistId && wishlist.AccountId == accountId);
 
-            _logger.LogInformation("Trying to find boardgame by it's identifier...");
-            Boardgame searchedBoardgame = await _context.Boardgames
-                .SingleOrDefaultAsync(boardgame => boardgame.Id == boardgameId);
+            _logger.LogInformation("Finding boardgame by it's identifier...");
+            Boardgame? searchedBoardgame = await _context.Boardgames
+                .SingleAsync(boardgame => boardgame.Id == boardgameId);
 
             _logger.LogInformation("Preparing to add the boardgame in the wishlist...");
             wishlist.Boardgames.Add(searchedBoardgame);
         }
 
-        public async Task<List<Wishlist>> GetWishlistsListPerAccount(int accountId)
+        public async Task<List<Wishlist>> GetWishlistsListPerAccount(int accountId, int pageIndex, int pageSize)
         {
             _logger.LogInformation("Getting the list of wishlists by an account identifier...");
             return await _context.Wishlists
                 .Include(wishlist => wishlist.Boardgames)
                 .Where(wishlist => wishlist.AccountId == accountId)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
         }
 
-        public async Task<Wishlist> GetById(int wishlistId)
+        public async Task<Wishlist?> GetById(int wishlistId)
         {
             _logger.LogInformation("Trying to get the wishlist by it's identifier...");
             return await _context.Wishlists
@@ -60,7 +57,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .SingleOrDefaultAsync(order => order.Id == wishlistId);
         }
 
-        public async Task<Wishlist> GetByAccount(int accountId, int wishlistId)
+        public async Task<Wishlist?> GetByAccount(int accountId, int wishlistId)
         {
             _logger.LogInformation("Trying to get the wishlist by an account and it's identifier...");
             return await _context.Wishlists
@@ -68,11 +65,11 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .SingleOrDefaultAsync(wishlist => wishlist.AccountId == accountId && wishlist.Id == wishlistId);
         }
 
-        public async Task<Wishlist> Delete(int wishlistId)
+        public async Task<Wishlist?> Delete(int accountId, int wishlistId)
         {
             _logger.LogInformation("Trying to get the wishlist by it's identifier...");
-            Wishlist searchedWishlist = await _context.Wishlists
-                .SingleOrDefaultAsync(wishlist => wishlist.Id == wishlistId);
+            Wishlist? searchedWishlist = await _context.Wishlists
+                .SingleOrDefaultAsync(wishlist => wishlist.Id == wishlistId && wishlist.AccountId == accountId);
 
             if (searchedWishlist == null)
             {

@@ -8,7 +8,6 @@ using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress;
 
 namespace BoardgamesEShopManagement.Controllers
@@ -52,12 +51,14 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetAddress(int id)
         {
-            GetAddressQuery query = new GetAddressQuery { AddressId = id };
+            GetAddressQuery? query = new GetAddressQuery { AddressId = id };
 
-            Address result = await _mediator.Send(query);
+            Address? result = await _mediator.Send(query);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             AddressGetDto mappedResult = _mapper.Map<AddressGetDto>(result);
 
@@ -68,7 +69,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateAddress(int id, [FromBody] AddressPostPutDto updatedAddress)
         {
-            UpdateAddressRequest command = new UpdateAddressRequest
+            UpdateAddressRequest? command = new UpdateAddressRequest
             {
                 AddressId = id,
                 AddressDetails = updatedAddress.AddressDetails,
@@ -78,10 +79,12 @@ namespace BoardgamesEShopManagement.Controllers
                 AddressPhone = updatedAddress.AddressPhone
             };
 
-            Address result = await _mediator.Send(command);
+            Address? result = await _mediator.Send(command);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             return NoContent();
         }
@@ -90,12 +93,14 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteAddress(int id)
         {
-            DeleteAddressRequest command = new DeleteAddressRequest { AddressId = id };
+            DeleteAddressRequest? command = new DeleteAddressRequest { AddressId = id };
 
-            Address result = await _mediator.Send(command);
+            Address? result = await _mediator.Send(command);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             return Ok();
         }
@@ -105,12 +110,14 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/archive")]
         public async Task<IActionResult> ArchiveAddress(int id)
         {
-            ArchiveAddressRequest command = new ArchiveAddressRequest { AddressId = id };
+            ArchiveAddressRequest? command = new ArchiveAddressRequest { AddressId = id };
 
-            Address result = await _mediator.Send(command);
+            Address? result = await _mediator.Send(command);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             return Ok();
         }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
@@ -11,7 +6,7 @@ using BoardgamesEShopManagement.Application.Categories.Queries.GetWishlist;
 
 namespace BoardgamesEShopManagement.Application.Categories.Queries.GetReview
 {
-    public class GetWishlistQueryHandler : IRequestHandler<GetWishlistQuery, Wishlist>
+    public class GetWishlistQueryHandler : IRequestHandler<GetWishlistQuery, Wishlist?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -20,7 +15,7 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetReview
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Wishlist> Handle(GetWishlistQuery request, CancellationToken cancellationToken)
+        public async Task<Wishlist?> Handle(GetWishlistQuery request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.WishlistRepository.GetById(request.WishlistId);
         }

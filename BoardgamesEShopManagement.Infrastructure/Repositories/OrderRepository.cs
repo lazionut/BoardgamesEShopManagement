@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using Microsoft.Extensions.Logging;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -30,20 +25,20 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task CreateItem(int orderId, int boardgameId, Order order)
         {
-            _logger.LogInformation("Trying to find order by it's identifier...");
+            _logger.LogInformation("Finding order by it's identifier...");
             Order searchedOrder = await _context.Orders
                 .Include(order => order.Boardgames)
-                .SingleOrDefaultAsync(order => order.Id == orderId);
+                .SingleAsync(order => order.Id == orderId);
 
-            _logger.LogInformation("Trying to find boardgame by it's identifier...");
+            _logger.LogInformation("Finding boardgame by it's identifier...");
             Boardgame searchedBoardgame = await _context.Boardgames
-                .SingleOrDefaultAsync(boardgame => boardgame.Id == boardgameId);
+                .SingleAsync(boardgame => boardgame.Id == boardgameId);
 
             _logger.LogInformation("Preparing to add the boardgame in the order...");
             order.Boardgames.Add(searchedBoardgame);
         }
 
-        public async Task<Order> GetById(int orderId)
+        public async Task<Order?> GetById(int orderId)
         {
             _logger.LogInformation("Trying to get the order by it's identifier...");
             return await _context.Orders
@@ -51,7 +46,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .SingleOrDefaultAsync(order => order.Id == orderId);
         }
 
-        public async Task<Order> GetByAccount(int accountId, int orderId)
+        public async Task<Order?> GetByAccount(int accountId, int orderId)
         {
             _logger.LogInformation("Trying to get the order by an account and it's identifier...");
             return await _context.Orders
@@ -59,12 +54,14 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .SingleOrDefaultAsync(order => order.AccountId == accountId && order.Id == orderId);
         }
 
-        public async Task<List<Order>> GetOrdersListPerAccount(int accountId)
+        public async Task<List<Order>> GetOrdersListPerAccount(int accountId, int pageIndex, int pageSize)
         {
             _logger.LogInformation("Getting the list of orders by an account identifier...");
             return await _context.Orders
                 .Include(order => order.Boardgames)
                 .Where(order => order.AccountId == accountId)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
         }
 
@@ -74,10 +71,10 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _context.Update(order);
         }
 
-        public async Task<Order> Delete(int orderId)
+        public async Task<Order?> Delete(int orderId)
         {
             _logger.LogInformation("Trying to get the order by it's identifier...");
-            Order searchedOrder = await _context.Orders
+            Order? searchedOrder = await _context.Orders
                 .SingleOrDefaultAsync(order => order.Id == orderId);
 
             _logger.LogError($"Could not find the order.");

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 
@@ -11,6 +6,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
 {
     public class GetBoardgamesListQuery : IRequest<List<Boardgame>>
     {
-
+        public int BoardgamePageIndex { get; set; }
+        public int BoardgamePageSize { get; set; }
     }
 }

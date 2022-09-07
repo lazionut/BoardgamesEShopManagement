@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using Xunit;
 using AutoMapper;
 using MediatR;
@@ -11,12 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Enumerations;
 using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListSorted;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListByName;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
@@ -36,6 +33,7 @@ namespace BoardgamesEShopManagement.Test
             {
                 BoardgameImage = null,
                 BoardgameName = "BoardgameName",
+                BoardgameReleaseYear = 2010,
                 BoardgameDescription = "BoardgameDescription",
                 BoardgamePrice = 100M,
                 BoardgameLink = null,
@@ -50,6 +48,7 @@ namespace BoardgamesEShopManagement.Test
                       {
                           Image = null,
                           Name = "BoardgameName",
+                          ReleaseYear = 2010,
                           Description = "BoardgameDescription",
                           Price = 100M,
                           Link = null,
@@ -64,12 +63,13 @@ namespace BoardgamesEShopManagement.Test
                 {
                     BoardgameImage = null,
                     BoardgameName = "BoardgameName",
+                    BoardgameReleaseYear = 2010,
                     BoardgameDescription = "BoardgameDescription",
                     BoardgamePrice = 100M,
                     BoardgameLink = null,
                     BoardgameQuantity = 10,
                     BoardgameCategoryId = 3
-                });
+                }); ;
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
@@ -77,6 +77,7 @@ namespace BoardgamesEShopManagement.Test
             {
                 BoardgameImage = null,
                 BoardgameName = "BoardgameName",
+                BoardgameReleaseYear = 2010,
                 BoardgameDescription = "BoardgameDescription",
                 BoardgamePrice = 100M,
                 BoardgameLink = null,
@@ -98,7 +99,21 @@ namespace BoardgamesEShopManagement.Test
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
-            await controller.GetBoardgames();
+            await controller.GetBoardgames(1, 5);
+
+            _mockMediator.Verify(x => x.Send(It.IsAny<GetBoardgamesListQuery>(), It.IsAny<CancellationToken>()), Times.Once());
+        }
+
+        [Fact]
+        public async void Get_Boardgames_List_Sorted_GetBoardgamesListSortedQueryIsCalled()
+        {
+            _mockMediator
+                .Setup(m => m.Send(It.IsAny<GetBoardgamesListSortedQuery>(), It.IsAny<CancellationToken>()))
+                .Verifiable();
+
+            BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
+
+            await controller.GetBoardgames(1, 5);
 
             _mockMediator.Verify(x => x.Send(It.IsAny<GetBoardgamesListQuery>(), It.IsAny<CancellationToken>()), Times.Once());
         }
@@ -135,7 +150,7 @@ namespace BoardgamesEShopManagement.Test
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
-            IActionResult result = await controller.GetBoardgamesByName("p");
+            IActionResult result = await controller.GetBoardgamesByName("a", 1, 5, BoardgamesSortOrdersEnum.ReleaseYearDescending);
 
             OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
 
@@ -199,7 +214,7 @@ namespace BoardgamesEShopManagement.Test
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
-            IActionResult result = await controller.GetReviewsPerBoardgame(9);
+            IActionResult result = await controller.GetReviewsPerBoardgame(9, 0, 5);
 
             OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
 

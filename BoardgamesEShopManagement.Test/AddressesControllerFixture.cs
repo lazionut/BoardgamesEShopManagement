@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 using MediatR;
 using AutoMapper;
 using Moq;
@@ -27,7 +22,7 @@ namespace BoardgamesEShopManagement.Test
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
 
         [Fact]
-        public async void Create_Category_CreateCategoryCommandIsCalled()
+        public async void Create_Address_CreateAddressCommandIsCalled()
         {
             CreateAddressRequest createAddressCommand = new CreateAddressRequest
             {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Newtonsoft.Json;
 
 using BoardgamesEShopManagement.Domain.Entities;
@@ -11,9 +6,6 @@ using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
-using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersListPerAccount;
 using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
 
@@ -110,8 +102,8 @@ namespace BoardgamesEShopManagement.ConsolePresentation
         {
             GetWishlistByAccountQuery getWishlistByAccountAccountQuery = new GetWishlistByAccountQuery();
 
-            Console.WriteLine($"Insert {nameof(getWishlistByAccountAccountQuery.AccountId)}");
-            getWishlistByAccountAccountQuery.AccountId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine($"Insert {nameof(getWishlistByAccountAccountQuery.WishlistAccountId)}");
+            getWishlistByAccountAccountQuery.WishlistAccountId = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine($"Insert {nameof(getWishlistByAccountAccountQuery.WishlistId)}");
             getWishlistByAccountAccountQuery.WishlistId = Convert.ToInt32(Console.ReadLine());
@@ -122,8 +114,8 @@ namespace BoardgamesEShopManagement.ConsolePresentation
         internal static async Task<List<Order>> GetOrdersListPerAccount(IMediator mediator)
         {
             GetOrdersListPerAccountQuery getOrdersPerAccountQuery = new GetOrdersListPerAccountQuery();
-            Console.WriteLine($"Insert {nameof(getOrdersPerAccountQuery.AccountId)}");
-            getOrdersPerAccountQuery.AccountId = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine($"Insert {nameof(getOrdersPerAccountQuery.OrderAccountId)}");
+            getOrdersPerAccountQuery.OrderAccountId = Convert.ToInt32(Console.ReadLine());
 
             return await mediator.Send(getOrdersPerAccountQuery);
         }

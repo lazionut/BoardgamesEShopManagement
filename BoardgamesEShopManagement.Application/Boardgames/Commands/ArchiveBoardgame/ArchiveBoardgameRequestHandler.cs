@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame
 {
-    public class ArchiveBoardgameRequestHandler : IRequestHandler<ArchiveBoardgameRequest, Boardgame>
+    public class ArchiveBoardgameRequestHandler : IRequestHandler<ArchiveBoardgameRequest, Boardgame?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,10 +15,9 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoard
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Boardgame> Handle(ArchiveBoardgameRequest request, CancellationToken cancellationToken)
+        public async Task<Boardgame?> Handle(ArchiveBoardgameRequest request, CancellationToken cancellationToken)
         {
-            Boardgame searchedBoardgame = await _unitOfWork.BoardgameRepository
-                .GetById(request.BoardgameId);
+            Boardgame? searchedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
 
             if (searchedBoardgame == null)
             {
@@ -32,6 +27,8 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoard
             searchedBoardgame.Price = 0;
             searchedBoardgame.Quantity = 0;
             searchedBoardgame.IsArchived = true;
+
+            searchedBoardgame.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
             await _unitOfWork.Save();
 

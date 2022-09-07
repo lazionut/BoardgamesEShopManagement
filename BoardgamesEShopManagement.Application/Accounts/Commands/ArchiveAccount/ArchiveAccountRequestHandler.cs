@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Utils;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccount
 {
-    public class ArchiveAccountRequestHandler : IRequestHandler<ArchiveAccountRequest, Account>
+    public class ArchiveAccountRequestHandler : IRequestHandler<ArchiveAccountRequest, Account?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,10 +15,9 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccou
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Account> Handle(ArchiveAccountRequest request, CancellationToken cancellationToken)
+        public async Task<Account?> Handle(ArchiveAccountRequest request, CancellationToken cancellationToken)
         {
-            Account searchedAccount = await _unitOfWork.AccountRepository
-                .GetById(request.AccountId);
+            Account? searchedAccount = await _unitOfWork.AccountRepository.GetById(request.AccountId);
 
             if (searchedAccount == null)
             {
@@ -34,6 +29,8 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccou
             searchedAccount.Email = "Anonymized";
             searchedAccount.Password = "";
             searchedAccount.IsArchived = true;
+
+            searchedAccount.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
             await _unitOfWork.Save();
 

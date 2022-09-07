@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
-using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistItem
 {
@@ -21,11 +17,24 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistIt
 
         public async Task<bool> Handle(DeleteWishlistItemRequest request, CancellationToken cancellationToken)
         {
-            Wishlist searchedWishlist = await _unitOfWork.WishlistRepository.GetById(request.WishlistId);
+            Wishlist? searchedWishlist = await _unitOfWork.WishlistRepository.GetByAccount
+                (request.WishlistAccountId, request.WishlistId);
 
-            Boardgame searchedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
+            if (searchedWishlist == null)
+            {
+                return false;
+            } 
+
+            Boardgame? searchedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.WishlistBoardgameId);
+
+            if (searchedBoardgame == null)
+            {
+                return false;
+            }
 
             bool isWishlistItemDeleted = searchedWishlist.Boardgames.Remove(searchedBoardgame);
+
+            searchedWishlist.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
             await _unitOfWork.Save();
 

@@ -44,7 +44,9 @@ namespace BoardgamesEShopManagement.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
-            List<Category> result = await _mediator.Send(new GetCategoriesListQuery());
+            GetCategoriesListQuery query = new GetCategoriesListQuery();
+
+            List<Category> result = await _mediator.Send(query);
 
             List<CategoryGetDto> mappedResult = _mapper.Map<List<CategoryGetDto>>(result);
 
@@ -55,12 +57,14 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetCategory(int id)
         {
-            GetCategoryQuery query = new GetCategoryQuery { CategoryId = id };
+            GetCategoryQuery? query = new GetCategoryQuery { CategoryId = id };
 
-            Category result = await _mediator.Send(query);
+            Category? result = await _mediator.Send(query);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             CategoryGetDto mappedResult = _mapper.Map<CategoryGetDto>(result);
 
@@ -71,12 +75,17 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/boardgames")]
         public async Task<IActionResult> GetBoardgamesPerCategory(int id)
         {
-            GetBoardgamesListPerCategoryQuery command = new GetBoardgamesListPerCategoryQuery 
-            { 
+            GetBoardgamesListPerCategoryQuery? command = new GetBoardgamesListPerCategoryQuery
+            {
                 CategoryId = id
             };
 
-            List<Boardgame> result = await _mediator.Send(command);
+            List<Boardgame>? result = await _mediator.Send(command);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
 
@@ -87,15 +96,18 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryPostPutDto updatedCategory)
         {
-            UpdateCategoryRequest command = new UpdateCategoryRequest { 
+            UpdateCategoryRequest? command = new UpdateCategoryRequest
+            {
                 CategoryId = id,
-                CategoryName = updatedCategory.CategoryName 
+                CategoryName = updatedCategory.CategoryName
             };
 
-            Category result = await _mediator.Send(command);
+            Category? result = await _mediator.Send(command);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             return NoContent();
         }
@@ -104,12 +116,14 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            DeleteCategoryRequest command = new DeleteCategoryRequest { CategoryId = id };
+            DeleteCategoryRequest? command = new DeleteCategoryRequest { CategoryId = id };
 
-            Category result = await _mediator.Send(command);
+            Category? result = await _mediator.Send(command);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             return Ok();
         }

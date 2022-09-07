@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress
 {
-    public class ArchiveAddressRequestHandler : IRequestHandler<ArchiveAddressRequest, Address>
+    public class ArchiveAddressRequestHandler : IRequestHandler<ArchiveAddressRequest, Address?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,10 +15,9 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddre
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Address> Handle(ArchiveAddressRequest request, CancellationToken cancellationToken)
+        public async Task<Address?> Handle(ArchiveAddressRequest request, CancellationToken cancellationToken)
         {
-            Address searchedAddress = await _unitOfWork.AddressRepository
-                .GetById(request.AddressId);
+            Address? searchedAddress = await _unitOfWork.AddressRepository.GetById(request.AddressId);
 
             if (searchedAddress == null)
             {
@@ -34,6 +29,8 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddre
             searchedAddress.County = "Anonymized";
             searchedAddress.Country = "Anonymized";
             searchedAddress.Phone = "Anonymized";
+
+            searchedAddress.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
             await _unitOfWork.Save();
 
