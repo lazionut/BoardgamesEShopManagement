@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using BoardgamesEShopManagement.Domain.Entities;
+﻿using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Enumerations;
 
 namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces

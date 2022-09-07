@@ -102,7 +102,9 @@ namespace BoardgamesEShopManagement.Controllers
             Review result = await _mediator.Send(command);
 
             if (result == null)
+            {
                 return NotFound();
+            }
 
             return Ok();
         }

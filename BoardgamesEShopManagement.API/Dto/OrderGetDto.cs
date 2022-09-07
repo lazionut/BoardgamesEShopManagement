@@ -8,6 +8,7 @@ namespace BoardgamesEShopManagement.API.Dto
         public string OrderTotal { get; set; } = null!;
         public OrderStatusEnum OrderStatus { get; set; }
         public int OrderAccountId { get; set; }
+        public DateTime OrderCreationDate { get; set; }
         public ICollection<object> OrderBoardgames { get; set; } = null!;
     }
 }

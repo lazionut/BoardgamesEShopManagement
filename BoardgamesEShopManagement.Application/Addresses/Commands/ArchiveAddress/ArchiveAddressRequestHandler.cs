@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress
 {
@@ -33,6 +29,8 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddre
             searchedAddress.County = "Anonymized";
             searchedAddress.Country = "Anonymized";
             searchedAddress.Phone = "Anonymized";
+
+            searchedAddress.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
             await _unitOfWork.Save();
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Newtonsoft.Json;
 
 using BoardgamesEShopManagement.Domain.Entities;
@@ -11,9 +6,6 @@ using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
-using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersListPerAccount;
 using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
 

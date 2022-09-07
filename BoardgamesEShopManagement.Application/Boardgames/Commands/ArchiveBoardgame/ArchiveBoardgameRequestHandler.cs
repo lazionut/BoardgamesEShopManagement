@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame
 {
@@ -31,6 +27,8 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoard
             searchedBoardgame.Price = 0;
             searchedBoardgame.Quantity = 0;
             searchedBoardgame.IsArchived = true;
+
+            searchedBoardgame.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
             await _unitOfWork.Save();
 

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Utils;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccount
@@ -34,7 +30,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccou
             searchedAccount.Password = "";
             searchedAccount.IsArchived = true;
 
-            searchedAccount.UpdatedAt = DateTime.UtcNow;
+            searchedAccount.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
             await _unitOfWork.Save();
 
