@@ -23,6 +23,13 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
                 return null;
             }
 
+            Account? searchedAccount = await _unitOfWork.AccountRepository.GetAccountByAddressId(request.AccountAddressId);
+
+            if (searchedAccount != null)
+            {
+                return null;
+            }
+
             Account account = new Account
             {
                 Email = request.AccountEmail,

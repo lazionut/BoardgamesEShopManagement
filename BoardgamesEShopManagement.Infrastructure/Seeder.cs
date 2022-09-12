@@ -170,27 +170,15 @@ namespace BoardgamesEShopManagement.Infrastructure
 
         private static IEnumerable<Review> GetPreconfiguredReviews()
         {
-            string[] reviewTitles =
-            {
-            "Review1",
-            "Review2",
-            "Review3",
-            "Review4",
-            "Review5",
-            "Review6",
-            "Review7",
-            "Review8",
-            "Review9",
-            "Review10"
-            };
+            List<int> reviewAccountIds = Enumerable.Range(1, 10).ToList();
 
-            return reviewTitles.ToList().Select(reviewTitle =>
+            return reviewAccountIds.ToList().Select(reviewAccountId =>
                 new Faker<Review>()
-                    .RuleFor(review => review.Title, reviewTitle)
+                    .RuleFor(review => review.Title, faker => faker.Rant.Review().Substring(0, faker.Rant.Review().IndexOf(' ')))
                     .RuleFor(book => book.Author, faker => faker.Person.FullName)
                     .RuleFor(review => review.Score, faker => faker.Random.Byte(1, 5))
                     .RuleFor(review => review.Content, faker => faker.Rant.Review())
-                    .RuleFor(review => review.BoardgameId, faker => faker.Random.Int(1, 10))
+                    .RuleFor(review => review.BoardgameId, reviewAccountId)
                     .RuleFor(review => review.AccountId, faker => faker.Random.Int(1, 10))
                     .Generate());
         }
