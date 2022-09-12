@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using BoardgamesEShopManagement.Domain.Entities;
@@ -10,9 +11,10 @@ namespace BoardgamesEShopManagement.Infrastructure
     {
         public ShopContext()
         {
+
         }
 
-        public ShopContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        public ShopContext(DbContextOptions<ShopContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }
@@ -29,8 +31,14 @@ namespace BoardgamesEShopManagement.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
             optionsBuilder
-                .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BoardgamesEShopDBDev")
+                .UseSqlServer(configuration.GetConnectionString("Default"))
+                //.UseSqlServer(configuration.GetConnectionString("Test"))
                 .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
                 .EnableSensitiveDataLogging();
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
@@ -14,6 +15,11 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         {
             _context = context;
             _logger = logger;
+        }
+
+        public async Task<Account?> GetAccountByAddressId(int addressId)
+        {
+            return await _context.Accounts.SingleOrDefaultAsync(account => account.AddressId == addressId);
         }
     }
 }

@@ -14,8 +14,6 @@ namespace BoardgamesEShopManagement.ConsolePresentation
         internal static IMediator Init()
         {
             var diContainer = new ServiceCollection()
-                .AddDbContext<ShopContext>(options =>
-                        options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BoardgamesEShopDBDev"))
                 .AddMediatR(typeof(IBoardgameRepository))
                 .AddScoped<IUnitOfWork, UnitOfWork>()
                 .AddScoped<IAddressRepository, AddressRepository>()
