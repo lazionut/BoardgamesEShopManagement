@@ -9,7 +9,6 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
         public string AccountFirstName { get; set; } = null!;
         public string AccountLastName { get; set; } = null!;
         public string AccountEmail { get; set; } = null!;
-        public string AccountUsername { get; set; } = null!;
         public string AccountPassword { get; set; } = null!;
         public int AccountAddressId { get; set; } 
     }

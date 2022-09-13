@@ -39,10 +39,11 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
-            CreateBoardgameRequest? command = new CreateBoardgameRequest
+            CreateBoardgameRequest command = new CreateBoardgameRequest
             {
                 BoardgameImage = boardgame.BoardgameImage,
                 BoardgameName = boardgame.BoardgameName,
+                BoardgameReleaseYear = boardgame.BoardgameReleaseYear,
                 BoardgameDescription = boardgame.BoardgameDescription,
                 BoardgamePrice = boardgame.BoardgamePrice,
                 BoardgameLink = boardgame.BoardgameLink,
@@ -50,14 +51,14 @@ namespace BoardgamesEShopManagement.Controllers
                 BoardgameCategoryId = boardgame.BoardgameCategoryId,
             };
 
-            Boardgame? result = await _mediator.Send(command);
+            Boardgame result = await _mediator.Send(command);
 
-            if (result == null)
+            BoardgameGetDto? mappedResult = _mapper.Map<BoardgameGetDto>(result);
+
+            if (mappedResult == null)
             {
                 return NotFound();
             }
-
-            BoardgameGetDto mappedResult = _mapper.Map<BoardgameGetDto>(result);
 
             return CreatedAtAction(nameof(GetBoardgame), new { id = mappedResult.BoardgameId }, mappedResult);
         }
@@ -119,7 +120,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetBoardgame(int id)
         {
-            GetBoardgameQuery? query = new GetBoardgameQuery { BoardgameId = id };
+            GetBoardgameQuery query = new GetBoardgameQuery { BoardgameId = id };
 
             Boardgame? result = await _mediator.Send(query);
 
@@ -137,7 +138,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/reviews")]
         public async Task<IActionResult> GetReviewsPerBoardgame(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize)
         {
-            GetReviewsListPerBoardgameQuery? query = new GetReviewsListPerBoardgameQuery
+            GetReviewsListPerBoardgameQuery query = new GetReviewsListPerBoardgameQuery
             {
                 ReviewBoardgameId = id,
                 ReviewPageIndex = pageIndex,
@@ -160,11 +161,12 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateBoardgame(int id, [FromBody] BoardgamePostPutDto updatedBoardgame)
         {
-            UpdateBoardgameRequest? command = new UpdateBoardgameRequest
+            UpdateBoardgameRequest command = new UpdateBoardgameRequest
             {
                 BoardgameId = id,
                 BoardgameImage = updatedBoardgame.BoardgameImage,
                 BoardgameName = updatedBoardgame.BoardgameName,
+                BoardgameReleaseYear = updatedBoardgame.BoardgameReleaseYear,
                 BoardgameDescription = updatedBoardgame.BoardgameDescription,
                 BoardgamePrice = updatedBoardgame.BoardgamePrice,
                 BoardgameLink = updatedBoardgame.BoardgameLink,
@@ -186,7 +188,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteBoardgame(int id)
         {
-            DeleteBoardgameRequest? command = new DeleteBoardgameRequest { BoardgameId = id };
+            DeleteBoardgameRequest command = new DeleteBoardgameRequest { BoardgameId = id };
 
             Boardgame? result = await _mediator.Send(command);
 
@@ -203,7 +205,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/archive")]
         public async Task<IActionResult> ArchiveBoardgame(int id)
         {
-            ArchiveBoardgameRequest? command = new ArchiveBoardgameRequest { BoardgameId = id };
+            ArchiveBoardgameRequest command = new ArchiveBoardgameRequest { BoardgameId = id };
 
             Boardgame? result = await _mediator.Send(command);
 

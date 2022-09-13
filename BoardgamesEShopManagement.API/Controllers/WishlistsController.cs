@@ -31,21 +31,21 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
-            CreateWishlistRequest? command = new CreateWishlistRequest
+            CreateWishlistRequest command = new CreateWishlistRequest
             {
                 WishlistAccountId = wishlist.WishlistAccountId,
                 WishlistName = wishlist.WishlistName,
                 WishlistBoardgameIds = wishlist.WishlistBoardgameIds
             };
 
-            Wishlist? result = await _mediator.Send(command);
+            Wishlist result = await _mediator.Send(command);
 
-            if (result == null)
+            WishlistGetDto? mappedResult = _mapper.Map<WishlistGetDto>(result);
+
+            if (mappedResult == null)
             {
                 return NotFound();
             }
-
-            WishlistGetDto mappedResult = _mapper.Map<WishlistGetDto>(result);
 
             return CreatedAtAction(nameof(GetWishlist), new { id = mappedResult.WishlistId }, mappedResult);
         }
@@ -59,21 +59,21 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
-            CreateWishlistItemRequest? command = new CreateWishlistItemRequest
+            CreateWishlistItemRequest command = new CreateWishlistItemRequest
             {
                 WishlistAccountId = wishlistItem.WishlistAccountId,
                 WishlistId = wishlistItem.WishlistId,
                 WishlistBoardgameId = wishlistItem.WishlistBoardgameId
             };
 
-            Wishlist? result = await _mediator.Send(command);
+            Wishlist result = await _mediator.Send(command);
 
-            if (result == null)
+            WishlistGetDto? mappedResult = _mapper.Map<WishlistGetDto>(result);
+
+            if (mappedResult == null)
             {
                 return NotFound();
             }
-
-            WishlistGetDto mappedResult = _mapper.Map<WishlistGetDto>(result);
 
             return CreatedAtAction(nameof(GetWishlist), new { id = mappedResult.WishlistId }, mappedResult);
         }
@@ -82,7 +82,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetWishlist(int id)
         {
-            GetWishlistQuery? query = new GetWishlistQuery { WishlistId = id };
+            GetWishlistQuery query = new GetWishlistQuery { WishlistId = id };
 
             Wishlist? result = await _mediator.Send(query);
 

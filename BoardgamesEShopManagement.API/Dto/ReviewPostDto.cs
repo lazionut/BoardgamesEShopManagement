@@ -17,7 +17,7 @@ namespace BoardgamesEShopManagement.API.Dto
         public byte ReviewScore { get; set; }
 
         [MaxLength(4000)]
-        public string? ReviewContent { get; set; }
+        public string ReviewContent { get; set; } = null!;
 
         [Required]
         public int ReviewBoardgameId { get; set; }

@@ -4,6 +4,8 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
 {
     public interface IAccountRepository : IGenericRepository<Account>
     {
+        Task<Account?> GetAccountByEmail(string email);
+
         Task<Account?> GetAccountByAddressId(int addressId);
     }
 }

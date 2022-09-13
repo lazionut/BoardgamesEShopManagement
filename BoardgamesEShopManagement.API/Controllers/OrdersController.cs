@@ -28,23 +28,27 @@ namespace BoardgamesEShopManagement.Controllers
         public async Task<IActionResult> CreateOrder([FromBody] OrderPostDto order)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
-            CreateOrderRequest? command = new CreateOrderRequest
+            CreateOrderRequest command = new CreateOrderRequest
             {
                 OrderAccountId = order.OrderAccountId,
                 OrderBoardgameIds = order.OrderBoardgameIds,
                 OrderBoardgameQuantities = order.OrderBoardgameQuantities
             };
 
-            Order? result = await _mediator.Send(command);
+            Order result = await _mediator.Send(command);
 
-            if (result == null)
+            OrderGetDto? mappedResult = _mapper.Map<OrderGetDto>(result);
+
+            /*
+            if (mappedResult == null)
             {
                 return NotFound();
             }
-
-            OrderGetDto mappedResult = _mapper.Map<OrderGetDto>(result);
+            */
 
             return CreatedAtAction(nameof(GetOrder), new { id = mappedResult.OrderId }, mappedResult);
         }
@@ -53,7 +57,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetOrder(int id)
         {
-            GetOrderQuery? query = new GetOrderQuery { OrderId = id };
+            GetOrderQuery query = new GetOrderQuery { OrderId = id };
 
             Order? result = await _mediator.Send(query);
 
@@ -71,7 +75,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/change-status")]
         public async Task<IActionResult> UpdateOrderStatus(int id, [FromQuery] OrderStatusEnum orderStatus)
         {
-            UpdateOrderStatusRequest? command = new UpdateOrderStatusRequest
+            UpdateOrderStatusRequest command = new UpdateOrderStatusRequest
             {
                 OrderId = id,
                 OrderStatus = orderStatus,

@@ -9,6 +9,6 @@ namespace BoardgamesEShopManagement.API.Dto
         public string ReviewTitle { get; set; } = null!;
 
         [MaxLength(4000)]
-        public string? ReviewContent { get; set; }
+        public string ReviewContent { get; set; } = null!;
     }
 }
