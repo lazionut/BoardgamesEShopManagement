@@ -15,6 +15,10 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
                 .HasForeignKey<Account>(address => address.AddressId);
 
             accountConfiguration
+                .HasIndex(account => account.Email)
+                .IsUnique();
+
+            accountConfiguration
                 .HasQueryFilter(b => b.IsArchived == false);
         }
     }

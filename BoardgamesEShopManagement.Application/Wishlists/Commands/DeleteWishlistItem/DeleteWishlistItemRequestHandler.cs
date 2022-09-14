@@ -4,9 +4,9 @@ using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Utils;
 
-namespace BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistItem
+namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlistItem
 {
-    public class DeleteWishlistItemRequestHandler : IRequestHandler<DeleteWishlistItemRequest, bool>
+    public class DeleteWishlistItemRequestHandler : IRequestHandler<DeleteWishlistItemRequest, Wishlist?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -15,30 +15,30 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistIt
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(DeleteWishlistItemRequest request, CancellationToken cancellationToken)
+        public async Task<Wishlist?> Handle(DeleteWishlistItemRequest request, CancellationToken cancellationToken)
         {
             Wishlist? searchedWishlist = await _unitOfWork.WishlistRepository.GetByAccount
                 (request.WishlistAccountId, request.WishlistId);
 
             if (searchedWishlist == null)
             {
-                return false;
+                return null;
             } 
 
             Boardgame? searchedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.WishlistBoardgameId);
 
             if (searchedBoardgame == null)
             {
-                return false;
+                return null;
             }
 
-            bool isWishlistItemDeleted = searchedWishlist.Boardgames.Remove(searchedBoardgame);
+            searchedWishlist.Boardgames.Remove(searchedBoardgame);
 
             searchedWishlist.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
 
             await _unitOfWork.Save();
 
-            return isWishlistItemDeleted;
+            return searchedWishlist;
         }
     }
 }

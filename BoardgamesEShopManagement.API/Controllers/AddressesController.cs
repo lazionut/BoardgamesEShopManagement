@@ -8,7 +8,7 @@ using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress;
+using BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -29,7 +29,9 @@ namespace BoardgamesEShopManagement.Controllers
         public async Task<IActionResult> CreateAddress([FromBody] AddressPostPutDto address)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             CreateAddressRequest command = new CreateAddressRequest
             {
@@ -51,7 +53,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetAddress(int id)
         {
-            GetAddressQuery? query = new GetAddressQuery { AddressId = id };
+            GetAddressQuery query = new GetAddressQuery { AddressId = id };
 
             Address? result = await _mediator.Send(query);
 
@@ -69,7 +71,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateAddress(int id, [FromBody] AddressPostPutDto updatedAddress)
         {
-            UpdateAddressRequest? command = new UpdateAddressRequest
+            UpdateAddressRequest command = new UpdateAddressRequest
             {
                 AddressId = id,
                 AddressDetails = updatedAddress.AddressDetails,
@@ -93,7 +95,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteAddress(int id)
         {
-            DeleteAddressRequest? command = new DeleteAddressRequest { AddressId = id };
+            DeleteAddressRequest command = new DeleteAddressRequest { AddressId = id };
 
             Address? result = await _mediator.Send(command);
 
@@ -110,7 +112,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/archive")]
         public async Task<IActionResult> ArchiveAddress(int id)
         {
-            ArchiveAddressRequest? command = new ArchiveAddressRequest { AddressId = id };
+            ArchiveAddressRequest command = new ArchiveAddressRequest { AddressId = id };
 
             Address? result = await _mediator.Send(command);
 

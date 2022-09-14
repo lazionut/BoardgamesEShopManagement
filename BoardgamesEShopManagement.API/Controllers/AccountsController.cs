@@ -9,15 +9,15 @@ using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsList;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Wishlists.Queries.GetOrderByAccount;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersListPerAccount;
-using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetWishlistsListPerAccount;
-using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccount;
-using BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistItem;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerAccount;
+using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
+using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistsListPerAccount;
+using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlistItem;
+using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrderByAccount;
+using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
+using BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -42,7 +42,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
-            CreateAccountRequest? command = new CreateAccountRequest
+            CreateAccountRequest command = new CreateAccountRequest
             {
                 AccountFirstName = account.AccountFirstName,
                 AccountLastName = account.AccountLastName,
@@ -51,14 +51,14 @@ namespace BoardgamesEShopManagement.Controllers
                 AccountAddressId = account.AccountAddressId,
             };
 
-            Account? result = await _mediator.Send(command);
+            Account result = await _mediator.Send(command);
 
-            if (result == null)
+            AccountGetDto? mappedResult = _mapper.Map<AccountGetDto>(result);
+
+            if (mappedResult == null)
             {
                 return NotFound();
             }
-
-            AccountGetDto mappedResult = _mapper.Map<AccountGetDto>(result);
 
             return CreatedAtAction(nameof(GetAccount), new { id = mappedResult.AccountId }, mappedResult);
         }
@@ -72,7 +72,12 @@ namespace BoardgamesEShopManagement.Controllers
                 AccountPageSize = pageSize
             };
 
-            List<Account> result = await _mediator.Send(query);
+            List<Account>? result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             List<AccountGetDto> mappedResult = _mapper.Map<List<AccountGetDto>>(result);
 
@@ -83,7 +88,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetAccount(int id)
         {
-            GetAccountQuery? query = new GetAccountQuery { AccountId = id };
+            GetAccountQuery query = new GetAccountQuery { AccountId = id };
 
             Account? result = await _mediator.Send(query);
 
@@ -101,7 +106,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/reviews")]
         public async Task<IActionResult> GetReviewsPerAccount(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize)
         {
-            GetReviewsListPerAccountQuery? query = new GetReviewsListPerAccountQuery
+            GetReviewsListPerAccountQuery query = new GetReviewsListPerAccountQuery
             {
                 ReviewAccountId = id,
                 ReviewPageIndex = pageIndex,
@@ -124,14 +129,9 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{accountId}/orders/{orderId}")]
         public async Task<IActionResult> GetOrderByAccount(int accountId, int orderId)
         {
-            GetOrderByAccountQuery? query = new GetOrderByAccountQuery { AccountId = accountId, OrderId = orderId };
+            GetOrderByAccountQuery query = new GetOrderByAccountQuery { AccountId = accountId, OrderId = orderId };
 
-            Order? result = await _mediator.Send(query);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
+            Order result = await _mediator.Send(query);
 
             OrderGetDto mappedResult = _mapper.Map<OrderGetDto>(result);
 
@@ -142,7 +142,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/orders")]
         public async Task<IActionResult> GetOrdersPerAccount(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize)
         {
-            GetOrdersListPerAccountQuery? query = new GetOrdersListPerAccountQuery
+            GetOrdersListPerAccountQuery query = new GetOrdersListPerAccountQuery
             {
                 OrderAccountId = id,
                 OrderPageIndex = pageIndex,
@@ -165,20 +165,20 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{accountId}/wishlists/{wishlistId}")]
         public async Task<IActionResult> GetWishlistByAccount(int accountId, int wishlistId)
         {
-            GetWishlistByAccountQuery? query = new GetWishlistByAccountQuery
+            GetWishlistByAccountQuery query = new GetWishlistByAccountQuery
             {
                 WishlistAccountId = accountId,
                 WishlistId = wishlistId
             };
 
-            Wishlist? result = await _mediator.Send(query);
+            Wishlist result = await _mediator.Send(query);
+
+            WishlistGetDto? mappedResult = _mapper.Map<WishlistGetDto>(result);
 
             if (result == null)
             {
                 return NotFound();
             }
-
-            WishlistGetDto mappedResult = _mapper.Map<WishlistGetDto>(result);
 
             return Ok(mappedResult);
         }
@@ -187,7 +187,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/wishlists")]
         public async Task<IActionResult> GetWishlistsPerAccount(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize)
         {
-            GetWishlistsListPerAccountQuery? query = new GetWishlistsListPerAccountQuery
+            GetWishlistsListPerAccountQuery query = new GetWishlistsListPerAccountQuery
             {
                 WishlistAccountId = id,
                 WishlistPageIndex = pageIndex,
@@ -210,7 +210,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/change-name")]
         public async Task<IActionResult> UpdateAccountName(int id, [FromBody] AccountNamePatchDto updatedAccount)
         {
-            UpdateAccountRequest? command = new UpdateAccountRequest
+            UpdateAccountRequest command = new UpdateAccountRequest
             {
                 AccountId = id,
                 AccountFirstName = updatedAccount.AccountFirstName,
@@ -228,10 +228,10 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpPatch]
-        [Route("{id}/change-mail")]
-        public async Task<IActionResult> UpdateAccountMail(int id, [FromBody] AccountEmailPatchDto updatedAccount)
+        [Route("{id}/change-email")]
+        public async Task<IActionResult> UpdateAccountEmail(int id, [FromBody] AccountEmailPatchDto updatedAccount)
         {
-            UpdateAccountRequest? command = new UpdateAccountRequest
+            UpdateAccountRequest command = new UpdateAccountRequest
             {
                 AccountId = id,
                 AccountEmail = updatedAccount.AccountEmail,
@@ -251,7 +251,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/change-password")]
         public async Task<IActionResult> UpdateAccountPassword(int id, [FromBody] AccountPasswordPatchDto updatedAccount)
         {
-            UpdateAccountRequest? command = new UpdateAccountRequest
+            UpdateAccountRequest command = new UpdateAccountRequest
             {
                 AccountId = id,
                 AccountPassword = updatedAccount.AccountPassword,
@@ -271,7 +271,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteAccount(int id)
         {
-            DeleteAccountRequest? command = new DeleteAccountRequest { AccountId = id };
+            DeleteAccountRequest command = new DeleteAccountRequest { AccountId = id };
 
             Account? result = await _mediator.Send(command);
 
@@ -287,7 +287,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/archive")]
         public async Task<IActionResult> ArchiveAccount(int id)
         {
-            ArchiveAccountRequest? command = new ArchiveAccountRequest { AccountId = id };
+            ArchiveAccountRequest command = new ArchiveAccountRequest { AccountId = id };
 
             Account? result = await _mediator.Send(command);
 
@@ -310,9 +310,9 @@ namespace BoardgamesEShopManagement.Controllers
                 WishlistBoardgameId = boardgameId
             };
 
-            bool result = await _mediator.Send(command);
+            Wishlist? result = await _mediator.Send(command);
 
-            if (result == false)
+            if (result == null)
             {
                 return NotFound();
             }
@@ -324,7 +324,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{accountId}/wishlists/{wishlistId}")]
         public async Task<IActionResult> DeleteWishlist(int accountId, int wishlistId)
         {
-            DeleteWishlistRequest? command = new DeleteWishlistRequest
+            DeleteWishlistRequest command = new DeleteWishlistRequest
             {
                 WishlistAccountId = accountId,
                 WishlistId = wishlistId

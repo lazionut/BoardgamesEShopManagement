@@ -4,7 +4,7 @@ using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Utils;
 
-namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress
+namespace BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress
 {
     public class ArchiveAddressRequestHandler : IRequestHandler<ArchiveAddressRequest, Address?>
     {

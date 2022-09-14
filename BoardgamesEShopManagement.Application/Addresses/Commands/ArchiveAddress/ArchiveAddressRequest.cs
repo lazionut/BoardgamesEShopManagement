@@ -2,7 +2,7 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress
+namespace BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress
 {
     public class ArchiveAddressRequest : IRequest<Address>
     {

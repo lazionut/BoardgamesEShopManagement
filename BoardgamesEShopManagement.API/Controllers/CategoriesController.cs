@@ -30,7 +30,9 @@ namespace BoardgamesEShopManagement.Controllers
         public async Task<IActionResult> CreateCategory([FromBody] CategoryPostPutDto category)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             CreateCategoryRequest command = new CreateCategoryRequest { CategoryName = category.CategoryName };
 
@@ -46,7 +48,12 @@ namespace BoardgamesEShopManagement.Controllers
         {
             GetCategoriesListQuery query = new GetCategoriesListQuery();
 
-            List<Category> result = await _mediator.Send(query);
+            List<Category>? result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             List<CategoryGetDto> mappedResult = _mapper.Map<List<CategoryGetDto>>(result);
 
@@ -57,7 +64,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetCategory(int id)
         {
-            GetCategoryQuery? query = new GetCategoryQuery { CategoryId = id };
+            GetCategoryQuery query = new GetCategoryQuery { CategoryId = id };
 
             Category? result = await _mediator.Send(query);
 
@@ -75,7 +82,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/boardgames")]
         public async Task<IActionResult> GetBoardgamesPerCategory(int id)
         {
-            GetBoardgamesListPerCategoryQuery? command = new GetBoardgamesListPerCategoryQuery
+            GetBoardgamesListPerCategoryQuery command = new GetBoardgamesListPerCategoryQuery
             {
                 CategoryId = id
             };
@@ -96,7 +103,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryPostPutDto updatedCategory)
         {
-            UpdateCategoryRequest? command = new UpdateCategoryRequest
+            UpdateCategoryRequest command = new UpdateCategoryRequest
             {
                 CategoryId = id,
                 CategoryName = updatedCategory.CategoryName
@@ -116,7 +123,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            DeleteCategoryRequest? command = new DeleteCategoryRequest { CategoryId = id };
+            DeleteCategoryRequest command = new DeleteCategoryRequest { CategoryId = id };
 
             Category? result = await _mediator.Send(command);
 

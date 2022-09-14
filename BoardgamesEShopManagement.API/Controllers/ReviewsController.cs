@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetReview;
+using BoardgamesEShopManagement.Application.Reviews.Queries.GetReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
 
@@ -32,7 +32,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
-            CreateReviewRequest? command = new CreateReviewRequest
+            CreateReviewRequest command = new CreateReviewRequest
             {
                 ReviewTitle = review.ReviewTitle,
                 ReviewAuthor = review.ReviewAuthor,
@@ -44,12 +44,12 @@ namespace BoardgamesEShopManagement.Controllers
 
             Review? result = await _mediator.Send(command);
 
-            if (result == null)
+            ReviewGetDto? mappedResult = _mapper.Map<ReviewGetDto>(result);
+
+            if (mappedResult == null)
             {
                 return NotFound();
             }
-
-            ReviewGetDto mappedResult = _mapper.Map<ReviewGetDto>(result);
 
             return CreatedAtAction(nameof(GetReview), new { id = mappedResult.ReviewId }, mappedResult);
         }
@@ -58,7 +58,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetReview(int id)
         {
-            GetReviewQuery? query = new GetReviewQuery { ReviewId = id };
+            GetReviewQuery query = new GetReviewQuery { ReviewId = id };
 
             Review? result = await _mediator.Send(query);
 
@@ -76,7 +76,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}")]
         public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewPatchDto updatedReview)
         {
-            UpdateReviewRequest? command = new UpdateReviewRequest
+            UpdateReviewRequest command = new UpdateReviewRequest
             {
                 ReviewId = id,
                 ReviewTitle = updatedReview.ReviewTitle,

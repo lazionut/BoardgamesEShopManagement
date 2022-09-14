@@ -8,7 +8,7 @@ using System.Net;
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetOrder;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
 using BoardgamesEShopManagement.API.Dto;
 
 namespace BoardgamesEShopManagement.Test

@@ -2,7 +2,7 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersListPerAccount
+namespace BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount
 {
     public class GetOrdersListPerAccountQuery : IRequest<List<Order>>
     {

@@ -9,7 +9,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardg
         public string? BoardgameImage { get; set; }
         public string BoardgameName { get; set; } = null!;
         public int BoardgameReleaseYear { get; set; }
-        public string? BoardgameDescription { get; set; } = null!;
+        public string? BoardgameDescription { get; set; }
         public decimal BoardgamePrice { get; set; }
         public string? BoardgameLink { get; set; }
         public int BoardgameQuantity { get; set; }

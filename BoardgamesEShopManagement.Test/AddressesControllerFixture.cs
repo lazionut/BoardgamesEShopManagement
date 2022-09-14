@@ -12,11 +12,11 @@ using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress;
+using BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress;
 
 namespace BoardgamesEShopManagement.Test
 {
-    public class CategoriesControllerFixture
+    public class AddressesControllerFixture
     {
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
@@ -81,7 +81,6 @@ namespace BoardgamesEShopManagement.Test
                 .ReturnsAsync(
                 new Address
                 {
-                    Id = 1,
                     Details = "812 Joanny Overpass",
                     City = "Ziemannport",
                     County = "Borders",
@@ -139,7 +138,6 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Send(It.IsAny<DeleteAddressRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new Address
                 {
-                    Id = 1,
                     Details = "812 Joanny Overpass",
                     City = "Ziemannport",
                     County = "Borders",
@@ -165,7 +163,6 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Send(It.IsAny<ArchiveAddressRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new Address
                 {
-                    Id = 1,
                     Details = "812 Joanny Overpass",
                     City = "Ziemannport",
                     County = "Borders",

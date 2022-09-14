@@ -59,17 +59,19 @@ namespace BoardgamesEShopManagement.Test
 
             _mockMapper
                 .Setup(m => m.Map<BoardgameGetDto>(It.IsAny<Boardgame>()))
-                .Returns(new BoardgameGetDto
-                {
-                    BoardgameImage = null,
-                    BoardgameName = "BoardgameName",
-                    BoardgameReleaseYear = 2010,
-                    BoardgameDescription = "BoardgameDescription",
-                    BoardgamePrice = 100M,
-                    BoardgameLink = null,
-                    BoardgameQuantity = 10,
-                    BoardgameCategoryId = 3
-                }); ;
+                .Returns(
+                new BoardgameGetDto
+                     {
+                        BoardgameImage = null,
+                        BoardgameName = "BoardgameName",
+                        BoardgameReleaseYear = 2010,
+                        BoardgameDescription = "BoardgameDescription",
+                        BoardgamePrice = 100M,
+                        BoardgameLink = null,
+                        BoardgameQuantity = 10,
+                        BoardgameCategoryId = 3
+                     }
+                );
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
@@ -119,7 +121,7 @@ namespace BoardgamesEShopManagement.Test
         }
 
         [Fact]
-        public async void Get_Boardgames_List_By_Name_GetBoardgamesListByNmaeQueryIsCalled()
+        public async void Get_Boardgames_List_By_Name_GetBoardgamesListByNameQueryIsCalled()
         {
             _mockMediator
                 .Setup(m => m.Send(It.IsAny<GetBoardgamesListByNameQuery>(), It.IsAny<CancellationToken>()))

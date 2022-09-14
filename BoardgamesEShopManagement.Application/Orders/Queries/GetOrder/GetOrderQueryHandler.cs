@@ -3,7 +3,7 @@
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
-namespace BoardgamesEShopManagement.Application.Categories.Queries.GetOrder
+namespace BoardgamesEShopManagement.Application.Orders.Queries.GetOrder
 {
     public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, Order?>
     {

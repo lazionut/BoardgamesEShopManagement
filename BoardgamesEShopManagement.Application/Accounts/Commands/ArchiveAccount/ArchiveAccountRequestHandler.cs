@@ -4,7 +4,7 @@ using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Utils;
 using BoardgamesEShopManagement.Application.Abstract;
 
-namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccount
+namespace BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount
 {
     public class ArchiveAccountRequestHandler : IRequestHandler<ArchiveAccountRequest, Account?>
     {

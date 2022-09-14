@@ -17,6 +17,11 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _logger = logger;
         }
 
+        public async Task<Account?> GetAccountByEmail(string email)
+        {
+            return await _context.Accounts.SingleOrDefaultAsync(account => account.Email == email);
+        }
+
         public async Task<Account?> GetAccountByAddressId(int addressId)
         {
             return await _context.Accounts.SingleOrDefaultAsync(account => account.AddressId == addressId);

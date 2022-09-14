@@ -17,7 +17,7 @@ using BoardgamesEShopManagement.Application.Categories.Commands.DeleteCategory;
 
 namespace BoardgamesEShopManagement.Test
 {
-    public class AddressesControllerFixture
+    public class CategoriesControllerFixture
     {
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
