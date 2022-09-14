@@ -8,7 +8,7 @@ using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAddress;
+using BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress;
 
 namespace BoardgamesEShopManagement.Controllers
 {

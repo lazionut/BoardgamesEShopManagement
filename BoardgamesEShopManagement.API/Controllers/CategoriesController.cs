@@ -48,7 +48,12 @@ namespace BoardgamesEShopManagement.Controllers
         {
             GetCategoriesListQuery query = new GetCategoriesListQuery();
 
-            List<Category> result = await _mediator.Send(query);
+            List<Category>? result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             List<CategoryGetDto> mappedResult = _mapper.Map<List<CategoryGetDto>>(result);
 

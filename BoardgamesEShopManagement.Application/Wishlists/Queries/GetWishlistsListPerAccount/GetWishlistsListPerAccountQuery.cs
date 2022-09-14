@@ -2,7 +2,7 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Categories.Queries.GetWishlistsListPerAccount
+namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistsListPerAccount
 {
     public class GetWishlistsListPerAccountQuery : IRequest<List<Wishlist>>
     {

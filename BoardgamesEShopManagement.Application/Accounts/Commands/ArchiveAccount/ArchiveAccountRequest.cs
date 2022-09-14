@@ -2,7 +2,7 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccount
+namespace BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount
 {
     public class ArchiveAccountRequest : IRequest<Account>
     {

@@ -3,7 +3,7 @@
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
-namespace BoardgamesEShopManagement.Application.Categories.Queries.GetReview
+namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReview
 {
     public class GetReviewQueryHandler : IRequestHandler<GetReviewQuery, Review?>
     {

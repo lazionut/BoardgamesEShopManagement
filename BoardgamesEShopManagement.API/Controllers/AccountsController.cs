@@ -9,15 +9,15 @@ using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsList;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Wishlists.Queries.GetOrderByAccount;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersListPerAccount;
-using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetWishlistsListPerAccount;
-using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveAccount;
-using BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistItem;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerAccount;
+using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
+using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistsListPerAccount;
+using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlistItem;
+using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrderByAccount;
+using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
+using BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -72,7 +72,12 @@ namespace BoardgamesEShopManagement.Controllers
                 AccountPageSize = pageSize
             };
 
-            List<Account> result = await _mediator.Send(query);
+            List<Account>? result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             List<AccountGetDto> mappedResult = _mapper.Map<List<AccountGetDto>>(result);
 
@@ -108,14 +113,14 @@ namespace BoardgamesEShopManagement.Controllers
                 ReviewPageSize = pageSize
             };
 
-            List<Review> result = await _mediator.Send(query);
+            List<Review>? result = await _mediator.Send(query);
 
-            List<ReviewGetDto>? mappedResult = _mapper.Map<List<ReviewGetDto>>(result);
-
-            if (mappedResult == null)
+            if (result == null)
             {
                 return NotFound();
             }
+
+            List<ReviewGetDto> mappedResult = _mapper.Map<List<ReviewGetDto>>(result);
 
             return Ok(mappedResult);
         }
@@ -128,12 +133,7 @@ namespace BoardgamesEShopManagement.Controllers
 
             Order result = await _mediator.Send(query);
 
-            OrderGetDto? mappedResult = _mapper.Map<OrderGetDto>(result);
-
-            if (mappedResult == null)
-            {
-                return NotFound();
-            }
+            OrderGetDto mappedResult = _mapper.Map<OrderGetDto>(result);
 
             return Ok(mappedResult);
         }
@@ -149,14 +149,14 @@ namespace BoardgamesEShopManagement.Controllers
                 OrderPageSize = pageSize
             };
 
-            List<Order> result = await _mediator.Send(query);
+            List<Order>? result = await _mediator.Send(query);
 
-            List<OrderGetDto>? mappedResult = _mapper.Map<List<OrderGetDto>>(result);
-
-            if (mappedResult == null)
+            if (result == null)
             {
                 return NotFound();
             }
+
+            List<OrderGetDto> mappedResult = _mapper.Map<List<OrderGetDto>>(result);
 
             return Ok(mappedResult);
         }
@@ -194,14 +194,14 @@ namespace BoardgamesEShopManagement.Controllers
                 WishlistPageSize = pageSize
             };
 
-            List<Wishlist> result = await _mediator.Send(query);
+            List<Wishlist>? result = await _mediator.Send(query);
 
-            List<WishlistGetDto>? mappedResult = _mapper.Map<List<WishlistGetDto>>(result);
-
-            if (mappedResult == null)
+            if (result == null)
             {
                 return NotFound();
             }
+
+            List<WishlistGetDto> mappedResult = _mapper.Map<List<WishlistGetDto>>(result);
 
             return Ok(mappedResult);
         }
@@ -228,8 +228,8 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpPatch]
-        [Route("{id}/change-mail")]
-        public async Task<IActionResult> UpdateAccountMail(int id, [FromBody] AccountEmailPatchDto updatedAccount)
+        [Route("{id}/change-email")]
+        public async Task<IActionResult> UpdateAccountEmail(int id, [FromBody] AccountEmailPatchDto updatedAccount)
         {
             UpdateAccountRequest command = new UpdateAccountRequest
             {

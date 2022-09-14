@@ -2,7 +2,7 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetOrderByAccount
+namespace BoardgamesEShopManagement.Application.Orders.Queries.GetOrderByAccount
 {
     public class GetOrderByAccountQuery : IRequest<Order>
     {

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Enumerations;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList;
@@ -13,8 +15,6 @@ using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoa
 using BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
-using BoardgamesEShopManagement.Domain.Enumerations;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -72,7 +72,12 @@ namespace BoardgamesEShopManagement.Controllers
                 BoardgamePageSize = pageSize
             };
 
-            List<Boardgame> result = await _mediator.Send(query);
+            List<Boardgame>? result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
 
@@ -90,7 +95,12 @@ namespace BoardgamesEShopManagement.Controllers
                 BoardgameSortOrder = sortOrder
             };
 
-            List<Boardgame> result = await _mediator.Send(query);
+            List<Boardgame>? result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
 
@@ -109,7 +119,12 @@ namespace BoardgamesEShopManagement.Controllers
                 BoardgameSortOrder = sortOrder
             };
 
-            List<Boardgame> result = await _mediator.Send(query);
+            List<Boardgame>? result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
 

@@ -121,7 +121,7 @@ namespace BoardgamesEShopManagement.Test
         }
 
         [Fact]
-        public async void Get_Boardgames_List_By_Name_GetBoardgamesListByNmaeQueryIsCalled()
+        public async void Get_Boardgames_List_By_Name_GetBoardgamesListByNameQueryIsCalled()
         {
             _mockMediator
                 .Setup(m => m.Send(It.IsAny<GetBoardgamesListByNameQuery>(), It.IsAny<CancellationToken>()))

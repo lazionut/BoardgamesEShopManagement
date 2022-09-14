@@ -2,9 +2,8 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetWishlist;
 
-namespace BoardgamesEShopManagement.Application.Categories.Queries.GetReview
+namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlist
 {
     public class GetWishlistQueryHandler : IRequestHandler<GetWishlistQuery, Wishlist?>
     {

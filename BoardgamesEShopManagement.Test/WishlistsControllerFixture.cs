@@ -9,7 +9,7 @@ using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetWishlist;
+using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlist;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -25,7 +25,7 @@ namespace BoardgamesEShopManagement.Test
             {
                 WishlistName = "My wishlist",
                 WishlistAccountId = 1,
-                WishlistBoardgameIds = new List<int> { }
+                WishlistBoardgameIds = new List<int> { 1, 3 }
             };
 
             _mockMediator
@@ -35,6 +35,27 @@ namespace BoardgamesEShopManagement.Test
                       {
                           Name = "My wishlist",
                           AccountId = 1,
+                          Boardgames = new List<Boardgame>
+                          {
+                              new Boardgame 
+                              {
+                                  Image = null, 
+                                  Name = "Splendor", 
+                                  ReleaseYear = 2008, 
+                                  Description = "SPLENDOR",
+                                  Price = 150.92M,
+                                  Link = "https://boardgamegeek.com/boardgame/230802/azul"
+                              },
+                              new Boardgame
+                              {
+                                  Image = null,
+                                  Name = "Terra Mystica",
+                                  ReleaseYear = 2019,
+                                  Description = "TERRA MYSTICA",
+                                  Price = 14672.72M,
+                                  Link = "https://boardgamegeek.com/boardgame/148228/splendor"
+                              }
+                          }
                       }
                 );
 
@@ -44,6 +65,27 @@ namespace BoardgamesEShopManagement.Test
                  {
                      Name = "My wishlist",
                      AccountId = 1,
+                     Boardgames = new List<Boardgame>
+                          {
+                              new Boardgame
+                              {
+                                  Image = null,
+                                  Name = "Splendor",
+                                  ReleaseYear = 2008,
+                                  Description = "SPLENDOR",
+                                  Price = 150.92M,
+                                  Link = "https://boardgamegeek.com/boardgame/230802/azul"
+                              },
+                              new Boardgame
+                              {
+                                  Image = null,
+                                  Name = "Terra Mystica",
+                                  ReleaseYear = 2019,
+                                  Description = "TERRA MYSTICA",
+                                  Price = 14672.72M,
+                                  Link = "https://boardgamegeek.com/boardgame/148228/splendor"
+                              }
+                          }
                  });
 
             WishlistsController controller = new WishlistsController(_mockMediator.Object, _mockMapper.Object);
@@ -52,7 +94,7 @@ namespace BoardgamesEShopManagement.Test
             {
                 WishlistName = "My wishlist",
                 WishlistAccountId = 1,
-                WishlistBoardgameIds = new List<int> { }
+                WishlistBoardgameIds = new List<int> { 1, 3 }
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);

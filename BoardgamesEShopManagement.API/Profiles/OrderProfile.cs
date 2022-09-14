@@ -15,7 +15,7 @@ namespace BoardgamesEShopManagement.API.Profiles
                 .ForMember(o => o.OrderAccountId, opt => opt.MapFrom(s => s.AccountId))
                 .ForMember(o => o.OrderCreationDate, opt => opt.MapFrom(s => s.CreatedAt.Date))
                 .ForMember(o => o.OrderBoardgames, opt => opt.MapFrom(s => s.Boardgames.Select(
-                    b => new { b.Image, b.Name, b.Description, b.Price, b.Link })));
+                    b => new { b.Image, b.Name, b.Price })));
 
             CreateMap<Order, OrderPostDto>()
                 .ForMember(o => o.OrderAccountId, opt => opt.MapFrom(s => s.AccountId));

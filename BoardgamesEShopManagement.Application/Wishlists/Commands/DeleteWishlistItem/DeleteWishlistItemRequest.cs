@@ -2,7 +2,7 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 
-namespace BoardgamesEShopManagement.Application.Orders.Commands.DeleteWishlistItem
+namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlistItem
 {
     public class DeleteWishlistItemRequest : IRequest<Wishlist>
     {

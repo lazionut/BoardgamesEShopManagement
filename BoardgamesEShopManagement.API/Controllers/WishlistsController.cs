@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetWishlist;
+using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlist;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlistItem;
 
 namespace BoardgamesEShopManagement.Controllers

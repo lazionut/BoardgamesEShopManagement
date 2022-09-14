@@ -8,7 +8,7 @@ using AutoMapper;
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetReview;
+using BoardgamesEShopManagement.Application.Reviews.Queries.GetReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview;
 using BoardgamesEShopManagement.API.Dto;
