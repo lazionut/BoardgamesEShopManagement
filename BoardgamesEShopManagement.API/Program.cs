@@ -28,6 +28,12 @@ builder.Services.AddDbContext<ShopContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddMediatR(typeof(ICategoryRepository));
 builder.Services.AddAutoMapper(typeof(CategoryProfile));
+builder.Services.AddCors(options => options.AddPolicy(name: builder.Configuration.GetSection("AllowedHosts").ToString(),
+                      policy =>
+                      {
+                          policy.AllowAnyOrigin();
+                      })
+);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
@@ -44,6 +50,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors(builder.Configuration.GetSection("AllowedHosts").ToString());
 
 app.UseMyMiddleware();
 
