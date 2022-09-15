@@ -50,14 +50,14 @@ namespace BoardgamesEShopManagement.Test
 
             IActionResult result = await controller.CreateOrder(new OrderPostDto
             {
-                OrderAccountId = 1,
-                OrderBoardgameIds = new List<int> { 1, 9, 10 },
-                OrderBoardgameQuantities = new List<int> { 1, 1, 1 }
+                AccountId = 1,
+                BoardgameIds = new List<int> { 1, 9, 10 },
+                BoardgameQuantities = new List<int> { 1, 1, 1 }
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createOrderCommand.OrderAccountId, ((OrderGetDto)okResult.Value).OrderAccountId);
+            Assert.Equal(createOrderCommand.OrderAccountId, ((OrderGetDto)okResult.Value).AccountId);
         }
 
         [Fact]

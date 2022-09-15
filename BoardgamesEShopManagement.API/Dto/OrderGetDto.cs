@@ -4,11 +4,11 @@ namespace BoardgamesEShopManagement.API.Dto
 {
     public class OrderGetDto
     {
-        public int OrderId { get; set; }
-        public string OrderTotal { get; set; } = null!;
-        public OrderStatusEnum OrderStatus { get; set; }
-        public int OrderAccountId { get; set; }
-        public DateTime OrderCreationDate { get; set; }
-        public ICollection<object> OrderBoardgames { get; set; } = null!;
+        public int Id { get; set; }
+        public string Total { get; set; } = null!;
+        public OrderStatusEnum Status { get; set; }
+        public int AccountId { get; set; }
+        public DateTime CreationDate { get; set; }
+        public ICollection<object> Boardgames { get; set; } = null!;
     }
 }

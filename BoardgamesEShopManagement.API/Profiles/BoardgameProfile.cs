@@ -10,15 +10,15 @@ namespace BoardgamesEShopManagement.API.Profiles
         public BoardgameProfile()
         {
             CreateMap<Boardgame, BoardgameGetDto>()
-                .ForMember(b => b.BoardgameId, opt => opt.MapFrom(s => s.Id))
-                .ForMember(b => b.BoardgameImage, opt => opt.MapFrom(s => s.Image))
-                .ForMember(b => b.BoardgameName, opt => opt.MapFrom(s => s.Name))
-                .ForMember(b => b.BoardgameReleaseYear, opt => opt.MapFrom(s => s.ReleaseYear))
-                .ForMember(b => b.BoardgameDescription, opt => opt.MapFrom(s => s.Description))
-                .ForMember(b => b.BoardgamePrice, opt => opt.MapFrom(s => s.Price))
-                .ForMember(b => b.BoardgameLink, opt => opt.MapFrom(s => s.Link))
-                .ForMember(b => b.BoardgameQuantity, opt => opt.MapFrom(s => s.Quantity))
-                .ForMember(b => b.BoardgameCategoryId, opt => opt.MapFrom(s => s.CategoryId));
+                .ForMember(b => b.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(b => b.Image, opt => opt.MapFrom(s => s.Image))
+                .ForMember(b => b.Name, opt => opt.MapFrom(s => s.Name))
+                .ForMember(b => b.ReleaseYear, opt => opt.MapFrom(s => s.ReleaseYear))
+                .ForMember(b => b.Description, opt => opt.MapFrom(s => s.Description))
+                .ForMember(b => b.Price, opt => opt.MapFrom(s => s.Price))
+                .ForMember(b => b.Link, opt => opt.MapFrom(s => s.Link))
+                .ForMember(b => b.Quantity, opt => opt.MapFrom(s => s.Quantity))
+                .ForMember(b => b.CategoryId, opt => opt.MapFrom(s => s.CategoryId));
         }
     }
 }

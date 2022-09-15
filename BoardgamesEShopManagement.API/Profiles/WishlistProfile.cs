@@ -10,19 +10,19 @@ namespace BoardgamesEShopManagement.API.Profiles
         public WishlistProfile()
         {
             CreateMap<Wishlist, WishlistGetDto>()
-                .ForMember(w => w.WishlistId, opt => opt.MapFrom(s => s.Id))
-                .ForMember(w => w.WishlistName, opt => opt.MapFrom(s => s.Name))
-                .ForMember(w => w.WishlistAccountId, opt => opt.MapFrom(s => s.AccountId))
-                .ForMember(w => w.WishlistCreationDate, opt => opt.MapFrom(s => s.CreatedAt))
-                .ForMember(w => w.WishlistUpdateDate, opt => opt.MapFrom(s => s.UpdatedAt))
-                .ForMember(w => w.WishlistBoardgames, opt => opt.MapFrom(s => s.Boardgames.Select(
+                .ForMember(w => w.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(w => w.Name, opt => opt.MapFrom(s => s.Name))
+                .ForMember(w => w.AccountId, opt => opt.MapFrom(s => s.AccountId))
+                .ForMember(w => w.CreationDate, opt => opt.MapFrom(s => s.CreatedAt))
+                .ForMember(w => w.UpdateDate, opt => opt.MapFrom(s => s.UpdatedAt))
+                .ForMember(w => w.Boardgames, opt => opt.MapFrom(s => s.Boardgames.Select(
                     b => new { b.Image, b.Name, b.ReleaseYear, b.Description, b.Price, b.Link })));
 
             CreateMap<Wishlist, WishlistPostDto>()
-                .ForMember(w => w.WishlistAccountId, opt => opt.MapFrom(s => s.AccountId));
+                .ForMember(w => w.AccountId, opt => opt.MapFrom(s => s.AccountId));
 
             CreateMap<WishlistItem, WishlistItemPostDto>()
-                .ForMember(w => w.WishlistBoardgameId, opt => opt.MapFrom(s => s.BoardgameId));
+                .ForMember(w => w.BoardgameId, opt => opt.MapFrom(s => s.BoardgameId));
         }
     }
 }

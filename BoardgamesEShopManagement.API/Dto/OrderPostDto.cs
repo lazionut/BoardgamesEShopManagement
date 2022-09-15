@@ -5,13 +5,13 @@ namespace BoardgamesEShopManagement.API.Dto
     public class OrderPostDto
     {
         [Required]
-        public int OrderAccountId { get; set; }
+        public int AccountId { get; set; }
 
         [Required]
-        public List<int> OrderBoardgameIds { get; set; } = null!;
+        public List<int> BoardgameIds { get; set; } = null!;
 
         [Required]
-        public List<int> OrderBoardgameQuantities { get; set; } = null!;
+        public List<int> BoardgameQuantities { get; set; } = null!;
 
     }
 }

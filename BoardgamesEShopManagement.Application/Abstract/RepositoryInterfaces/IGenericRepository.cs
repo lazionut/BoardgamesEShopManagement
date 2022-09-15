@@ -6,7 +6,7 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
     {
         Task Create(T item);
 
-        Task<List<T>> GetAll(int pageIndex, int pageSize);
+        Task<List<T>?> GetAll(int pageIndex, int pageSize);
 
         Task<T?> GetById(int id);
 

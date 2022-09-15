@@ -62,14 +62,14 @@ namespace BoardgamesEShopManagement.Test
                 .Returns(
                 new BoardgameGetDto
                      {
-                        BoardgameImage = null,
-                        BoardgameName = "BoardgameName",
-                        BoardgameReleaseYear = 2010,
-                        BoardgameDescription = "BoardgameDescription",
-                        BoardgamePrice = 100M,
-                        BoardgameLink = null,
-                        BoardgameQuantity = 10,
-                        BoardgameCategoryId = 3
+                        Image = null,
+                        Name = "BoardgameName",
+                        ReleaseYear = 2010,
+                        Description = "BoardgameDescription",
+                        Price = 100M,
+                        Link = null,
+                        Quantity = 10,
+                        CategoryId = 3
                      }
                 );
 
@@ -77,19 +77,19 @@ namespace BoardgamesEShopManagement.Test
 
             IActionResult result = await controller.CreateBoardgame(new BoardgamePostPutDto
             {
-                BoardgameImage = null,
-                BoardgameName = "BoardgameName",
-                BoardgameReleaseYear = 2010,
-                BoardgameDescription = "BoardgameDescription",
-                BoardgamePrice = 100M,
-                BoardgameLink = null,
-                BoardgameQuantity = 10,
-                BoardgameCategoryId = 3
+                Image = null,
+                Name = "BoardgameName",
+                ReleaseYear = 2010,
+                Description = "BoardgameDescription",
+                Price = 100M,
+                Link = null,
+                Quantity = 10,
+                CategoryId = 3
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createBoardgameCommand.BoardgameName, ((BoardgameGetDto)okResult.Value).BoardgameName);
+            Assert.Equal(createBoardgameCommand.BoardgameName, ((BoardgameGetDto)okResult.Value).Name);
         }
 
         [Fact]
@@ -243,26 +243,26 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Map<BoardgameGetDto>(It.IsAny<Boardgame>()))
                 .Returns(new BoardgameGetDto
                 {
-                    BoardgameImage = null,
-                    BoardgameName = "BoardgameName",
-                    BoardgameDescription = "BoardgameDescription",
-                    BoardgamePrice = 100M,
-                    BoardgameLink = null,
-                    BoardgameQuantity = 10,
-                    BoardgameCategoryId = 3
+                    Image = null,
+                    Name = "BoardgameName",
+                    Description = "BoardgameDescription",
+                    Price = 100M,
+                    Link = null,
+                    Quantity = 10,
+                    CategoryId = 3
                 });
 
             BoardgamesController controller = new BoardgamesController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.UpdateBoardgame(1, new BoardgamePostPutDto
             {
-                BoardgameImage = "UpdatedImage",
-                BoardgameName = "UpdatedName",
-                BoardgameDescription = "UpdatedDescription",
-                BoardgamePrice = 300M,
-                BoardgameLink = "BoardgameLink",
-                BoardgameQuantity = 24,
-                BoardgameCategoryId = 1
+                Image = "UpdatedImage",
+                Name = "UpdatedName",
+                Description = "UpdatedDescription",
+                Price = 300M,
+                Link = "BoardgameLink",
+                Quantity = 24,
+                CategoryId = 1
             });
 
             NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);

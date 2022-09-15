@@ -2,14 +2,14 @@
 {
     public class BoardgameGetDto
     {
-        public int BoardgameId { get; set; }
-        public string? BoardgameImage { get; set; }
-        public string BoardgameName { get; set; } = null!;
-        public int BoardgameReleaseYear { get; set; }
-        public string? BoardgameDescription { get; set; }
-        public decimal BoardgamePrice { get; set; }
-        public string? BoardgameLink { get; set; }
-        public int BoardgameQuantity { get; set; }
-        public int BoardgameCategoryId { get; set; }
+        public int Id { get; set; }
+        public string? Image { get; set; }
+        public string Name { get; set; } = null!;
+        public int ReleaseYear { get; set; }
+        public string? Description { get; set; }
+        public decimal Price { get; set; }
+        public string? Link { get; set; }
+        public int Quantity { get; set; }
+        public int CategoryId { get; set; }
     }
 }

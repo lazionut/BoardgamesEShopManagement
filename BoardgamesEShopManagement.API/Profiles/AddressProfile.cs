@@ -10,19 +10,19 @@ namespace BoardgamesEShopManagement.API.Profiles
         public AddressProfile()
         {
             CreateMap<Address, AddressGetDto>()
-                .ForMember(a => a.AddressId, opt => opt.MapFrom(s => s.Id))
-                .ForMember(a => a.AddressDetails, opt => opt.MapFrom(s => s.Details))
-                .ForMember(a => a.AddressCity, opt => opt.MapFrom(s => s.City))
-                .ForMember(a => a.AddressCounty, opt => opt.MapFrom(s => s.County))
-                .ForMember(a => a.AddressCountry, opt => opt.MapFrom(s => s.Country))
-                .ForMember(a => a.AddressPhone, opt => opt.MapFrom(s => s.Phone));
+                .ForMember(a => a.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(a => a.Details, opt => opt.MapFrom(s => s.Details))
+                .ForMember(a => a.City, opt => opt.MapFrom(s => s.City))
+                .ForMember(a => a.County, opt => opt.MapFrom(s => s.County))
+                .ForMember(a => a.Country, opt => opt.MapFrom(s => s.Country))
+                .ForMember(a => a.Phone, opt => opt.MapFrom(s => s.Phone));
 
             CreateMap<Address, AddressPostPutDto>()
-                .ForMember(a => a.AddressDetails, opt => opt.MapFrom(s => s.Details))
-                .ForMember(a => a.AddressCity, opt => opt.MapFrom(s => s.City))
-                .ForMember(a => a.AddressCounty, opt => opt.MapFrom(s => s.County))
-                .ForMember(a => a.AddressCountry, opt => opt.MapFrom(s => s.Country))
-                .ForMember(a => a.AddressPhone, opt => opt.MapFrom(s => s.Phone));
+                .ForMember(a => a.Details, opt => opt.MapFrom(s => s.Details))
+                .ForMember(a => a.City, opt => opt.MapFrom(s => s.City))
+                .ForMember(a => a.County, opt => opt.MapFrom(s => s.County))
+                .ForMember(a => a.Country, opt => opt.MapFrom(s => s.Country))
+                .ForMember(a => a.Phone, opt => opt.MapFrom(s => s.Phone));
         }
     }
 }

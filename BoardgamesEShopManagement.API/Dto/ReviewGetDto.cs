@@ -2,13 +2,13 @@
 {
     public class ReviewGetDto
     {
-        public int ReviewId { get; set; }
-        public string ReviewTitle { get; set; } = null!;
-        public string ReviewAuthor { get; set; } = null!;
-        public byte ReviewScore { get; set; }
-        public string ReviewContent { get; set; } = null!;
-        public int ReviewBoardgameId { get; set; }
-        public int ReviewAccountId { get; set; }
-        public DateTime ReviewCreatedAt { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; } = null!;
+        public string Author { get; set; } = null!;
+        public byte Score { get; set; }
+        public string Content { get; set; } = null!;
+        public int BoardgameId { get; set; }
+        public int AccountId { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

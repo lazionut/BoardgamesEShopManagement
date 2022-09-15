@@ -50,27 +50,27 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Map<AddressGetDto>(It.IsAny<Address>()))
                 .Returns(new AddressGetDto
                 {
-                    AddressDetails = "CreatedDetails",
-                    AddressCity = "CreatedCity",
-                    AddressCounty = "CreatedCounty",
-                    AddressCountry = "CreatedCountry",
-                    AddressPhone = "0765123456"
+                    Details = "CreatedDetails",
+                    City = "CreatedCity",
+                    County = "CreatedCounty",
+                    Country = "CreatedCountry",
+                    Phone = "0765123456"
                 });
 
             AddressesController controller = new AddressesController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateAddress(new AddressPostPutDto
             {
-                AddressDetails = "CreatedDetails",
-                AddressCity = "CreatedCity",
-                AddressCounty = "CreatedCounty",
-                AddressCountry = "CreatedCountry",
-                AddressPhone = "0765123456"
+                Details = "CreatedDetails",
+                City = "CreatedCity",
+                County = "CreatedCounty",
+                Country = "CreatedCountry",
+                Phone = "0765123456"
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createAddressCommand.AddressDetails, ((AddressGetDto)okResult.Value).AddressDetails);
+            Assert.Equal(createAddressCommand.AddressDetails, ((AddressGetDto)okResult.Value).Details);
         }
 
         [Fact]
@@ -115,11 +115,11 @@ namespace BoardgamesEShopManagement.Test
 
             IActionResult result = await controller.UpdateAddress(1, new AddressPostPutDto
             {
-                AddressDetails = "UpdatedDetails",
-                AddressCity = "UpdatedDetails",
-                AddressCounty = "UpdatedCounty",
-                AddressCountry = "UpdatedCountry",
-                AddressPhone = "0711111111"
+                Details = "UpdatedDetails",
+                City = "UpdatedDetails",
+                County = "UpdatedCounty",
+                Country = "UpdatedCountry",
+                Phone = "0711111111"
             });
 
             NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);

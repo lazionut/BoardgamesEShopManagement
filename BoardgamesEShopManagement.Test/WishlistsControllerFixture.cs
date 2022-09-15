@@ -92,14 +92,14 @@ namespace BoardgamesEShopManagement.Test
 
             IActionResult result = await controller.CreateWishlist(new WishlistPostDto
             {
-                WishlistName = "My wishlist",
-                WishlistAccountId = 1,
-                WishlistBoardgameIds = new List<int> { 1, 3 }
+                Name = "My wishlist",
+                AccountId = 1,
+                BoardgameIds = new List<int> { 1, 3 }
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createWishlistRequest.WishlistAccountId, ((WishlistGetDto)okResult.Value).WishlistAccountId);
+            Assert.Equal(createWishlistRequest.WishlistAccountId, ((WishlistGetDto)okResult.Value).AccountId);
         }
 
         [Fact]

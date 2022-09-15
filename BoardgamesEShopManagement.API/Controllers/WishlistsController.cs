@@ -33,9 +33,9 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateWishlistRequest command = new CreateWishlistRequest
             {
-                WishlistAccountId = wishlist.WishlistAccountId,
-                WishlistName = wishlist.WishlistName,
-                WishlistBoardgameIds = wishlist.WishlistBoardgameIds
+                WishlistAccountId = wishlist.AccountId,
+                WishlistName = wishlist.Name,
+                WishlistBoardgameIds = wishlist.BoardgameIds
             };
 
             Wishlist result = await _mediator.Send(command);
@@ -47,7 +47,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            return CreatedAtAction(nameof(GetWishlist), new { id = mappedResult.WishlistId }, mappedResult);
+            return CreatedAtAction(nameof(GetWishlist), new { id = mappedResult.Id }, mappedResult);
         }
 
         [HttpPost]
@@ -61,9 +61,9 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateWishlistItemRequest command = new CreateWishlistItemRequest
             {
-                WishlistAccountId = wishlistItem.WishlistAccountId,
+                WishlistAccountId = wishlistItem.AccountId,
                 WishlistId = wishlistItem.WishlistId,
-                WishlistBoardgameId = wishlistItem.WishlistBoardgameId
+                WishlistBoardgameId = wishlistItem.BoardgameId
             };
 
             Wishlist result = await _mediator.Send(command);
@@ -75,7 +75,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            return CreatedAtAction(nameof(GetWishlist), new { id = mappedResult.WishlistId }, mappedResult);
+            return CreatedAtAction(nameof(GetWishlist), new { id = mappedResult.Id }, mappedResult);
         }
 
         [HttpGet]

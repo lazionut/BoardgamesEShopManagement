@@ -6,21 +6,21 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         [Required]
         [MaxLength(50)]
-        public string AccountFirstName { get; set; } = null!;
+        public string FirstName { get; set; } = null!;
 
         [Required]
         [MaxLength(50)]
-        public string AccountLastName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
 
         [Required]
         [MaxLength(255)]
-        public string AccountEmail { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
         [Required]
         [MaxLength(128)]
-        public string AccountPassword { get; set; } = null!;
+        public string Password { get; set; } = null!;
 
         [Required]
-        public int AccountAddressId { get; set; }
+        public int AddressId { get; set; }
     }
 }

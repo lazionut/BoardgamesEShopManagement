@@ -5,12 +5,12 @@ namespace BoardgamesEShopManagement.API.Dto
     public class WishlistItemPostDto
     {
         [Required]
-        public int WishlistAccountId { get; set; }
+        public int AccountId { get; set; }
 
         [Required]
         public int WishlistId { get; set; }
 
         [Required]
-        public int WishlistBoardgameId { get; set; }
+        public int BoardgameId { get; set; }
     }
 }

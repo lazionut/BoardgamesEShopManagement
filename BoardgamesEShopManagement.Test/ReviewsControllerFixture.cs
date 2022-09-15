@@ -47,34 +47,34 @@ namespace BoardgamesEShopManagement.Test
                       }
                 );
 
-             _mockMapper
-                .Setup(m => m.Map<ReviewGetDto>(It.IsAny<Review>()))
-                .Returns(new ReviewGetDto
-                {
-                    ReviewTitle = "ReviewTitle",
-                    ReviewAuthor = "ReviewAuthor",
-                    ReviewScore = 3,
-                    ReviewContent = "ReviewContent",
-                    ReviewBoardgameId = 3,
-                    ReviewAccountId = 7
-                }
-                );
+            _mockMapper
+               .Setup(m => m.Map<ReviewGetDto>(It.IsAny<Review>()))
+               .Returns(new ReviewGetDto
+               {
+                   Title = "ReviewTitle",
+                   Author = "ReviewAuthor",
+                   Score = 3,
+                   Content = "ReviewContent",
+                   BoardgameId = 3,
+                   AccountId = 7
+               }
+               );
 
             ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateReview(new ReviewPostDto
             {
-                ReviewTitle = "ReviewTitle",
-                ReviewAuthor = "ReviewAuthor",
-                ReviewScore = 3,
-                ReviewContent = "ReviewContent",
-                ReviewBoardgameId = 3,
-                ReviewAccountId = 7
+                Title = "ReviewTitle",
+                Author = "ReviewAuthor",
+                Score = 3,
+                Content = "ReviewContent",
+                BoardgameId = 3,
+                AccountId = 7
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createReviewCommand.ReviewTitle, ((ReviewGetDto)okResult.Value).ReviewTitle);
+            Assert.Equal(createReviewCommand.ReviewTitle, ((ReviewGetDto)okResult.Value).Title);
         }
 
         [Fact]
@@ -117,16 +117,17 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Map<ReviewGetDto>(It.IsAny<Review>()))
                 .Returns(new ReviewGetDto
                 {
-                    ReviewTitle = "ReviewTitleUpdated",
-                    ReviewContent = "ReviewTitleUpdated"
+                    Title = "ReviewTitleUpdated",
+                    Content = "ReviewTitleUpdated"
                 }
                 );
 
             ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object);
 
-            IActionResult result = await controller.UpdateReview(1, new ReviewPatchDto {
-                ReviewTitle = "ReviewTitleUpdated",
-                ReviewContent = "ReviewTitleUpdated"
+            IActionResult result = await controller.UpdateReview(1, new ReviewPatchDto
+            {
+                Title = "ReviewTitleUpdated",
+                Content = "ReviewTitleUpdated"
             });
 
             NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);

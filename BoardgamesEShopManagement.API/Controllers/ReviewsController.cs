@@ -34,12 +34,12 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateReviewRequest command = new CreateReviewRequest
             {
-                ReviewTitle = review.ReviewTitle,
-                ReviewAuthor = review.ReviewAuthor,
-                ReviewScore = review.ReviewScore,
-                ReviewContent = review.ReviewContent,
-                ReviewBoardgameId = review.ReviewBoardgameId,
-                ReviewAccountId = review.ReviewAccountId
+                ReviewTitle = review.Title,
+                ReviewAuthor = review.Author,
+                ReviewScore = review.Score,
+                ReviewContent = review.Content,
+                ReviewBoardgameId = review.BoardgameId,
+                ReviewAccountId = review.AccountId
             };
 
             Review? result = await _mediator.Send(command);
@@ -51,7 +51,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            return CreatedAtAction(nameof(GetReview), new { id = mappedResult.ReviewId }, mappedResult);
+            return CreatedAtAction(nameof(GetReview), new { id = mappedResult.Id }, mappedResult);
         }
 
         [HttpGet]
@@ -79,8 +79,8 @@ namespace BoardgamesEShopManagement.Controllers
             UpdateReviewRequest command = new UpdateReviewRequest
             {
                 ReviewId = id,
-                ReviewTitle = updatedReview.ReviewTitle,
-                ReviewContent = updatedReview.ReviewContent,
+                ReviewTitle = updatedReview.Title,
+                ReviewContent = updatedReview.Content,
             };
 
             Review? result = await _mediator.Send(command);

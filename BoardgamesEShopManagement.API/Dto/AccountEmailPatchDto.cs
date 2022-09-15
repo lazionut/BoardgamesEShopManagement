@@ -6,6 +6,6 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         [Required]
         [MaxLength(255)]
-        public string AccountEmail { get; set; } = null!;
+        public string Email { get; set; } = null!;
     }
 }
