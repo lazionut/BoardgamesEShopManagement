@@ -2,7 +2,6 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview
 {
@@ -27,7 +26,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview
             updatedReview.Title = request.ReviewTitle ?? updatedReview.Title;
             updatedReview.Content = request.ReviewContent ?? updatedReview.Content;
 
-            updatedReview.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
+            updatedReview.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.ReviewRepository.Update(updatedReview);
             await _unitOfWork.Save();

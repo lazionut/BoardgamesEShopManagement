@@ -2,7 +2,6 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress
 {
@@ -30,7 +29,7 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddres
             searchedAddress.Country = "Anonymized";
             searchedAddress.Phone = "Anonymized";
 
-            searchedAddress.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
+            searchedAddress.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.Save();
 

@@ -2,7 +2,6 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlistItem
 {
@@ -34,7 +33,7 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlis
 
             searchedWishlist.Boardgames.Remove(searchedBoardgame);
 
-            searchedWishlist.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
+            searchedWishlist.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.Save();
 

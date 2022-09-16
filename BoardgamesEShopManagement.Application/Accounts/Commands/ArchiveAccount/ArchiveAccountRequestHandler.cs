@@ -1,7 +1,6 @@
 ﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Utils;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount
@@ -30,7 +29,7 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount
             searchedAccount.Password = "";
             searchedAccount.IsArchived = true;
 
-            searchedAccount.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
+            searchedAccount.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.Save();
 

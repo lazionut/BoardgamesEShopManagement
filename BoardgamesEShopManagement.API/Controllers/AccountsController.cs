@@ -131,7 +131,12 @@ namespace BoardgamesEShopManagement.Controllers
         {
             GetOrderByAccountQuery query = new GetOrderByAccountQuery { AccountId = accountId, OrderId = orderId };
 
-            Order result = await _mediator.Send(query);
+            Order? result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             OrderGetDto mappedResult = _mapper.Map<OrderGetDto>(result);
 
@@ -171,14 +176,14 @@ namespace BoardgamesEShopManagement.Controllers
                 WishlistId = wishlistId
             };
 
-            Wishlist result = await _mediator.Send(query);
-
-            WishlistGetDto? mappedResult = _mapper.Map<WishlistGetDto>(result);
+            Wishlist? result = await _mediator.Send(query);
 
             if (result == null)
             {
                 return NotFound();
             }
+
+            WishlistGetDto mappedResult = _mapper.Map<WishlistGetDto>(result);
 
             return Ok(mappedResult);
         }

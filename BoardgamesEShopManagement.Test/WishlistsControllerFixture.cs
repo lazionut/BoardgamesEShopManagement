@@ -21,7 +21,7 @@ namespace BoardgamesEShopManagement.Test
         [Fact]
         public async void Create_Wishlist_CreateWishlistCommandIsCalled()
         {
-            CreateWishlistRequest createWishlistRequest = new CreateWishlistRequest
+            CreateWishlistRequest createWishlistCommand = new CreateWishlistRequest
             {
                 WishlistName = "My wishlist",
                 WishlistAccountId = 1,
@@ -29,7 +29,7 @@ namespace BoardgamesEShopManagement.Test
             };
 
             _mockMediator
-                .Setup(m => m.Send(It.Is<CreateWishlistRequest>(s => s == createWishlistRequest), It.IsAny<CancellationToken>()))
+                .Setup(m => m.Send(It.Is<CreateWishlistRequest>(s => s == createWishlistCommand), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(
                       new Wishlist
                       {
@@ -59,15 +59,15 @@ namespace BoardgamesEShopManagement.Test
                       }
                 );
 
-            _mockMediator
-                 .Setup(m => m.Send(It.IsAny<WishlistGetDto>(), It.IsAny<CancellationToken>()))
-                 .ReturnsAsync(new Wishlist
+            _mockMapper
+                 .Setup(m => m.Map<WishlistGetDto>(It.IsAny<Wishlist>()))
+                 .Returns(new WishlistGetDto
                  {
                      Name = "My wishlist",
                      AccountId = 1,
-                     Boardgames = new List<Boardgame>
+                     Boardgames = new List<WishlistBoardgameDto>
                           {
-                              new Boardgame
+                              new WishlistBoardgameDto
                               {
                                   Image = null,
                                   Name = "Splendor",
@@ -76,7 +76,7 @@ namespace BoardgamesEShopManagement.Test
                                   Price = 150.92M,
                                   Link = "https://boardgamegeek.com/boardgame/230802/azul"
                               },
-                              new Boardgame
+                              new WishlistBoardgameDto
                               {
                                   Image = null,
                                   Name = "Terra Mystica",
@@ -99,7 +99,7 @@ namespace BoardgamesEShopManagement.Test
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createWishlistRequest.WishlistAccountId, ((WishlistGetDto)okResult.Value).AccountId);
+            Assert.Equal(createWishlistCommand.WishlistAccountId, ((WishlistGetDto)okResult.Value).AccountId);
         }
 
         [Fact]

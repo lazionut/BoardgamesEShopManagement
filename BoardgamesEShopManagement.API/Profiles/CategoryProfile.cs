@@ -9,12 +9,9 @@ namespace BoardgamesEShopManagement.API.Profiles
     {
         public CategoryProfile()
         {
-            CreateMap<Category, CategoryGetDto>()
-                .ForMember(c => c.Id, opt => opt.MapFrom(s => s.Id))
-                .ForMember(c => c.Name, opt => opt.MapFrom(s => s.Name));
+            CreateMap<Category, CategoryGetDto>();
 
-            CreateMap<Category, CategoryPostPutDto>()
-                .ForMember(c => c.Name, opt => opt.MapFrom(s => s.Name));
+            CreateMap<Category, CategoryPostPutDto>();
         }
     }
 }
