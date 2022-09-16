@@ -41,21 +41,21 @@ namespace BoardgamesEShopManagement.Test
 
             _mockMapper
                 .Setup(m => m.Map<CategoryGetDto>(It.IsAny<Category>()))
-                .Returns(new CategoryGetDto 
-                { 
-                    CategoryName = "TestCategory"
+                .Returns(new CategoryGetDto
+                {
+                    Name = "TestCategory"
                 });
 
             CategoriesController controller = new CategoriesController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateCategory(new CategoryPostPutDto
             {
-                CategoryName = "TestCategory"
+                Name = "TestCategory"
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createCategoryCommand.CategoryName, ((CategoryGetDto)okResult.Value).CategoryName);
+            Assert.Equal(createCategoryCommand.CategoryName, ((CategoryGetDto)okResult.Value).Name);
         }
 
         [Fact]
@@ -135,13 +135,13 @@ namespace BoardgamesEShopManagement.Test
             _mockMapper
                 .Setup(m => m.Map<CategoryPostPutDto>(It.IsAny<Category>()))
                 .Returns(new CategoryPostPutDto
-                { 
-                    CategoryName = "UpdatedCategoryName"
+                {
+                    Name = "UpdatedCategoryName"
                 });
 
             CategoriesController controller = new CategoriesController(_mockMediator.Object, _mockMapper.Object);
 
-            IActionResult result = await controller.UpdateCategory(1, new CategoryPostPutDto { CategoryName = "UpdatedCategoryName" });
+            IActionResult result = await controller.UpdateCategory(1, new CategoryPostPutDto { Name = "UpdatedCategoryName" });
 
             NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);
 

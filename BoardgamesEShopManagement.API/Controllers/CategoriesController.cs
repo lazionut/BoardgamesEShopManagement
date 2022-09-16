@@ -34,13 +34,13 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
-            CreateCategoryRequest command = new CreateCategoryRequest { CategoryName = category.CategoryName };
+            CreateCategoryRequest command = new CreateCategoryRequest { CategoryName = category.Name };
 
             Category result = await _mediator.Send(command);
 
             CategoryGetDto mappedResult = _mapper.Map<CategoryGetDto>(result);
 
-            return CreatedAtAction(nameof(GetCategory), new { id = mappedResult.CategoryId }, mappedResult);
+            return CreatedAtAction(nameof(GetCategory), new { id = mappedResult.Id }, mappedResult);
         }
 
         [HttpGet]
@@ -106,7 +106,7 @@ namespace BoardgamesEShopManagement.Controllers
             UpdateCategoryRequest command = new UpdateCategoryRequest
             {
                 CategoryId = id,
-                CategoryName = updatedCategory.CategoryName
+                CategoryName = updatedCategory.Name
             };
 
             Category? result = await _mediator.Send(command);

@@ -35,18 +35,18 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateAddressRequest command = new CreateAddressRequest
             {
-                AddressDetails = address.AddressDetails,
-                AddressCity = address.AddressCity,
-                AddressCounty = address.AddressCounty,
-                AddressCountry = address.AddressCountry,
-                AddressPhone = address.AddressPhone
+                AddressDetails = address.Details,
+                AddressCity = address.City,
+                AddressCounty = address.County,
+                AddressCountry = address.Country,
+                AddressPhone = address.Phone
             };
 
             Address result = await _mediator.Send(command);
 
             AddressGetDto mappedResult = _mapper.Map<AddressGetDto>(result);
 
-            return CreatedAtAction(nameof(GetAddress), new { id = mappedResult.AddressId }, mappedResult);
+            return CreatedAtAction(nameof(GetAddress), new { id = mappedResult.Id }, mappedResult);
         }
 
         [HttpGet]
@@ -74,11 +74,11 @@ namespace BoardgamesEShopManagement.Controllers
             UpdateAddressRequest command = new UpdateAddressRequest
             {
                 AddressId = id,
-                AddressDetails = updatedAddress.AddressDetails,
-                AddressCity = updatedAddress.AddressCity,
-                AddressCounty = updatedAddress.AddressCounty,
-                AddressCountry = updatedAddress.AddressCountry,
-                AddressPhone = updatedAddress.AddressPhone
+                AddressDetails = updatedAddress.Details,
+                AddressCity = updatedAddress.City,
+                AddressCounty = updatedAddress.County,
+                AddressCountry = updatedAddress.Country,
+                AddressPhone = updatedAddress.Phone
             };
 
             Address? result = await _mediator.Send(command);

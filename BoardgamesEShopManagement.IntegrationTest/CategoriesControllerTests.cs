@@ -30,7 +30,7 @@ namespace BoardgamesEShopManagement.IntegrationTest
             string result = await response.Content.ReadAsStringAsync();
             CategoryGetDto category = JsonConvert.DeserializeObject<CategoryGetDto>(result);
 
-            Assert.Equal(newCategory.CategoryName, category.CategoryName);
+            Assert.Equal(newCategory.CategoryName, category.Name);
         }
 
         [Fact]
@@ -68,9 +68,9 @@ namespace BoardgamesEShopManagement.IntegrationTest
             string result = await response.Content.ReadAsStringAsync();
             List<CategoryGetDto> categories = JsonConvert.DeserializeObject<List<CategoryGetDto>>(result);
 
-            CategoryGetDto? category = categories.FirstOrDefault(c => c.CategoryId == 1);
+            CategoryGetDto? category = categories.FirstOrDefault(c => c.Id == 1);
 
-            Assert.Equal(searchedCategory.CategoryId, category.CategoryId);
+            Assert.Equal(searchedCategory.CategoryId, category.Id);
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace BoardgamesEShopManagement.IntegrationTest
             string result = await response.Content.ReadAsStringAsync();
             CategoryGetDto category = JsonConvert.DeserializeObject<CategoryGetDto>(result);
 
-            Assert.Equal(searchedCategory.CategoryId, category.CategoryId);
+            Assert.Equal(searchedCategory.CategoryId, category.Id);
         }
 
         [Fact]

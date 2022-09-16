@@ -1,7 +1,6 @@
 ﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Utils;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame
@@ -39,7 +38,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardg
             updatedBoardgame.Link = request.BoardgameLink;
             updatedBoardgame.CategoryId = request.BoardgameCategoryId;
 
-            updatedBoardgame.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
+            updatedBoardgame.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.BoardgameRepository.Update(updatedBoardgame);
             await _unitOfWork.Save();

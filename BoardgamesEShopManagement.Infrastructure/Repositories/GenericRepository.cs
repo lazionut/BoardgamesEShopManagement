@@ -23,8 +23,13 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             await _context.Set<T>().AddAsync(item);
         }
 
-        public async Task<List<T>> GetAll(int pageIndex, int pageSize)
+        public async Task<List<T>?> GetAll(int pageIndex, int pageSize)
         {
+            if (pageIndex <= 0 || pageSize <= 0)
+            {
+                return null;
+            }
+
             _logger.LogInformation($"Getting the list of {typeof(T)}...");
             return await _context.Set<T>().Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
         }

@@ -2,7 +2,6 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlistItem
 {
@@ -33,7 +32,7 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlis
                 return null;
             }
 
-            wishlist.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
+            wishlist.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.WishlistRepository.CreateItem(wishlist.AccountId, wishlist.Id, boardgame.Id, wishlist);
             await _unitOfWork.Save();

@@ -6,12 +6,12 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         [Required]
         [MaxLength(50)]
-        public string WishlistName { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         [Required]
-        public int WishlistAccountId { get; set; }
+        public int AccountId { get; set; }
 
         [Required]
-        public List<int> WishlistBoardgameIds { get; set; } = null!;
+        public List<int> BoardgameIds { get; set; } = null!;
     }
 }

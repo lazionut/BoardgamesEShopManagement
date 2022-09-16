@@ -6,23 +6,23 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         [Required]
         [MaxLength(50)]
-        public string ReviewTitle { get; set; } = null!;
+        public string Title { get; set; } = null!;
 
         [Required]
         [MaxLength(100)]
-        public string ReviewAuthor { get; set; } = null!;
+        public string Author { get; set; } = null!;
 
         [Required]
         [Range(1, 5)]
-        public byte ReviewScore { get; set; }
+        public byte Score { get; set; }
 
         [MaxLength(4000)]
-        public string ReviewContent { get; set; } = null!;
+        public string Content { get; set; } = null!;
 
         [Required]
-        public int ReviewBoardgameId { get; set; }
+        public int BoardgameId { get; set; }
 
         [Required]
-        public int ReviewAccountId { get; set; }
+        public int AccountId { get; set; }
     }
 }

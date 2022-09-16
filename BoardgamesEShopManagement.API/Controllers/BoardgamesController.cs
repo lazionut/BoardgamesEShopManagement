@@ -41,14 +41,14 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateBoardgameRequest command = new CreateBoardgameRequest
             {
-                BoardgameImage = boardgame.BoardgameImage,
-                BoardgameName = boardgame.BoardgameName,
-                BoardgameReleaseYear = boardgame.BoardgameReleaseYear,
-                BoardgameDescription = boardgame.BoardgameDescription,
-                BoardgamePrice = boardgame.BoardgamePrice,
-                BoardgameLink = boardgame.BoardgameLink,
-                BoardgameQuantity = boardgame.BoardgameQuantity,
-                BoardgameCategoryId = boardgame.BoardgameCategoryId,
+                BoardgameImage = boardgame.Image,
+                BoardgameName = boardgame.Name,
+                BoardgameReleaseYear = boardgame.ReleaseYear,
+                BoardgameDescription = boardgame.Description,
+                BoardgamePrice = boardgame.Price,
+                BoardgameLink = boardgame.Link,
+                BoardgameQuantity = boardgame.Quantity,
+                BoardgameCategoryId = boardgame.CategoryId,
             };
 
             Boardgame result = await _mediator.Send(command);
@@ -60,7 +60,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            return CreatedAtAction(nameof(GetBoardgame), new { id = mappedResult.BoardgameId }, mappedResult);
+            return CreatedAtAction(nameof(GetBoardgame), new { id = mappedResult.Id }, mappedResult);
         }
 
         [HttpGet]
@@ -179,14 +179,14 @@ namespace BoardgamesEShopManagement.Controllers
             UpdateBoardgameRequest command = new UpdateBoardgameRequest
             {
                 BoardgameId = id,
-                BoardgameImage = updatedBoardgame.BoardgameImage,
-                BoardgameName = updatedBoardgame.BoardgameName,
-                BoardgameReleaseYear = updatedBoardgame.BoardgameReleaseYear,
-                BoardgameDescription = updatedBoardgame.BoardgameDescription,
-                BoardgamePrice = updatedBoardgame.BoardgamePrice,
-                BoardgameLink = updatedBoardgame.BoardgameLink,
-                BoardgameQuantity = updatedBoardgame.BoardgameQuantity,
-                BoardgameCategoryId = updatedBoardgame.BoardgameCategoryId
+                BoardgameImage = updatedBoardgame.Image,
+                BoardgameName = updatedBoardgame.Name,
+                BoardgameReleaseYear = updatedBoardgame.ReleaseYear,
+                BoardgameDescription = updatedBoardgame.Description,
+                BoardgamePrice = updatedBoardgame.Price,
+                BoardgameLink = updatedBoardgame.Link,
+                BoardgameQuantity = updatedBoardgame.Quantity,
+                BoardgameCategoryId = updatedBoardgame.CategoryId
             };
 
             Boardgame? result = await _mediator.Send(command);

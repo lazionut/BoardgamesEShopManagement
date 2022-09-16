@@ -1,7 +1,6 @@
 ﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Utils;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory
@@ -25,7 +24,7 @@ namespace BoardgamesEShopManagement.Application.Categories.Commands.UpdateCatego
             }
 
             updatedCategory.Name = request.CategoryName;
-            updatedCategory.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
+            updatedCategory.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.CategoryRepository.Update(updatedCategory);
             await _unitOfWork.Save();

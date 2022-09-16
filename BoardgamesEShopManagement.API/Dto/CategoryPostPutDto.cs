@@ -6,6 +6,6 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         [Required]
         [MaxLength(50)]
-        public string CategoryName { get; set; } = null!;
+        public string Name { get; set; } = null!;
     }
 }

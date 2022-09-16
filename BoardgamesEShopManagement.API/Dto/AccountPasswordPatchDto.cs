@@ -6,6 +6,6 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         [Required]
         [MaxLength(128)]
-        public string AccountPassword { get; set; } = null!;
+        public string Password { get; set; } = null!;
     }
 }

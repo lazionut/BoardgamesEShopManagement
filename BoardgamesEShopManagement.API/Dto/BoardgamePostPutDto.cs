@@ -4,30 +4,30 @@ namespace BoardgamesEShopManagement.API.Dto
 {
     public class BoardgamePostPutDto
     {
-        public string? BoardgameImage { get; set; }
+        public string? Image { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string BoardgameName { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         [Required]
         [Range(-3500, 9999)]
-        public int BoardgameReleaseYear { get; set; }
+        public int ReleaseYear { get; set; }
 
         [MaxLength(4000)]
-        public string? BoardgameDescription { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [Range(0.5, double.PositiveInfinity)]
-        public decimal BoardgamePrice { get; set; }
+        public decimal Price { get; set; }
 
         [MaxLength(2000)]
-        public string? BoardgameLink { get; set; }
+        public string? Link { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int BoardgameQuantity { get; set; }
+        public int Quantity { get; set; }
 
         [Required]
-        public int BoardgameCategoryId { get; set; }
+        public int CategoryId { get; set; }
     }
 }

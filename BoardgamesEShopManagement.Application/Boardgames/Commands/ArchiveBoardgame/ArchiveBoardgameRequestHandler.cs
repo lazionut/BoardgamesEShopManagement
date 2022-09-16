@@ -2,7 +2,6 @@
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.Domain.Utils;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame
 {
@@ -28,7 +27,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoard
             searchedBoardgame.Quantity = 0;
             searchedBoardgame.IsArchived = true;
 
-            searchedBoardgame.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
+            searchedBoardgame.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.Save();
 

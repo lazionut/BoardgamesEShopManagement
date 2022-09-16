@@ -34,23 +34,21 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateOrderRequest command = new CreateOrderRequest
             {
-                OrderAccountId = order.OrderAccountId,
-                OrderBoardgameIds = order.OrderBoardgameIds,
-                OrderBoardgameQuantities = order.OrderBoardgameQuantities
+                OrderAccountId = order.AccountId,
+                OrderBoardgameIds = order.BoardgameIds,
+                OrderBoardgameQuantities = order.BoardgameQuantities
             };
 
             Order result = await _mediator.Send(command);
 
             OrderGetDto? mappedResult = _mapper.Map<OrderGetDto>(result);
 
-            /*
             if (mappedResult == null)
             {
                 return NotFound();
             }
-            */
 
-            return CreatedAtAction(nameof(GetOrder), new { id = mappedResult.OrderId }, mappedResult);
+            return CreatedAtAction(nameof(GetOrder), new { id = mappedResult.Id }, mappedResult);
         }
 
         [HttpGet]

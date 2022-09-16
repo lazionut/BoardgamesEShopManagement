@@ -6,22 +6,22 @@ namespace BoardgamesEShopManagement.API.Dto
     {
         [Required]
         [MaxLength(200)]
-        public string AddressDetails { get; set; } = null!;
+        public string Details { get; set; } = null!;
 
         [Required]
         [MaxLength(50)]
-        public string AddressCity { get; set; } = null!;
+        public string City { get; set; } = null!;
 
         [Required]
         [MaxLength(50)]
-        public string AddressCounty { get; set; } = null!;
+        public string County { get; set; } = null!;
 
         [Required]
         [MaxLength(150)]
-        public string AddressCountry { get; set; } = null!;
+        public string Country { get; set; } = null!;
 
         [Required]
         [MaxLength(30)]
-        public string AddressPhone { get; set; } = null!;
+        public string Phone { get; set; } = null!;
     }
 }

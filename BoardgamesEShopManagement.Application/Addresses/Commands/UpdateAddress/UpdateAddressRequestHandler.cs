@@ -1,7 +1,6 @@
 ﻿using MediatR;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Utils;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress
@@ -30,7 +29,7 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress
             updatedAddress.Country = request.AddressCountry;
             updatedAddress.Phone = request.AddressPhone;
 
-            updatedAddress.UpdatedAt = DateTimeUtils.GetCurrentDateTimeWithoutMiliseconds();
+            updatedAddress.UpdatedAt = DateTime.UtcNow;
 
             await _unitOfWork.AddressRepository.Update(updatedAddress);
             await _unitOfWork.Save();

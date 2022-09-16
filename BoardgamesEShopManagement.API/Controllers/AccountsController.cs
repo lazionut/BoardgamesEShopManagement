@@ -44,11 +44,11 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateAccountRequest command = new CreateAccountRequest
             {
-                AccountFirstName = account.AccountFirstName,
-                AccountLastName = account.AccountLastName,
-                AccountEmail = account.AccountEmail,
-                AccountPassword = account.AccountPassword,
-                AccountAddressId = account.AccountAddressId,
+                AccountFirstName = account.FirstName,
+                AccountLastName = account.LastName,
+                AccountEmail = account.Email,
+                AccountPassword = account.Password,
+                AccountAddressId = account.AddressId,
             };
 
             Account result = await _mediator.Send(command);
@@ -60,7 +60,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            return CreatedAtAction(nameof(GetAccount), new { id = mappedResult.AccountId }, mappedResult);
+            return CreatedAtAction(nameof(GetAccount), new { id = mappedResult.Id }, mappedResult);
         }
 
         [HttpGet]
@@ -131,7 +131,12 @@ namespace BoardgamesEShopManagement.Controllers
         {
             GetOrderByAccountQuery query = new GetOrderByAccountQuery { AccountId = accountId, OrderId = orderId };
 
-            Order result = await _mediator.Send(query);
+            Order? result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             OrderGetDto mappedResult = _mapper.Map<OrderGetDto>(result);
 
@@ -171,14 +176,14 @@ namespace BoardgamesEShopManagement.Controllers
                 WishlistId = wishlistId
             };
 
-            Wishlist result = await _mediator.Send(query);
-
-            WishlistGetDto? mappedResult = _mapper.Map<WishlistGetDto>(result);
+            Wishlist? result = await _mediator.Send(query);
 
             if (result == null)
             {
                 return NotFound();
             }
+
+            WishlistGetDto mappedResult = _mapper.Map<WishlistGetDto>(result);
 
             return Ok(mappedResult);
         }
@@ -213,8 +218,8 @@ namespace BoardgamesEShopManagement.Controllers
             UpdateAccountRequest command = new UpdateAccountRequest
             {
                 AccountId = id,
-                AccountFirstName = updatedAccount.AccountFirstName,
-                AccountLastName = updatedAccount.AccountLastName,
+                AccountFirstName = updatedAccount.FirstName,
+                AccountLastName = updatedAccount.LastName,
             };
 
             Account? result = await _mediator.Send(command);
@@ -234,7 +239,7 @@ namespace BoardgamesEShopManagement.Controllers
             UpdateAccountRequest command = new UpdateAccountRequest
             {
                 AccountId = id,
-                AccountEmail = updatedAccount.AccountEmail,
+                AccountEmail = updatedAccount.Email,
             };
 
             Account? result = await _mediator.Send(command);
@@ -254,7 +259,7 @@ namespace BoardgamesEShopManagement.Controllers
             UpdateAccountRequest command = new UpdateAccountRequest
             {
                 AccountId = id,
-                AccountPassword = updatedAccount.AccountPassword,
+                AccountPassword = updatedAccount.Password,
             };
 
             Account? result = await _mediator.Send(command);
@@ -301,7 +306,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpDelete]
         [Route("{accountId}/wishlists/{wishlistId}/boardgames/{boardgameId}")]
-        public async Task<IActionResult> DeleteWishlistItem(int accountId, int wishlistId, int boardgameId)
+        public async Task<IActionResult> DeleteWishlistItemByAccountWishlist(int accountId, int wishlistId, int boardgameId)
         {
             DeleteWishlistItemRequest command = new DeleteWishlistItemRequest
             {
@@ -322,7 +327,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpDelete]
         [Route("{accountId}/wishlists/{wishlistId}")]
-        public async Task<IActionResult> DeleteWishlist(int accountId, int wishlistId)
+        public async Task<IActionResult> DeleteWishlistByAccount(int accountId, int wishlistId)
         {
             DeleteWishlistRequest command = new DeleteWishlistRequest
             {

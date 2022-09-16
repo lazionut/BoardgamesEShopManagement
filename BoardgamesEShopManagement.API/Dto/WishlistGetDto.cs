@@ -2,11 +2,11 @@
 {
     public class WishlistGetDto
     {
-        public int WishlistId { get; set; }
-        public string WishlistName { get; set; } = null!;
-        public int WishlistAccountId { get; set; }
-        public DateTime WishlistCreationDate { get; set; }
-        public DateTime WishlistUpdateDate { get; set; }
-        public ICollection<object> WishlistBoardgames { get; set; } = null!;
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public int AccountId { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime UpdateDate { get; set; }
+        public ICollection<WishlistBoardgameDto> Boardgames { get; set; } = null!;
     }
 }

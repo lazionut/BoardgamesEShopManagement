@@ -15,8 +15,6 @@ using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount;
-using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
-using BoardgamesEShopManagement.Application.Orders.Queries.GetOrderByAccount;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -54,27 +52,27 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Map<AccountGetDto>(It.IsAny<Address>()))
                 .Returns(new AccountGetDto
                 {
-                    AccountFirstName = "FirstName",
-                    AccountLastName = "LastName",
-                    AccountEmail = "email@example.com",
-                    AccountPassword = "password",
-                    AccountAddressId = 1,
+                    FirstName = "FirstName",
+                    LastName = "LastName",
+                    Email = "email@example.com",
+                    Password = "password",
+                    AddressId = 1,
                 });
 
             AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateAccount(new AccountPostDto
             {
-                AccountFirstName = "FirstName",
-                AccountLastName = "LastName",
-                AccountEmail = "email@example.com",
-                AccountPassword = "password",
-                AccountAddressId = 1,
+                FirstName = "FirstName",
+                LastName = "LastName",
+                Email = "email@example.com",
+                Password = "password",
+                AddressId = 1,
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createAccountCommand.AccountEmail, ((AccountGetDto)okResult.Value).AccountEmail);
+            Assert.Equal(createAccountCommand.AccountEmail, ((AccountGetDto)okResult.Value).Email);
         }
 
         [Fact]
@@ -137,12 +135,12 @@ namespace BoardgamesEShopManagement.Test
                 .Returns(new List<ReviewGetDto> {
                 new ReviewGetDto
                 {
-                    ReviewTitle = "This",
-                    ReviewAuthor = "Calvin Grady",
-                    ReviewScore = 3,
-                    ReviewContent = "It only works when I'm Cook Islands.",
-                    ReviewBoardgameId = 6,
-                    ReviewAccountId = 1
+                    Title = "This",
+                    Author = "Calvin Grady",
+                    Score = 3,
+                    Content = "It only works when I'm Cook Islands.",
+                    BoardgameId = 6,
+                    AccountId = 1
                 },
                 });
 
@@ -173,16 +171,16 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Map<AccountNamePatchDto>(It.IsAny<Account>()))
                 .Returns(new AccountNamePatchDto
                 {
-                    AccountFirstName = "Updated FirstName",
-                    AccountLastName = "Updated LastName"
+                    FirstName = "Updated FirstName",
+                    LastName = "Updated LastName"
                 });
 
             AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.UpdateAccountName(1, new AccountNamePatchDto
             {
-                AccountFirstName = "Updated FirstName",
-                AccountLastName = "Updated LastName"
+                FirstName = "Updated FirstName",
+                LastName = "Updated LastName"
             });
 
             NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);
@@ -208,14 +206,14 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Map<AccountEmailPatchDto>(It.IsAny<Account>()))
                 .Returns(new AccountEmailPatchDto
                 {
-                    AccountEmail = "updatedemail@example.com",
+                    Email = "updatedemail@example.com",
                 });
 
             AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.UpdateAccountEmail(1, new AccountEmailPatchDto
             {
-                AccountEmail = "updatedemail@example.com"
+                Email = "updatedemail@example.com"
             });
 
             NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);
