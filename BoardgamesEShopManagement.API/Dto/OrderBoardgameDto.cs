@@ -1,4 +1,6 @@
-﻿namespace BoardgamesEShopManagement.API.Dto
+﻿using BoardgamesEShopManagement.Domain.Entities;
+
+namespace BoardgamesEShopManagement.API.Dto
 {
     public class OrderBoardgameDto
     {
@@ -6,5 +8,6 @@
         public string? Image { get; set; }
         public string Name { get; set; } = null!;
         public decimal Price { get; set; }
+        public int Quantity { get; set; }
     }
 }

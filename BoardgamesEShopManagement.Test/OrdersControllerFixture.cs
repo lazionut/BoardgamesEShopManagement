@@ -37,26 +37,30 @@ namespace BoardgamesEShopManagement.Test
                           Total = 1393.36M,
                           Status = 0,
                           AccountId = 1,
-                          Boardgames = new List<Boardgame>
+                          OrderItems = new List<OrderItem>
                           {
-                              new Boardgame
+                              new OrderItem
                               {
-                                  Image = null,
-                                  Name = "Splendor",
-                                  ReleaseYear = 2008,
-                                  Description = "SPLENDOR",
-                                  Price = 150.92M,
-                                  Link = "https://boardgamegeek.com/boardgame/230802/azul"
+                                  Boardgame = new Boardgame {                                  
+                                      Image = null,
+                                      Name = "Splendor",
+                                      ReleaseYear = 2008,
+                                      Description = "SPLENDOR",
+                                      Price = 150.92M,
+                                  Link = "https://boardgamegeek.com/boardgame/230802/azul" },
+                                  Quantity = 1,
                               },
-                              new Boardgame
+                              new OrderItem
                               {
+                                 Boardgame = new Boardgame {
                                   Image = null,
                                   Name = "Warhammer 40K Collection",
                                   ReleaseYear = 2005,
                                   Description = "WARHAMMER 40K COLLECTION",
                                   Price = 1242.44M,
-                                  Link = "https://boardgamegeek.com/boardgame/148228/splendor"
-                              }
+                                  Link = "https://boardgamegeek.com/boardgame/148228/splendor" },
+                                  Quantity = 1,
+                              },
                           }
                       }
             );

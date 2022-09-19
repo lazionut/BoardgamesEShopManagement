@@ -67,6 +67,9 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Accounts");
                 });
 
@@ -151,8 +154,8 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(9, 2)
-                        .HasColumnType("decimal(9,2)");
+                        .HasPrecision(12, 2)
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -208,12 +211,12 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrderStatus")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(24, 2)
+                        .HasColumnType("decimal(24,2)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -227,13 +230,28 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.OrderItem", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
                     b.Property<int>("BoardgameId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.HasKey("BoardgameId", "OrderId");
+                    b.Property<decimal>("Price")
+                        .HasPrecision(12, 2)
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoardgameId");
 
                     b.HasIndex("OrderId");
 
@@ -260,6 +278,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
 
@@ -373,7 +392,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("BoardgamesEShopManagement.Domain.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -455,6 +474,11 @@ namespace BoardgamesEShopManagement.Infrastructure.Migrations
             modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Boardgames");
+                });
+
+            modelBuilder.Entity("BoardgamesEShopManagement.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

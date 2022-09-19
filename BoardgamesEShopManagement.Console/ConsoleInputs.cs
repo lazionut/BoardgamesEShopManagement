@@ -6,7 +6,7 @@ using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Categories.Queries.GetOrdersListPerAccount;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount;
 using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
 
 namespace BoardgamesEShopManagement.ConsolePresentation

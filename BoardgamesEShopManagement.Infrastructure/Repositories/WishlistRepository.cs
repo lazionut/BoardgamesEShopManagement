@@ -73,7 +73,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
             if (searchedWishlist == null)
             {
-                _logger.LogError($"Could not find the wishlist.");
+                _logger.LogError("Could not find the wishlist.");
                 return null;
             }
 

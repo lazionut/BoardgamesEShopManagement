@@ -10,22 +10,13 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
         public void Configure(EntityTypeBuilder<Order> orderConfiguration)
         {
             orderConfiguration
-                .HasMany(order => order.Boardgames)
-                .WithMany(boardgame => boardgame.Orders)
-                .UsingEntity<OrderItem>
-                (
-                oi => oi.HasOne(oi => oi.Boardgame).WithMany().HasForeignKey(oi => oi.BoardgameId),
-                oi => oi.HasOne(oi => oi.Order).WithMany().HasForeignKey(oi => oi.OrderId)
-                );
-
-            orderConfiguration
                 .HasOne(order => order.Account)
                 .WithMany(account => account.Orders)
                 .HasForeignKey(order => order.AccountId);
 
             orderConfiguration
                 .Property(order => order.Total)
-                .HasPrecision(18, 2);
+                .HasPrecision(24, 2);
         }
     }
 }

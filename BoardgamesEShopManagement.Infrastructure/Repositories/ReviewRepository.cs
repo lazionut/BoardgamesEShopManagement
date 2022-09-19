@@ -39,13 +39,13 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task<Review?> GetByAccountId(int accountId)
         {
-            _logger.LogInformation($"Getting the first review by it's boardgame identifier...");
+            _logger.LogInformation("Getting the first review by it's boardgame identifier...");
             return await _context.Reviews.FirstOrDefaultAsync(review => review.AccountId == accountId);
         }
 
         public async Task<Review?> GetByBoardgameId(int boardgameId)
         {
-            _logger.LogInformation($"Getting the first review by it's boardgame identifier...");
+            _logger.LogInformation("Getting the first review by it's boardgame identifier...");
             return await _context.Reviews.FirstOrDefaultAsync(review => review.BoardgameId == boardgameId);
         }
     }

@@ -242,6 +242,8 @@ namespace BoardgamesEShopManagement.Infrastructure
                 new Faker<OrderItem>()
                     .RuleFor(orderItem => orderItem.OrderId, orderId)
                     .RuleFor(orderItem => orderItem.BoardgameId, faker => faker.Random.Number(1, 10))
+                    .RuleFor(orderItem => orderItem.Quantity, faker => faker.Random.Number(1, 3))
+                    .RuleFor(orderItem => orderItem.Price, faker => faker.Random.Decimal(50, 10000))
                     .Generate());
         }
     }

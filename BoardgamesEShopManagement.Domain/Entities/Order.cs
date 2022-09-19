@@ -11,6 +11,6 @@ namespace BoardgamesEShopManagement.Domain.Entities
         public OrderStatusEnum Status { get; set; } = OrderStatusEnum.Created;
         public Account Account { get; set; } = null!;
         public int AccountId { get; set; }
-        public ICollection<Boardgame> Boardgames { get; set; } = null!;
+        public ICollection<OrderItem> OrderItems { get; set; } = null!;
     }
 }
