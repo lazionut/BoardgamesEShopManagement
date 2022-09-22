@@ -10,6 +10,8 @@ using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList
 using BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory;
 using BoardgamesEShopManagement.Application.Categories.Commands.DeleteCategory;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using BoardgamesEShopManagement.Domain.Enumerations;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -80,11 +82,14 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpGet]
         [Route("{id}/boardgames")]
-        public async Task<IActionResult> GetBoardgamesPerCategory(int id)
+        public async Task<IActionResult> GetBoardgamesPerCategory(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
         {
             GetBoardgamesListPerCategoryQuery command = new GetBoardgamesListPerCategoryQuery
             {
-                CategoryId = id
+                CategoryId = id,
+                BoardgamePageIndex = pageIndex,
+                BoardgamePageSize = pageSize,
+                BoardgameSortOrder = sortOrder
             };
 
             List<Boardgame>? result = await _mediator.Send(command);

@@ -5,7 +5,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList
 {
-    public class GetBoardgameListQueryHandler : IRequestHandler<GetBoardgamesListQuery, List<Boardgame>>
+    public class GetBoardgameListQueryHandler : IRequestHandler<GetBoardgamesListQuery, List<Boardgame>?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,7 +14,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Boardgame>> Handle(GetBoardgamesListQuery request, CancellationToken cancellationToken)
+        public async Task<List<Boardgame>?> Handle(GetBoardgamesListQuery request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.BoardgameRepository.GetAll(request.BoardgamePageIndex, request.BoardgamePageSize);
         }

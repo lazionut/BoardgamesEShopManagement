@@ -36,7 +36,8 @@ namespace BoardgamesEShopManagement.Controllers
             {
                 OrderAccountId = order.AccountId,
                 OrderBoardgameIds = order.BoardgameIds,
-                OrderBoardgameQuantities = order.BoardgameQuantities
+                OrderBoardgameQuantities = order.BoardgameQuantities,
+                OrderAddress = order.Address
             };
 
             Order result = await _mediator.Send(command);

@@ -86,7 +86,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpGet("sorted")]
         public async Task<IActionResult> GetBoardgamesSorted
-            ([BindRequired] int pageIndex, [BindRequired] int pageSize, BoardgamesSortOrdersEnum sortOrder)
+            ([BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
         {
             GetBoardgamesListSortedQuery query = new GetBoardgamesListSortedQuery
             {
@@ -109,7 +109,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpGet("search")]
         public async Task<IActionResult> GetBoardgamesByName
-            ([BindRequired] string keywords, [BindRequired] int pageIndex, [BindRequired] int pageSize, BoardgamesSortOrdersEnum sortOrder)
+            ([BindRequired] string keywords, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
         {
             GetBoardgamesListByNameQuery query = new GetBoardgamesListByNameQuery
             {

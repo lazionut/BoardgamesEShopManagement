@@ -114,7 +114,7 @@ namespace BoardgamesEShopManagement.Test
 
             CategoriesController controller = new CategoriesController(_mockMediator.Object, _mockMapper.Object);
 
-            IActionResult result = await controller.GetBoardgamesPerCategory(4);
+            IActionResult result = await controller.GetBoardgamesPerCategory(4, 1, 10, 0);
 
             OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
 

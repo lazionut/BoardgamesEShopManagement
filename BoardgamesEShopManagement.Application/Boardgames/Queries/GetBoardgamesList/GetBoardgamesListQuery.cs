@@ -8,5 +8,6 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
     {
         public int BoardgamePageIndex { get; set; }
         public int BoardgamePageSize { get; set; }
+        public int BoardgameSortOrder { get; set; }
     }
 }

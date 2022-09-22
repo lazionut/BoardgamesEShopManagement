@@ -10,7 +10,6 @@ using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -24,9 +23,10 @@ namespace BoardgamesEShopManagement.Test
         {
             CreateOrderRequest createOrderCommand = new CreateOrderRequest
             {
-                OrderAccountId = 1,
+                OrderAddress = "ExampleOrderAddress",
                 OrderBoardgameIds = new List<int> { 1, 9 },
-                OrderBoardgameQuantities = new List<int> { 1, 1 }
+                OrderBoardgameQuantities = new List<int> { 1, 1 },
+                OrderAccountId = 1
             };
 
             _mockMediator
@@ -69,6 +69,7 @@ namespace BoardgamesEShopManagement.Test
                  .Setup(m => m.Map<OrderGetDto>(It.IsAny<Order>()))
                  .Returns(new OrderGetDto
                  {
+                     Address = "ExampleOrderAddress",
                      Total = 1393.36M,
                      Status = 0,
                      AccountId = 1,

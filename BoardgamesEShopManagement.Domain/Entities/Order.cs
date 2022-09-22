@@ -12,5 +12,8 @@ namespace BoardgamesEShopManagement.Domain.Entities
         public Account Account { get; set; } = null!;
         public int AccountId { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; } = null!;
+
+        [MaxLength(600)]
+        public string Address { get; set; } = null!;
     }
 }
