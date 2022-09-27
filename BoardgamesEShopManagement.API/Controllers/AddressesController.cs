@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.API.Dto;
@@ -14,6 +15,7 @@ namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/addresses")]
     [ApiController]
+    [Authorize]
     public class AddressesController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -93,6 +95,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAddress(int id)
         {
             DeleteAddressRequest command = new DeleteAddressRequest { AddressId = id };

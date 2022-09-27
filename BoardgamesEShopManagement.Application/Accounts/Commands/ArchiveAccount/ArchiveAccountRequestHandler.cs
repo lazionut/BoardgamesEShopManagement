@@ -26,7 +26,6 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount
             searchedAccount.FirstName = "Anonymized";
             searchedAccount.LastName = "Anonymized";
             searchedAccount.Email = "Anonymized";
-            searchedAccount.Password = "";
             searchedAccount.IsArchived = true;
 
             searchedAccount.UpdatedAt = DateTime.UtcNow;

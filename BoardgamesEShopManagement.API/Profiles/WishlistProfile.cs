@@ -28,7 +28,7 @@ namespace BoardgamesEShopManagement.API.Profiles
 
             CreateMap<Wishlist, WishlistPostDto>();
 
-            CreateMap<WishlistItem, WishlistItemPostDto>();
+            CreateMap<WishlistItem, WishlistPutDto>();
         }
     }
 }

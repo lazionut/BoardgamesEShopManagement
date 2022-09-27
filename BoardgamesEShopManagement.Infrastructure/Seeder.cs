@@ -74,11 +74,11 @@ namespace BoardgamesEShopManagement.Infrastructure
 
             return addressIds.ToList().Select(addressId =>
                new Faker<Account>()
-                .RuleFor(person => person.FirstName, faker => faker.Person.FirstName)
-                .RuleFor(person => person.LastName, faker => faker.Person.LastName)
-                .RuleFor(review => review.Email, faker => faker.Internet.Email())
-                .RuleFor(review => review.Password, faker => faker.Internet.Password())
-                .RuleFor(review => review.AddressId, addressId)
+                .RuleFor(account => account.FirstName, faker => faker.Person.FirstName)
+                .RuleFor(account => account.LastName, faker => faker.Person.LastName)
+                .RuleFor(account => account.Email, faker => faker.Internet.Email())
+                .RuleFor(account => account.PasswordHash, faker => faker.Random.Hash())
+                .RuleFor(account => account.AddressId, addressId)
                 .Generate());
         }
 

@@ -145,8 +145,10 @@ namespace BoardgamesEShopManagement.ConsolePresentation
             Console.WriteLine($"Insert {nameof(account.Email)}:");
             updateAccountCommand.AccountEmail = Console.ReadLine();
 
+            /*
             Console.WriteLine($"Insert {nameof(account.Password)}:");
             updateAccountCommand.AccountPassword = Console.ReadLine();
+            */
 
             return await mediator.Send(updateAccountCommand);
         }

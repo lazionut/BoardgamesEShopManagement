@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Enumerations;
@@ -13,6 +14,7 @@ namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/orders")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -25,6 +27,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> CreateOrder([FromBody] OrderPostDto order)
         {
             if (!ModelState.IsValid)
@@ -72,6 +75,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpPatch]
         [Route("{id}/change-status")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateOrderStatus(int id, [FromQuery] OrderStatusEnum orderStatus)
         {
             UpdateOrderStatusRequest command = new UpdateOrderStatusRequest

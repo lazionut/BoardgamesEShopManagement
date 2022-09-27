@@ -5,7 +5,7 @@ using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory
 {
-    public class UpdateCategoryRequestHandler : IRequestHandler<UpdateCategoryRequest, Category>
+    public class UpdateCategoryRequestHandler : IRequestHandler<UpdateCategoryRequest, Category?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,9 +14,9 @@ namespace BoardgamesEShopManagement.Application.Categories.Commands.UpdateCatego
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Category> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<Category?> Handle(UpdateCategoryRequest request, CancellationToken cancellationToken)
         {
-            Category updatedCategory = await _unitOfWork.CategoryRepository.GetById(request.CategoryId);
+            Category? updatedCategory = await _unitOfWork.CategoryRepository.GetById(request.CategoryId);
 
             if (updatedCategory == null)
             {

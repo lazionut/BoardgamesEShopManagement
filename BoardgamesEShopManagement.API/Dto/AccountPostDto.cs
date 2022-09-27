@@ -13,6 +13,7 @@ namespace BoardgamesEShopManagement.API.Dto
         public string LastName { get; set; } = null!;
 
         [Required]
+        [EmailAddress]
         [MaxLength(255)]
         public string Email { get; set; } = null!;
 
@@ -22,5 +23,8 @@ namespace BoardgamesEShopManagement.API.Dto
 
         [Required]
         public int AddressId { get; set; }
+
+        [Required]
+        public bool IsAdmin { get; set; }
     }
 }

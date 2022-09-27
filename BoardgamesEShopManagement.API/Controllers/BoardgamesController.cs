@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Enumerations;
@@ -32,6 +33,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateBoardgame([FromBody] BoardgamePostPutDto boardgame)
         {
             if (!ModelState.IsValid)
@@ -174,6 +176,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateBoardgame(int id, [FromBody] BoardgamePostPutDto updatedBoardgame)
         {
             UpdateBoardgameRequest command = new UpdateBoardgameRequest
@@ -201,6 +204,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteBoardgame(int id)
         {
             DeleteBoardgameRequest command = new DeleteBoardgameRequest { BoardgameId = id };
@@ -215,9 +219,9 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok();
         }
 
-
         [HttpDelete]
         [Route("{id}/archive")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ArchiveBoardgame(int id)
         {
             ArchiveBoardgameRequest command = new ArchiveBoardgameRequest { BoardgameId = id };
