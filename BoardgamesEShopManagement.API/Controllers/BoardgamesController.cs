@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Enumerations;
-using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListSorted;
@@ -16,6 +15,7 @@ using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoa
 using BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
+using BoardgamesEShopManagement.API.Dto;
 
 namespace BoardgamesEShopManagement.Controllers
 {

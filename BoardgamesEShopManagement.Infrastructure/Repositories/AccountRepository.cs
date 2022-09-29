@@ -43,13 +43,14 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             }
 
             _logger.LogInformation($"Getting the list of {typeof(Account)}...");
-            return await _context.Accounts.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            return await _context.Accounts.Include(account => account.Address).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<Account?> GetById(int id)
         {
             _logger.LogInformation($"Getting {typeof(Account)} by it's identifier...");
             return await _context.Accounts
+                .Include(account => account.Address)
                 .SingleOrDefaultAsync(item => item.Id == id);
         }
 

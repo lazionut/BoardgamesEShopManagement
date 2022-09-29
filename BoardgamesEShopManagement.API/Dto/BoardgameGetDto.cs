@@ -1,7 +1,14 @@
-﻿namespace BoardgamesEShopManagement.API.Dto
+﻿using BoardgamesEShopManagement.Domain.Entities;
+
+namespace BoardgamesEShopManagement.API.Dto
 {
     public class BoardgameGetDto
     {
+        /*
+        public Boardgame Boardgame { get; set; } = null!;
+        public int TotalItems { get; set; } 
+        */
+
         public int Id { get; set; }
         public string? Image { get; set; }
         public string Name { get; set; } = null!;

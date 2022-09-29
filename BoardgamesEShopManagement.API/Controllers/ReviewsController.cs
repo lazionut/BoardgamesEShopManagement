@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
-using Microsoft.AspNetCore.Authorization;
+using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.API.Services;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -17,15 +18,16 @@ namespace BoardgamesEShopManagement.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ISingletonService _singletonService;
 
-        public ReviewsController(IMediator mediator, IMapper mapper)
+        public ReviewsController(IMediator mediator, IMapper mapper, ISingletonService singletonService)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _singletonService = singletonService;
         }
 
         [HttpPost]
-        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> CreateReview([FromBody] ReviewPostDto review)
         {
             if (!ModelState.IsValid)
@@ -40,7 +42,7 @@ namespace BoardgamesEShopManagement.Controllers
                 ReviewScore = review.Score,
                 ReviewContent = review.Content,
                 ReviewBoardgameId = review.BoardgameId,
-                ReviewAccountId = review.AccountId
+                ReviewAccountId = _singletonService.Id
             };
 
             Review? result = await _mediator.Send(command);

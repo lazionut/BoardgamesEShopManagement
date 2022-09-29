@@ -5,9 +5,6 @@ namespace BoardgamesEShopManagement.API.Dto
     public class WishlistPutDto
     {
         [Required]
-        public int AccountId { get; set; }
-
-        [Required]
         public string Name { get; set; } = null!;
 
         [Required]

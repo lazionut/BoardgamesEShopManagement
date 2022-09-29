@@ -21,8 +21,5 @@ namespace BoardgamesEShopManagement.API.Dto
 
         [Required]
         public int BoardgameId { get; set; }
-
-        [Required]
-        public int AccountId { get; set; }
     }
 }

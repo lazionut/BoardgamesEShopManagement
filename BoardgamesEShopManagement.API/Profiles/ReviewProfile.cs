@@ -12,8 +12,6 @@ namespace BoardgamesEShopManagement.API.Profiles
             CreateMap<Review, ReviewGetDto>();
 
             CreateMap<Review, ReviewPostDto>();
-
-            CreateMap<Review, ReviewPatchDto>();
         }
     }
 }

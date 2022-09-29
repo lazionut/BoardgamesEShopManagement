@@ -4,12 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress;
+using BoardgamesEShopManagement.API.Dto;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -25,30 +24,6 @@ namespace BoardgamesEShopManagement.Controllers
         {
             _mediator = mediator;
             _mapper = mapper;
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateAddress([FromBody] AddressPostPutDto address)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            CreateAddressRequest command = new CreateAddressRequest
-            {
-                AddressDetails = address.Details,
-                AddressCity = address.City,
-                AddressCounty = address.County,
-                AddressCountry = address.Country,
-                AddressPhone = address.Phone
-            };
-
-            Address result = await _mediator.Send(command);
-
-            AddressGetDto mappedResult = _mapper.Map<AddressGetDto>(result);
-
-            return CreatedAtAction(nameof(GetAddress), new { id = mappedResult.Id }, mappedResult);
         }
 
         [HttpGet]

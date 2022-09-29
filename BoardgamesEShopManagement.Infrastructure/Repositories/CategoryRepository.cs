@@ -23,6 +23,5 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             int count = await _context.Categories.CountAsync();
             return count;
         }
-
     }
 }

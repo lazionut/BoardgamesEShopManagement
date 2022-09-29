@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Enumerations;
-using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Orders.Commands.UpdateOrderStatus;
+using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.API.Services;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -19,15 +20,16 @@ namespace BoardgamesEShopManagement.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ISingletonService _singletonService;
 
-        public OrdersController(IMediator mediator, IMapper mapper)
+        public OrdersController(IMediator mediator, IMapper mapper, ISingletonService singletonService)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _singletonService = singletonService;
         }
 
         [HttpPost]
-        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> CreateOrder([FromBody] OrderPostDto order)
         {
             if (!ModelState.IsValid)
@@ -37,7 +39,7 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateOrderRequest command = new CreateOrderRequest
             {
-                OrderAccountId = order.AccountId,
+                OrderAccountId = _singletonService.Id,
                 OrderBoardgameIds = order.BoardgameIds,
                 OrderBoardgameQuantities = order.BoardgameQuantities,
                 OrderAddress = order.Address

@@ -9,7 +9,7 @@ namespace BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount
 {
     public class LoginAccountQuery : IRequest<string>
     {
-        public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
+        public string AccountEmail { get; set; } = null!;
+        public string AccountPassword { get; set; } = null!;
     }
 }

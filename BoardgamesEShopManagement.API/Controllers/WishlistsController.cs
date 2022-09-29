@@ -4,25 +4,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
 using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlist;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlist;
+using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.API.Services;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/wishlists")]
     [ApiController]
-    [Authorize(Roles = "Customer")]
+    [Authorize]
     public class WishlistsController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ISingletonService _singletonService;
 
-        public WishlistsController(IMediator mediator, IMapper mapper)
+        public WishlistsController(IMediator mediator, IMapper mapper, ISingletonService singletonService)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _singletonService = singletonService;
         }
 
         [HttpPost]
@@ -35,7 +38,7 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateWishlistRequest command = new CreateWishlistRequest
             {
-                WishlistAccountId = wishlist.AccountId,
+                WishlistAccountId = _singletonService.Id,
                 WishlistName = wishlist.Name,
                 WishlistBoardgameIds = wishlist.BoardgameIds
             };
@@ -83,7 +86,7 @@ namespace BoardgamesEShopManagement.Controllers
             {
                 WishlistId = id,
                 WishlistName = wishlist.Name,
-                WishlistAccountId = wishlist.AccountId,
+                WishlistAccountId = _singletonService.Id,
                 WishlistBoardgameIds = wishlist.BoardgameIds
             };
 

@@ -2,7 +2,7 @@
 
 namespace BoardgamesEShopManagement.API.Dto
 {
-    public class AccountNamePatchDto
+    public class AccountPutDto
     {
         [Required]
         [MaxLength(50)]
@@ -11,5 +11,10 @@ namespace BoardgamesEShopManagement.API.Dto
         [Required]
         [MaxLength(50)]
         public string LastName { get; set; } = null!;
+
+        [Required]
+        [EmailAddress]
+        [MaxLength(255)]
+        public string Email { get; set; } = null!;
     }
 }

@@ -29,9 +29,9 @@ namespace BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount
 
         public async Task<string> Handle(LoginAccountQuery request, CancellationToken cancellationToken)
         {
-            Account? searchedAccount = await _unitOfWork.AccountRepository.GetByEmail(request.Email);
+            Account? searchedAccount = await _unitOfWork.AccountRepository.GetByEmail(request.AccountEmail);
 
-            if (searchedAccount != null && await _userManager.CheckPasswordAsync(searchedAccount, request.Password))
+            if (searchedAccount != null && await _userManager.CheckPasswordAsync(searchedAccount, request.AccountPassword))
             {
                 IList<string> userRoles = await _userManager.GetRolesAsync(searchedAccount);
 

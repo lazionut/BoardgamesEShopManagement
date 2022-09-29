@@ -23,9 +23,9 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
                 return null;
             }
 
-            updatedAccount.FirstName = request.AccountFirstName ?? updatedAccount.FirstName;
-            updatedAccount.LastName = request.AccountLastName ?? updatedAccount.LastName;
-            updatedAccount.Email = request.AccountEmail ?? updatedAccount.Email;
+            updatedAccount.FirstName = request.AccountFirstName;
+            updatedAccount.LastName = request.AccountLastName;
+            updatedAccount.Email = request.AccountEmail;
 
             updatedAccount.UpdatedAt = DateTime.UtcNow;
 

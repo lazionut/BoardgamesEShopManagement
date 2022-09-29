@@ -27,19 +27,9 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Review>?> GetReviewsListPerAccount(int accountId, int pageIndex, int pageSize)
-        {
-            _logger.LogInformation("Getting the list of reviews by the account identifier...");
-            return await _context.Reviews
-                .Where(review => review.AccountId == accountId)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-        }
-
         public async Task<Review?> GetByAccountId(int accountId)
         {
-            _logger.LogInformation("Getting the first review by it's boardgame identifier...");
+            _logger.LogInformation("Getting the first review by it's account identifier...");
             return await _context.Reviews.FirstOrDefaultAsync(review => review.AccountId == accountId);
         }
 
@@ -47,6 +37,12 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         {
             _logger.LogInformation("Getting the first review by it's boardgame identifier...");
             return await _context.Reviews.FirstOrDefaultAsync(review => review.BoardgameId == boardgameId);
+        }
+
+        public async Task<int> GetByBoardgameCounter(int boardgameId)
+        {
+            _logger.LogInformation("Getting the total number of review entries of a boardgame...");
+            return _context.Reviews.Select(review => review.BoardgameId == boardgameId).ToList().Count();
         }
     }
 }

@@ -15,6 +15,7 @@ using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount;
+using BoardgamesEShopManagement.API.Services;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -22,6 +23,7 @@ namespace BoardgamesEShopManagement.Test
     {
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
+        private readonly Mock<ISingletonService> _mockSingleton = new Mock<ISingletonService>();
 
         /*
          * not MS Identity updated
@@ -86,7 +88,7 @@ namespace BoardgamesEShopManagement.Test
                 .Setup(m => m.Send(It.IsAny<GetAccountsListQuery>(), It.IsAny<CancellationToken>()))
                 .Verifiable();
 
-            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
+            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
             await controller.GetAccounts(1, 5);
 
@@ -108,9 +110,9 @@ namespace BoardgamesEShopManagement.Test
                     IsArchived = false
                 });
 
-            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
+            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
-            IActionResult result = await controller.GetAccount(1);
+            IActionResult result = await controller.GetAccount();
 
             OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
 
@@ -148,9 +150,9 @@ namespace BoardgamesEShopManagement.Test
                 },
                 });
 
-            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
+            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
-            IActionResult result = await controller.GetReviewsPerAccount(1, 1, 5);
+            IActionResult result = await controller.GetReviewsPerAccount(1, 5);
 
             OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
 
@@ -178,9 +180,9 @@ namespace BoardgamesEShopManagement.Test
                     LastName = "Updated LastName"
                 });
 
-            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
+            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
-            IActionResult result = await controller.UpdateAccountName(1, new AccountNamePatchDto
+            IActionResult result = await controller.UpdateAccountName(new AccountNamePatchDto
             {
                 FirstName = "Updated FirstName",
                 LastName = "Updated LastName"
@@ -211,9 +213,9 @@ namespace BoardgamesEShopManagement.Test
                     Email = "updatedemail@example.com",
                 });
 
-            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
+            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
-            IActionResult result = await controller.UpdateAccountEmail(1, new AccountEmailPatchDto
+            IActionResult result = await controller.UpdateAccountEmail(new AccountEmailPatchDto
             {
                 Email = "updatedemail@example.com"
             });
@@ -240,7 +242,7 @@ namespace BoardgamesEShopManagement.Test
                     IsArchived = false
                 });
 
-            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
+            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
             await controller.DeleteAccount(1);
 
@@ -264,9 +266,9 @@ namespace BoardgamesEShopManagement.Test
                     IsArchived = false
                 });
 
-            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object);
+            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
-            await controller.ArchiveAccount(1);
+            await controller.ArchiveAccount();
 
             _mockMediator.Verify(x => x.Send(It.IsAny<ArchiveAccountRequest>(), It.IsAny<CancellationToken>()), Times.Once());
         }

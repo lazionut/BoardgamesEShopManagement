@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BoardgamesEShopManagement.Domain.Entities
 {
@@ -23,7 +24,6 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
-
         public Category Category { get; set; } = null!;
         public int CategoryId { get; set; }
         public bool IsArchived { get; set; } = false;
