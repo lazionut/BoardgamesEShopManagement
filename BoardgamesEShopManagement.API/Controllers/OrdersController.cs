@@ -37,6 +37,11 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (order.BoardgameIds.Count != order.BoardgameQuantities.Count)
+            {
+                return NotFound();
+            }
+
             CreateOrderRequest command = new CreateOrderRequest
             {
                 OrderAccountId = _singletonService.Id,

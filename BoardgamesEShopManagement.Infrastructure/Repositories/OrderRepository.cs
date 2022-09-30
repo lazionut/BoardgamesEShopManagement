@@ -46,6 +46,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _logger.LogInformation("Trying to get the order by an account and it's identifier...");
             return await _context.Orders
                 .Include(order => order.OrderItems)
+                .ThenInclude(order => order.Boardgame)
                 .SingleOrDefaultAsync(order => order.AccountId == accountId && order.Id == orderId);
         }
 
@@ -54,6 +55,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _logger.LogInformation("Getting the list of orders by an account identifier...");
             return await _context.Orders
                 .Include(order => order.OrderItems)
+                .ThenInclude(order => order.Boardgame)
                 .Where(order => order.AccountId == accountId)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)

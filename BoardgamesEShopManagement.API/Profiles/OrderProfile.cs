@@ -12,11 +12,12 @@ namespace BoardgamesEShopManagement.API.Profiles
             CreateMap<Order, OrderGetDto>()
                 .ForMember(o => o.CreationDate, opt => opt.MapFrom(s => s.CreatedAt))
                 .ForMember(o => o.Boardgames, opt => opt.MapFrom(s => s.OrderItems.Select(
-                    oi => new OrderBoardgameDto {
-                        Id = oi.Boardgame.Id, 
-                        Image = oi.Boardgame.Image, 
-                        Name = oi.Boardgame.Name, 
-                        Price = oi.Price, 
+                    oi => new OrderBoardgameDto
+                    {
+                        Id = oi.Boardgame.Id,
+                        Image = oi.Boardgame.Image,
+                        Name = oi.Boardgame.Name,
+                        Price = oi.Price,
                         Quantity = oi.Quantity,
                     })));
 

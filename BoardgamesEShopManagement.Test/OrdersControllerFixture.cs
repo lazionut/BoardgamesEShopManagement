@@ -10,6 +10,7 @@ using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
 using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.API.Services;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -17,6 +18,7 @@ namespace BoardgamesEShopManagement.Test
     {
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
+        private readonly Mock<ISingletonService> _mockSingleton = new Mock<ISingletonService>();
 
         [Fact]
         public async void Create_Order_CreateOrderCommandIsCalled()
@@ -72,7 +74,6 @@ namespace BoardgamesEShopManagement.Test
                      Address = "ExampleOrderAddress",
                      Total = 1393.36M,
                      Status = 0,
-                     AccountId = 1,
                      Boardgames = new List<OrderBoardgameDto>
                           {
                               new OrderBoardgameDto
@@ -91,18 +92,17 @@ namespace BoardgamesEShopManagement.Test
                  }
             );
 
-            OrdersController controller = new OrdersController(_mockMediator.Object, _mockMapper.Object);
+            OrdersController controller = new OrdersController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
             IActionResult result = await controller.CreateOrder(new OrderPostDto
             {
-                AccountId = 1,
                 BoardgameIds = new List<int> { 1, 9 },
                 BoardgameQuantities = new List<int> { 1, 1 }
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createOrderCommand.OrderAccountId, ((OrderGetDto)okResult.Value).AccountId);
+            Assert.Equal(createOrderCommand.OrderAddress, ((OrderGetDto)okResult.Value).Address);
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace BoardgamesEShopManagement.Test
                     AccountId = 7
                 });
 
-            OrdersController controller = new OrdersController(_mockMediator.Object, _mockMapper.Object);
+            OrdersController controller = new OrdersController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
             IActionResult result = await controller.GetOrder(1);
 

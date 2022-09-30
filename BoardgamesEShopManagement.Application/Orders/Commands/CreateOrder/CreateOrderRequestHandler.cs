@@ -25,6 +25,7 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
             Order order = new Order
             {
+                Address = request.OrderAddress,
                 AccountId = request.OrderAccountId,
                 Total = 0,
                 OrderItems = new List<OrderItem> { }

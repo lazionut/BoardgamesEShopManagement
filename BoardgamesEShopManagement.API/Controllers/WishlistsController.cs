@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
 using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlist;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlist;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.API.Services;
 
@@ -71,35 +70,6 @@ namespace BoardgamesEShopManagement.Controllers
             WishlistGetDto mappedResult = _mapper.Map<WishlistGetDto>(result);
 
             return Ok(mappedResult);
-        }
-
-        [HttpPut]
-        [Route("{id}")]
-        public async Task<IActionResult> UpdateWishlist(int id, [FromBody] WishlistPutDto wishlist)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            UpdateWishlistRequest command = new UpdateWishlistRequest
-            {
-                WishlistId = id,
-                WishlistName = wishlist.Name,
-                WishlistAccountId = _singletonService.Id,
-                WishlistBoardgameIds = wishlist.BoardgameIds
-            };
-
-            Wishlist result = await _mediator.Send(command);
-
-            WishlistGetDto? mappedResult = _mapper.Map<WishlistGetDto>(result);
-
-            if (mappedResult == null)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
         }
     }
 }

@@ -42,9 +42,6 @@ namespace BoardgamesEShopManagement.API.Dto
         public string Password { get; set; } = null!;
 
         [Required]
-        public int AddressId { get; set; }
-
-        [Required]
         public bool IsAdmin { get; set; }
     }
 }

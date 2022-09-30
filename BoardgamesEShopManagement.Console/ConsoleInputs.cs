@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
-using BoardgamesEShopManagement.Application.Addresses.Queries.GetAddress;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount;
@@ -89,6 +88,7 @@ namespace BoardgamesEShopManagement.ConsolePresentation
         }
         */
 
+        /*
         internal static async Task<Address> GetAddress(IMediator mediator)
         {
             GetAddressQuery getAddressQuery = new GetAddressQuery();
@@ -97,6 +97,7 @@ namespace BoardgamesEShopManagement.ConsolePresentation
 
             return await mediator.Send(getAddressQuery);
         }
+        */
 
         internal static async Task<Wishlist> GetWishlistByAccount(IMediator mediator)
         {

@@ -19,9 +19,12 @@ using BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount;
 using BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetByEmail;
 using BoardgamesEShopManagement.Application.Accounts.Commands.AddRoleToAccount;
+using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
+using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
+using BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress;
+using BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlist;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.API.Services;
-using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -235,10 +238,10 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        [Route("orders/{orderId}")]
-        public async Task<IActionResult> GetOrderByAccount(int orderId)
+        [Route("orders/{id}")]
+        public async Task<IActionResult> GetOrderByAccount(int id)
         {
-            GetOrderByAccountQuery query = new GetOrderByAccountQuery { AccountId = _singletonService.Id, OrderId = orderId };
+            GetOrderByAccountQuery query = new GetOrderByAccountQuery { OrderAccountId = _singletonService.Id, OrderId = id };
 
             Order? result = await _mediator.Send(query);
 
@@ -263,7 +266,7 @@ namespace BoardgamesEShopManagement.Controllers
                 OrderPageSize = pageSize
             };
 
-            List<Order>? result = await _mediator.Send(query);
+            List<Order> ?result = await _mediator.Send(query);
 
             if (result == null)
             {
@@ -276,13 +279,13 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        [Route("wishlists/{wishlistId}")]
-        public async Task<IActionResult> GetWishlistByAccount(int wishlistId)
+        [Route("wishlists/{id}")]
+        public async Task<IActionResult> GetWishlistByAccount(int id)
         {
             GetWishlistByAccountQuery query = new GetWishlistByAccountQuery
             {
                 WishlistAccountId = _singletonService.Id,
-                WishlistId = wishlistId
+                WishlistId = id
             };
 
             Wishlist? result = await _mediator.Send(query);
@@ -320,8 +323,8 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(mappedResult);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateAccount([FromBody] AccountPutDto updatedAccount)
+        [HttpPatch]
+        public async Task<IActionResult> UpdateAccount([FromBody] AccountPatchDto updatedAccount)
         {
             UpdateAccountRequest command = new UpdateAccountRequest
             {
@@ -332,6 +335,33 @@ namespace BoardgamesEShopManagement.Controllers
             };
 
             Account? result = await _mediator.Send(command);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Route("wishlists/{id}")]
+        public async Task<IActionResult> UpdateWishlist(int id, [FromBody] WishlistPutDto wishlist)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            UpdateWishlistRequest command = new UpdateWishlistRequest
+            {
+                WishlistId = id,
+                WishlistName = wishlist.Name,
+                WishlistAccountId = _singletonService.Id,
+                WishlistBoardgameIds = wishlist.BoardgameIds
+            };
+
+            Wishlist? result = await _mediator.Send(command);
 
             if (result == null)
             {
@@ -368,11 +398,20 @@ namespace BoardgamesEShopManagement.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAccount(int id)
         {
-            DeleteAccountRequest command = new DeleteAccountRequest { AccountId = id };
+            DeleteAccountRequest commandAccount = new DeleteAccountRequest { AccountId = id };
 
-            Account? result = await _mediator.Send(command);
+            Account? resultAccount = await _mediator.Send(commandAccount);
 
-            if (result == null)
+            if (resultAccount == null)
+            {
+                return NotFound();
+            }
+
+            DeleteAddressRequest commandAddress = new DeleteAddressRequest { AddressId = resultAccount.AddressId };
+
+            Address? resultAddress = await _mediator.Send(commandAddress);
+
+            if (resultAddress == null)
             {
                 return NotFound();
             }
@@ -384,9 +423,18 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("archive")]
         public async Task<IActionResult> ArchiveAccount()
         {
-            ArchiveAccountRequest command = new ArchiveAccountRequest { AccountId = _singletonService.Id };
+            ArchiveAccountRequest accountCommand = new ArchiveAccountRequest { AccountId = _singletonService.Id };
 
-            Account? result = await _mediator.Send(command);
+            Account? accountResult = await _mediator.Send(accountCommand);
+
+            if (accountResult == null)
+            {
+                return NotFound();
+            }
+
+            ArchiveAddressRequest addressCommand = new ArchiveAddressRequest { AddressId = accountResult.AddressId };
+
+            Address? result = await _mediator.Send(addressCommand);
 
             if (result == null)
             {
@@ -397,13 +445,13 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpDelete]
-        [Route("wishlists/{wishlistId}")]
-        public async Task<IActionResult> DeleteWishlistByAccount(int wishlistId)
+        [Route("wishlists/{id}")]
+        public async Task<IActionResult> DeleteWishlistByAccount(int id)
         {
             DeleteWishlistRequest command = new DeleteWishlistRequest
             {
                 WishlistAccountId = _singletonService.Id,
-                WishlistId = wishlistId
+                WishlistId = id
             };
 
             Wishlist? result = await _mediator.Send(command);

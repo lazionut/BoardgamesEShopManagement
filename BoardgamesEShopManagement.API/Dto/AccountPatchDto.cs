@@ -2,7 +2,7 @@
 
 namespace BoardgamesEShopManagement.API.Dto
 {
-    public class AccountPutDto
+    public class AccountPatchDto
     {
         [Required]
         [MaxLength(50)]

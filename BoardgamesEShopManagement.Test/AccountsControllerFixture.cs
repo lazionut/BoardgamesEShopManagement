@@ -12,7 +12,6 @@ using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsList;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount;
 using BoardgamesEShopManagement.API.Services;
@@ -120,47 +119,7 @@ namespace BoardgamesEShopManagement.Test
         }
 
         [Fact]
-        public async void Get_Reviews_List_Per_Account_GetReviewsListPerAccountQueryIsCalled()
-        {
-            _mockMediator
-                .Setup(m => m.Send(It.IsAny<GetReviewsListPerAccountQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<Review> {
-                new Review
-                {
-                    Title = "This",
-                    Author = "Calvin Grady",
-                    Score = 3,
-                    Content = "It only works when I'm Cook Islands.",
-                    BoardgameId = 6,
-                    AccountId = 1
-                },
-                });
-
-            _mockMapper
-                .Setup(m => m.Map<List<ReviewGetDto>>(It.IsAny<List<Review>>()))
-                .Returns(new List<ReviewGetDto> {
-                new ReviewGetDto
-                {
-                    Title = "This",
-                    Author = "Calvin Grady",
-                    Score = 3,
-                    Content = "It only works when I'm Cook Islands.",
-                    BoardgameId = 6,
-                    AccountId = 1
-                },
-                });
-
-            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
-
-            IActionResult result = await controller.GetReviewsPerAccount(1, 5);
-
-            OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
-
-            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
-        }
-
-        [Fact]
-        public async void Update_Account_Name_UpdateAccountNameCommandIsCalled()
+        public async void Update_Account_UpdateAccountCommandIsCalled()
         {
             _mockMediator
                 .Setup(m => m.Send(It.IsAny<UpdateAccountRequest>(), It.IsAny<CancellationToken>()))
@@ -173,50 +132,20 @@ namespace BoardgamesEShopManagement.Test
                 });
 
             _mockMapper
-                .Setup(m => m.Map<AccountNamePatchDto>(It.IsAny<Account>()))
-                .Returns(new AccountNamePatchDto
+                .Setup(m => m.Map<AccountPatchDto>(It.IsAny<Account>()))
+                .Returns(new AccountPatchDto
                 {
                     FirstName = "Updated FirstName",
-                    LastName = "Updated LastName"
+                    LastName = "Updated LastName",
+                    Email = "updatedemail@example.com"
                 });
 
             AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
 
-            IActionResult result = await controller.UpdateAccountName(new AccountNamePatchDto
+            IActionResult result = await controller.UpdateAccount(new AccountPatchDto
             {
                 FirstName = "Updated FirstName",
-                LastName = "Updated LastName"
-            });
-
-            NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);
-
-            Assert.Equal((int)HttpStatusCode.NoContent, noContentResult.StatusCode);
-        }
-
-        [Fact]
-        public async void Update_Account_Email_UpdateAccountEmailCommandIsCalled()
-        {
-            _mockMediator
-                .Setup(m => m.Send(It.IsAny<UpdateAccountRequest>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new Account
-                {
-                    FirstName = "Nettie",
-                    LastName = "Okuneva",
-                    Email = "Kristoffer_Hayes@hotmail.com",
-                    AddressId = 1
-                });
-
-            _mockMapper
-                .Setup(m => m.Map<AccountEmailPatchDto>(It.IsAny<Account>()))
-                .Returns(new AccountEmailPatchDto
-                {
-                    Email = "updatedemail@example.com",
-                });
-
-            AccountsController controller = new AccountsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
-
-            IActionResult result = await controller.UpdateAccountEmail(new AccountEmailPatchDto
-            {
+                LastName = "Updated LastName",
                 Email = "updatedemail@example.com"
             });
 

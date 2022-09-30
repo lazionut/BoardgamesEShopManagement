@@ -56,8 +56,7 @@ namespace BoardgamesEShopManagement.Test
                    Author = "ReviewAuthor",
                    Score = 3,
                    Content = "ReviewContent",
-                   BoardgameId = 3,
-                   AccountId = 7
+                   BoardgameId = 3
                }
                );
 
