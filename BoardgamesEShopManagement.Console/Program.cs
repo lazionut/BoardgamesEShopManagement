@@ -40,10 +40,12 @@ while (true)
             Wishlist wishlist = await ConsoleInputs.AddWishlist(mediator);
             ConsoleInputs.DisplayItem<Wishlist>(wishlist);
             break;*/
+        /*
         case 4:
             Address address = await ConsoleInputs.GetAddress(mediator);
             ConsoleInputs.DisplayItem<Address>(address);
             break;
+        */
         case 5:
             List<Category> categoriesList = await ConsoleInputs.GetCategoriesList(mediator);
             ConsoleInputs.DisplayItem<List<Category>>(categoriesList);

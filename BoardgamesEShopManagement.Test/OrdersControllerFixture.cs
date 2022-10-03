@@ -10,7 +10,6 @@ using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Services;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -18,7 +17,6 @@ namespace BoardgamesEShopManagement.Test
     {
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
-        private readonly Mock<ISingletonService> _mockSingleton = new Mock<ISingletonService>();
 
         [Fact]
         public async void Create_Order_CreateOrderCommandIsCalled()
@@ -92,7 +90,7 @@ namespace BoardgamesEShopManagement.Test
                  }
             );
 
-            OrdersController controller = new OrdersController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
+            OrdersController controller = new OrdersController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateOrder(new OrderPostDto
             {
@@ -118,7 +116,7 @@ namespace BoardgamesEShopManagement.Test
                     AccountId = 7
                 });
 
-            OrdersController controller = new OrdersController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
+            OrdersController controller = new OrdersController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.GetOrder(1);
 

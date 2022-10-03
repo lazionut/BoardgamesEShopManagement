@@ -94,34 +94,6 @@ namespace BoardgamesEShopManagement.Test
         }
 
         [Fact]
-        public async void Get_Boardgames_List_Per_Category_GetBoardgamesListPerCategoryQueryIsCalled()
-        {
-            _mockMediator
-                .Setup(m => m.Send(It.IsAny<GetBoardgamesListPerCategoryQuery>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<Boardgame> {
-                    new Boardgame
-                    {
-                        Id = 3,
-                        Image = null,
-                        Name = "Warhammer 40K Collection",
-                        Description = null,
-                        Price = 538.99M,
-                        Link = null,
-                        Quantity = 43,
-                        CategoryId = 4
-                    }
-                });
-
-            CategoriesController controller = new CategoriesController(_mockMediator.Object, _mockMapper.Object);
-
-            IActionResult result = await controller.GetBoardgamesPerCategory(4, 1, 10, 0);
-
-            OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
-
-            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
-        }
-
-        [Fact]
         public async void Update_Category_UpdateCategoryCommandIsCalled()
         {
             _mockMediator

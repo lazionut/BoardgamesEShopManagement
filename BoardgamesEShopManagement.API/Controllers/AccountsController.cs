@@ -17,31 +17,30 @@ using BoardgamesEShopManagement.Application.Orders.Queries.GetOrderByAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount;
 using BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount;
-using BoardgamesEShopManagement.Application.Accounts.Queries.GetByEmail;
 using BoardgamesEShopManagement.Application.Accounts.Commands.AddRoleToAccount;
 using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlist;
+using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsListCounter;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccountCounter;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Services;
+using BoardgamesEShopManagement.API.Controllers;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/accounts")]
     [ApiController]
     [Authorize]
-    public class AccountsController : ControllerBase
+    public class AccountsController : CustomControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly ISingletonService _singletonService;
 
-        public AccountsController(IMediator mediator, IMapper mapper, ISingletonService singletonService)
+        public AccountsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _singletonService = singletonService;
         }
 
         [HttpPost("register")]
@@ -111,8 +110,6 @@ namespace BoardgamesEShopManagement.Controllers
 
             string tokenResult = await _mediator.Send(query);
 
-            _singletonService.Id = resultAccount.Id;
-
             return Ok(new
             {
                 token = tokenResult
@@ -140,15 +137,6 @@ namespace BoardgamesEShopManagement.Controllers
             {
                 return NotFound();
             }
-
-            GetAccountByEmailQuery emailQuery = new GetAccountByEmailQuery
-            {
-                AccountEmail = account.Email,
-            };
-
-            Account emailResult = await _mediator.Send(emailQuery);
-
-            _singletonService.Id = emailResult.Id;
 
             return Ok(new
             {
@@ -202,28 +190,43 @@ namespace BoardgamesEShopManagement.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAccounts([BindRequired] int pageIndex, [BindRequired] int pageSize)
         {
-            GetAccountsListQuery query = new GetAccountsListQuery
+            GetAccountsListQuery queryAccounts = new GetAccountsListQuery
             {
                 AccountPageIndex = pageIndex,
                 AccountPageSize = pageSize
             };
 
-            List<Account>? result = await _mediator.Send(query);
+            List<Account>? resultAccounts = await _mediator.Send(queryAccounts);
 
-            if (result == null)
+            if (resultAccounts == null)
             {
                 return NotFound();
             }
 
-            List<AccountAdminGetDto> mappedResult = _mapper.Map<List<AccountAdminGetDto>>(result);
+            List<AccountAdminGetDto> mappedResultAccounts = _mapper.Map<List<AccountAdminGetDto>>(resultAccounts);
 
-            return Ok(mappedResult);
+            GetAccountsListCounterQuery commandAccountsCounter = new GetAccountsListCounterQuery { };
+
+            int resultAccountCounter = await _mediator.Send(commandAccountsCounter);
+
+            if (resultAccountCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int mappedResultAccountsPageCounter = resultAccountCounter / mappedResultAccounts.Count();
+
+            return Ok(new
+            {
+                pageCount = mappedResultAccountsPageCounter,
+                accounts = mappedResultAccounts
+            });
         }
 
         [HttpGet("me")]
         public async Task<IActionResult> GetAccount()
         {
-            GetAccountQuery query = new GetAccountQuery { AccountId = _singletonService.Id };
+            GetAccountQuery query = new GetAccountQuery { AccountId = GetAccountId() };
 
             Account? result = await _mediator.Send(query);
 
@@ -241,7 +244,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("orders/{id}")]
         public async Task<IActionResult> GetOrderByAccount(int id)
         {
-            GetOrderByAccountQuery query = new GetOrderByAccountQuery { OrderAccountId = _singletonService.Id, OrderId = id };
+            GetOrderByAccountQuery query = new GetOrderByAccountQuery { OrderAccountId = GetAccountId(), OrderId = id };
 
             Order? result = await _mediator.Send(query);
 
@@ -259,23 +262,38 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("orders")]
         public async Task<IActionResult> GetOrdersPerAccount([BindRequired] int pageIndex, [BindRequired] int pageSize)
         {
-            GetOrdersListPerAccountQuery query = new GetOrdersListPerAccountQuery
+            GetOrdersListPerAccountQuery queryOrders = new GetOrdersListPerAccountQuery
             {
-                OrderAccountId = _singletonService.Id,
+                OrderAccountId = GetAccountId(),
                 OrderPageIndex = pageIndex,
                 OrderPageSize = pageSize
             };
 
-            List<Order> ?result = await _mediator.Send(query);
+            List<Order>? resultOrders = await _mediator.Send(queryOrders);
 
-            if (result == null)
+            if (resultOrders == null)
             {
                 return NotFound();
             }
 
-            List<OrderGetDto> mappedResult = _mapper.Map<List<OrderGetDto>>(result);
+            List<OrderGetDto> mappedResult = _mapper.Map<List<OrderGetDto>>(resultOrders);
 
-            return Ok(mappedResult);
+            GetOrdersListPerAccountCounterQuery commandOrdersCounter = new GetOrdersListPerAccountCounterQuery { OrderAccountId = GetAccountId() };
+
+            int resultOrdersCounter = await _mediator.Send(commandOrdersCounter);
+
+            if (resultOrdersCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int mappedResultPageCounter = resultOrdersCounter / mappedResult.Count();
+
+            return Ok(new
+            {
+                pageCount = mappedResultPageCounter,
+                orders = mappedResult
+            });
         }
 
         [HttpGet]
@@ -284,7 +302,7 @@ namespace BoardgamesEShopManagement.Controllers
         {
             GetWishlistByAccountQuery query = new GetWishlistByAccountQuery
             {
-                WishlistAccountId = _singletonService.Id,
+                WishlistAccountId = GetAccountId(),
                 WishlistId = id
             };
 
@@ -302,13 +320,11 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpGet]
         [Route("wishlists")]
-        public async Task<IActionResult> GetWishlistsPerAccount([BindRequired] int pageIndex, [BindRequired] int pageSize)
+        public async Task<IActionResult> GetWishlistsPerAccount()
         {
             GetWishlistsListPerAccountQuery query = new GetWishlistsListPerAccountQuery
             {
-                WishlistAccountId = _singletonService.Id,
-                WishlistPageIndex = pageIndex,
-                WishlistPageSize = pageSize
+                WishlistAccountId = GetAccountId(),
             };
 
             List<Wishlist>? result = await _mediator.Send(query);
@@ -328,7 +344,7 @@ namespace BoardgamesEShopManagement.Controllers
         {
             UpdateAccountRequest command = new UpdateAccountRequest
             {
-                AccountId = _singletonService.Id,
+                AccountId = GetAccountId(),
                 AccountEmail = updatedAccount.Email,
                 AccountFirstName = updatedAccount.FirstName,
                 AccountLastName = updatedAccount.LastName,
@@ -357,7 +373,7 @@ namespace BoardgamesEShopManagement.Controllers
             {
                 WishlistId = id,
                 WishlistName = wishlist.Name,
-                WishlistAccountId = _singletonService.Id,
+                WishlistAccountId = GetAccountId(),
                 WishlistBoardgameIds = wishlist.BoardgameIds
             };
 
@@ -423,7 +439,7 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("archive")]
         public async Task<IActionResult> ArchiveAccount()
         {
-            ArchiveAccountRequest accountCommand = new ArchiveAccountRequest { AccountId = _singletonService.Id };
+            ArchiveAccountRequest accountCommand = new ArchiveAccountRequest { AccountId = GetAccountId() };
 
             Account? accountResult = await _mediator.Send(accountCommand);
 
@@ -450,7 +466,7 @@ namespace BoardgamesEShopManagement.Controllers
         {
             DeleteWishlistRequest command = new DeleteWishlistRequest
             {
-                WishlistAccountId = _singletonService.Id,
+                WishlistAccountId = GetAccountId(),
                 WishlistId = id
             };
 

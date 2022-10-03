@@ -228,13 +228,14 @@ namespace BoardgamesEShopManagement.Infrastructure
 
             return orderTotals.ToList().Select(orderTotal =>
                 new Faker<Order>()
-                    .RuleFor(address => address.Address, faker => 
-                    faker.Person.FullName + ' ' + faker.Address.StreetAddress()
-                    + ' ' + faker.Address.City() + ' ' + faker.Address.County()
-                    + ' ' + faker.Address.Country() + ' ' + faker.Phone.PhoneNumber())
+                .RuleFor(order => order.FullName, faker => faker.Person.FullName)
+                    .RuleFor(order => order.Address, faker =>
+                    faker.Address.StreetAddress() + ' ' +
+                    faker.Address.City() + ' ' + faker.Address.County() + ' ' +
+                    faker.Address.Country() + ' ' + faker.Phone.PhoneNumber())
                     .RuleFor(order => order.Total, orderTotal)
                     .RuleFor(order => order.AccountId, faker => faker.Random.Number(1, 10))
-                    .Generate());;
+                    .Generate()); ;
         }
 
         private static IEnumerable<OrderItem> GetPreconfiguredOrderItems()

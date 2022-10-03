@@ -25,6 +25,7 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
             Order order = new Order
             {
+                FullName = request.OrderFullName,
                 Address = request.OrderAddress,
                 AccountId = request.OrderAccountId,
                 Total = 0,
@@ -44,6 +45,8 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
                 if (boardgame == null)
                 {
+                    await _unitOfWork.OrderRepository.Delete(order.Id);
+                    await _unitOfWork.Save();
                     return null;
                 }
 
@@ -51,6 +54,21 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
                 if (boardgame.Quantity < 0)
                 {
+                    for (int quantityIndex = index; quantityIndex >= 0; --quantityIndex)
+                    {
+                        Boardgame? previousBoardgame = await _unitOfWork
+                            .BoardgameRepository
+                            .GetById(request.OrderBoardgameIds[quantityIndex]);
+
+                        if (previousBoardgame == null)
+                        {
+                            return null;
+                        }
+
+                        previousBoardgame.Quantity += request.OrderBoardgameQuantities[index];
+                    }
+                    await _unitOfWork.OrderRepository.Delete(order.Id);
+                    await _unitOfWork.Save();
                     return null;
                 }
 

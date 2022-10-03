@@ -8,23 +8,21 @@ using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Services;
+using BoardgamesEShopManagement.API.Controllers;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/reviews")]
     [ApiController]
-    public class ReviewsController : ControllerBase
+    public class ReviewsController : CustomControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly ISingletonService _singletonService;
 
-        public ReviewsController(IMediator mediator, IMapper mapper, ISingletonService singletonService)
+        public ReviewsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _singletonService = singletonService;
         }
 
         [HttpPost]
@@ -42,7 +40,7 @@ namespace BoardgamesEShopManagement.Controllers
                 ReviewScore = review.Score,
                 ReviewContent = review.Content,
                 ReviewBoardgameId = review.BoardgameId,
-                ReviewAccountId = _singletonService.Id
+                ReviewAccountId = GetAccountId()
             };
 
             Review? result = await _mediator.Send(command);

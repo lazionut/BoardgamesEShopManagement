@@ -18,7 +18,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<List<Boardgame>?> GetBoardgamesSorted(int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder)
+        public async Task<List<Boardgame>?> GetAllSorted(int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder)
         {
             _logger.LogInformation("Getting the list of boardgames...");
             IQueryable<Boardgame> boardgame = _context.Boardgames;
@@ -58,7 +58,13 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Boardgame>?> GetBoardgamesPerCategory(int categoryId, int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder)
+        public async Task<int> GetAllSortedCounter()
+        {
+            _logger.LogInformation("Getting the number of boardgames...");
+            return await _context.Boardgames.CountAsync();
+        }
+
+        public async Task<List<Boardgame>?> GetPerCategory(int categoryId, int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder)
         {
             _logger.LogInformation("Getting the list of boardgames per category selected by it's identifier...");
             IQueryable<Boardgame> boardgame = _context.Boardgames
@@ -99,7 +105,13 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<List<Boardgame>?> GetBoardgamesByName(string characters, int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder)
+        public async Task<int> GetPerCategoryCounter(int categoryId)
+        {
+            _logger.LogInformation("Getting the number of boardgames per category selected by it's identifier...");
+            return await _context.Boardgames.Where(boardgame => boardgame.CategoryId == categoryId).CountAsync();
+        }
+
+        public async Task<List<Boardgame>?> GetPerName(string characters, int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder)
         {
             _logger.LogInformation("Getting the list of boardgames by searched keywords...");
             IQueryable<Boardgame> boardgame = _context.Boardgames
@@ -138,6 +150,12 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                .Skip((pageIndex - 1) * pageSize)
                .Take(pageSize)
                .ToListAsync();
+        }
+
+        public async Task<int> GetPerNameCounter(string characters)
+        {
+            _logger.LogInformation("Getting the number of boardgames by searched keywords...");
+            return await _context.Boardgames.Where(boardgame => boardgame.Name.Contains(characters)).CountAsync();
         }
     }
 }

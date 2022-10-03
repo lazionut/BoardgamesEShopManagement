@@ -23,8 +23,7 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistsLi
                 return null;
             }
 
-            return await _unitOfWork.WishlistRepository.GetWishlistsListPerAccount
-                (request.WishlistAccountId, request.WishlistPageIndex, request.WishlistPageSize);
+            return await _unitOfWork.WishlistRepository.GetPerAccount(request.WishlistAccountId);
         }
     }
 }

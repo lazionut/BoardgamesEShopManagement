@@ -13,12 +13,13 @@ using BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory;
 using BoardgamesEShopManagement.Application.Categories.Commands.DeleteCategory;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory;
 using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.API.Controllers;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/categories")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController : CustomControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -78,30 +79,6 @@ namespace BoardgamesEShopManagement.Controllers
             }
 
             CategoryGetDto mappedResult = _mapper.Map<CategoryGetDto>(result);
-
-            return Ok(mappedResult);
-        }
-
-        [HttpGet]
-        [Route("{id}/boardgames")]
-        public async Task<IActionResult> GetBoardgamesPerCategory(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
-        {
-            GetBoardgamesListPerCategoryQuery command = new GetBoardgamesListPerCategoryQuery
-            {
-                CategoryId = id,
-                BoardgamePageIndex = pageIndex,
-                BoardgamePageSize = pageSize,
-                BoardgameSortOrder = sortOrder
-            };
-
-            List<Boardgame>? result = await _mediator.Send(command);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
 
             return Ok(mappedResult);
         }

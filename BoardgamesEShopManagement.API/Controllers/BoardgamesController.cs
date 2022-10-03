@@ -8,20 +8,24 @@ using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Enumerations;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListSorted;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListByName;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategoryCounter;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListByNameCounter;
+using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgameCounter;
 using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.API.Controllers;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/boardgames")]
     [ApiController]
-    public class BoardgamesController : ControllerBase
+    public class BoardgamesController : CustomControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -66,54 +70,90 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBoardgames([BindRequired] int pageIndex, [BindRequired] int pageSize)
+        public async Task<IActionResult> GetBoardgames([BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
         {
-            GetBoardgamesListQuery query = new GetBoardgamesListQuery
-            {
-                BoardgamePageIndex = pageIndex,
-                BoardgamePageSize = pageSize
-            };
-
-            List<Boardgame>? result = await _mediator.Send(query);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
-
-            return Ok(mappedResult);
-        }
-
-        [HttpGet("sorted")]
-        public async Task<IActionResult> GetBoardgamesSorted
-            ([BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
-        {
-            GetBoardgamesListSortedQuery query = new GetBoardgamesListSortedQuery
+            GetBoardgamesListQuery queryBoardgame = new GetBoardgamesListQuery
             {
                 BoardgamePageIndex = pageIndex,
                 BoardgamePageSize = pageSize,
                 BoardgameSortOrder = sortOrder
             };
 
-            List<Boardgame>? result = await _mediator.Send(query);
+            List<Boardgame>? resultBoardgame = await _mediator.Send(queryBoardgame);
 
-            if (result == null)
+            if (resultBoardgame == null)
             {
                 return NotFound();
             }
 
-            List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
+            List<BoardgameGetDto> mappedResultBoardgame = _mapper.Map<List<BoardgameGetDto>>(resultBoardgame);
 
-            return Ok(mappedResult);
+            GetBoardgamesListCounterQuery commandBoardgameCounter = new GetBoardgamesListCounterQuery { };
+
+            int resultBoardgameCounter = await _mediator.Send(commandBoardgameCounter);
+
+            if (resultBoardgameCounter == 0 )
+            {
+                return NotFound();
+            }
+
+            int mappedResultBoardgamePageCounter = resultBoardgameCounter / mappedResultBoardgame.Count();
+
+            return Ok(new
+            {
+                pageCount = mappedResultBoardgamePageCounter,
+                boardgames = mappedResultBoardgame
+            });
+        }
+
+
+        [HttpGet]
+        [Route("category/{id}")]
+        public async Task<IActionResult> GetBoardgamesPerCategory(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
+        {
+            GetBoardgamesListPerCategoryQuery commandBoardgame = new GetBoardgamesListPerCategoryQuery
+            {
+                CategoryId = id,
+                BoardgamePageIndex = pageIndex,
+                BoardgamePageSize = pageSize,
+                BoardgameSortOrder = sortOrder
+            };
+
+            List<Boardgame>? resultBoardgame = await _mediator.Send(commandBoardgame);
+
+            if (resultBoardgame == null)
+            {
+                return NotFound();
+            }
+
+            List<BoardgameGetDto> mappedResultBoardgame = _mapper.Map<List<BoardgameGetDto>>(resultBoardgame);
+
+            GetBoardgamesListPerCategoryCounterQuery commandBoardgameCounter = new GetBoardgamesListPerCategoryCounterQuery
+            {
+                CategoryId = id,
+            };
+
+            int resultBoardgameCounter = await _mediator.Send(commandBoardgameCounter);
+
+            if (resultBoardgameCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int mappedResultBoardgamePageCounter = resultBoardgameCounter / mappedResultBoardgame.Count();
+
+            return Ok(new
+            {
+                pageCount = mappedResultBoardgamePageCounter,
+                boardgames = mappedResultBoardgame
+            });
         }
 
         [HttpGet("search")]
         public async Task<IActionResult> GetBoardgamesByName
             ([BindRequired] string keywords, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
         {
-            GetBoardgamesListByNameQuery query = new GetBoardgamesListByNameQuery
+            GetBoardgamesListByNameQuery queryBoardgames = new GetBoardgamesListByNameQuery
             {
                 BoardgameNameCharacters = keywords,
                 BoardgamePageIndex = pageIndex,
@@ -121,16 +161,31 @@ namespace BoardgamesEShopManagement.Controllers
                 BoardgameSortOrder = sortOrder
             };
 
-            List<Boardgame>? result = await _mediator.Send(query);
+            List<Boardgame>? resultBoardgames = await _mediator.Send(queryBoardgames);
 
-            if (result == null)
+            if (resultBoardgames == null)
             {
                 return NotFound();
             }
 
-            List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
+            List<BoardgameGetDto> mappedResultBoardgames = _mapper.Map<List<BoardgameGetDto>>(resultBoardgames);
 
-            return Ok(mappedResult);
+            GetBoardgamesListByNameCounterQuery commandBoardgameCounter = new GetBoardgamesListByNameCounterQuery { };
+
+            int resultBoardgameCounter = await _mediator.Send(commandBoardgameCounter);
+
+            if (resultBoardgameCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int mappedResultBoardgamePageCounter = resultBoardgameCounter / mappedResultBoardgames.Count();
+
+            return Ok(new
+            {
+                pageCount = mappedResultBoardgamePageCounter,
+                boardgames = mappedResultBoardgames
+            });
         }
 
         [HttpGet]
@@ -155,23 +210,38 @@ namespace BoardgamesEShopManagement.Controllers
         [Route("{id}/reviews")]
         public async Task<IActionResult> GetReviewsPerBoardgame(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize)
         {
-            GetReviewsListPerBoardgameQuery query = new GetReviewsListPerBoardgameQuery
+            GetReviewsListPerBoardgameQuery queryReviews = new GetReviewsListPerBoardgameQuery
             {
                 ReviewBoardgameId = id,
                 ReviewPageIndex = pageIndex,
                 ReviewPageSize = pageSize
             };
 
-            List<Review>? result = await _mediator.Send(query);
+            List<Review>? resultReviews = await _mediator.Send(queryReviews);
 
-            if (result == null)
+            if (resultReviews == null)
             {
                 return NotFound();
             }
 
-            List<ReviewGetDto> mappedResult = _mapper.Map<List<ReviewGetDto>>(result);
+            List<ReviewGetDto> mappedResultReviews = _mapper.Map<List<ReviewGetDto>>(resultReviews);
 
-            return Ok(mappedResult);
+            GetReviewsListPerBoardgameCounterQuery commandReviewsCounter = new GetReviewsListPerBoardgameCounterQuery { };
+
+            int resultReviewsCounter = await _mediator.Send(commandReviewsCounter);
+
+            if (resultReviewsCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int mappedResultReviewsPageCounte = resultReviewsCounter / mappedResultReviews.Count();
+
+            return Ok(new
+            {
+                pageCount = mappedResultReviewsPageCounte,
+                boardgames = mappedResultReviews
+            });
         }
 
         [HttpPut]

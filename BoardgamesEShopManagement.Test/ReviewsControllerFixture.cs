@@ -11,7 +11,6 @@ using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Services;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -19,7 +18,6 @@ namespace BoardgamesEShopManagement.Test
     {
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
-        private readonly Mock<ISingletonService> _mockSingleton = new Mock<ISingletonService>();
 
         [Fact]
         public async void Create_Review_CreateReviewCommandIsCalled()
@@ -60,7 +58,7 @@ namespace BoardgamesEShopManagement.Test
                }
                );
 
-            ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
+            ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.CreateReview(new ReviewPostDto
             {
@@ -92,7 +90,7 @@ namespace BoardgamesEShopManagement.Test
                     AccountId = 7
                 });
 
-            ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
+            ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object);
 
             IActionResult result = await controller.GetReview(1);
 
@@ -120,7 +118,7 @@ namespace BoardgamesEShopManagement.Test
                     AccountId = 7
                 });
 
-            ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object, _mockSingleton.Object);
+            ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object);
 
             await controller.DeleteReview(1);
 

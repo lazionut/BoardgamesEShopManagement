@@ -16,23 +16,30 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
 
         public async Task<Account?> Handle(UpdateAccountRequest request, CancellationToken cancellationToken)
         {
-            Account? updatedAccount = await _unitOfWork.AccountRepository.GetById(request.AccountId);
+            Account? searchedAccount = await _unitOfWork.AccountRepository.GetById(request.AccountId);
 
-            if (updatedAccount == null)
+            if (searchedAccount == null)
             {
                 return null;
             }
 
-            updatedAccount.FirstName = request.AccountFirstName;
-            updatedAccount.LastName = request.AccountLastName;
-            updatedAccount.Email = request.AccountEmail;
+            Account? searchedAccountEmail = await _unitOfWork.AccountRepository.GetByEmail(request.AccountEmail);
 
-            updatedAccount.UpdatedAt = DateTime.UtcNow;
+            if (searchedAccountEmail != null)
+            {
+                return null;
+            }
 
-            await _unitOfWork.AccountRepository.Update(updatedAccount);
+            searchedAccount.FirstName = request.AccountFirstName;
+            searchedAccount.LastName = request.AccountLastName;
+            searchedAccount.Email = request.AccountEmail;
+
+            searchedAccount.UpdatedAt = DateTime.UtcNow;
+
+            await _unitOfWork.AccountRepository.Update(searchedAccount);
             await _unitOfWork.Save();
 
-            return updatedAccount;
+            return searchedAccount;
         }
     }
 }

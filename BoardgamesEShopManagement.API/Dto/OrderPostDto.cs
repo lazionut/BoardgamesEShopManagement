@@ -5,6 +5,9 @@ namespace BoardgamesEShopManagement.API.Dto
     public class OrderPostDto
     {
         [Required]
+        public string FullName { get; set; } = null!;
+
+        [Required]
         public string Address { get; set; } = null!;
 
         [Required]

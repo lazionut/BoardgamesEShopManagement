@@ -9,7 +9,6 @@ using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Services;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -17,7 +16,6 @@ namespace BoardgamesEShopManagement.Test
     {
         private readonly Mock<IMediator> _mockMediator = new Mock<IMediator>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
-        private readonly Mock<ISingletonService> _mockSingleton = new Mock<ISingletonService>();
 
         /*
          * address is now automatically created when creating an account

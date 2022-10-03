@@ -50,7 +50,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .SingleOrDefaultAsync(order => order.AccountId == accountId && order.Id == orderId);
         }
 
-        public async Task<List<Order>> GetOrdersListPerAccount(int accountId, int pageIndex, int pageSize)
+        public async Task<List<Order>> GetPerAccount(int accountId, int pageIndex, int pageSize)
         {
             _logger.LogInformation("Getting the list of orders by an account identifier...");
             return await _context.Orders
@@ -60,6 +60,15 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+        }
+
+        public async Task<int> GetPerAccountCounter(int accountId)
+        {
+            _logger.LogInformation("Getting the total number of order entries per account...");
+            return await _context.Orders
+                .Include(order => order.OrderItems)
+                .ThenInclude(order => order.Boardgame)
+                .Where(order => order.AccountId == accountId).CountAsync();
         }
 
         public async Task Update(Order order)

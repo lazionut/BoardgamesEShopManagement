@@ -7,24 +7,22 @@ using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
 using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlist;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Services;
+using BoardgamesEShopManagement.API.Controllers;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/wishlists")]
     [ApiController]
     [Authorize]
-    public class WishlistsController : ControllerBase
+    public class WishlistsController : CustomControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly ISingletonService _singletonService;
 
-        public WishlistsController(IMediator mediator, IMapper mapper, ISingletonService singletonService)
+        public WishlistsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _singletonService = singletonService;
         }
 
         [HttpPost]
@@ -37,7 +35,7 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateWishlistRequest command = new CreateWishlistRequest
             {
-                WishlistAccountId = _singletonService.Id,
+                WishlistAccountId = GetAccountId(),
                 WishlistName = wishlist.Name,
                 WishlistBoardgameIds = wishlist.BoardgameIds
             };

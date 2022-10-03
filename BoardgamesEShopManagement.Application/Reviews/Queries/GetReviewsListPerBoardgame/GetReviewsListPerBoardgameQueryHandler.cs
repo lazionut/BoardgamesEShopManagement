@@ -23,8 +23,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPe
                 return null;
             }
 
-            return await _unitOfWork.ReviewRepository.GetReviewsListPerBoardgame
-                (request.ReviewBoardgameId, request.ReviewPageIndex, request.ReviewPageSize);
+            return await _unitOfWork.ReviewRepository.GetPerBoardgame(request.ReviewBoardgameId, request.ReviewPageIndex, request.ReviewPageSize);
         }
     }
 }

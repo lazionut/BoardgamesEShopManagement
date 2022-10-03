@@ -46,6 +46,12 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             return await _context.Accounts.Include(account => account.Address).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
+        public async Task<int> GetAllCounter()
+        {
+            _logger.LogInformation("Getting the number of accounts...");
+            return await _context.Accounts.CountAsync();
+        }
+
         public async Task<Account?> GetById(int id)
         {
             _logger.LogInformation($"Getting {typeof(Account)} by it's identifier...");

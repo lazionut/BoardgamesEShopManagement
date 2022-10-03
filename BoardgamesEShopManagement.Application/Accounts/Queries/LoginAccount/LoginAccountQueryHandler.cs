@@ -37,7 +37,7 @@ namespace BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount
 
                 List<Claim> authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Email, searchedAccount.Email)
+                    new Claim("AccountId", searchedAccount.Id.ToString())
                 };
 
                 foreach (string userRole in userRoles)

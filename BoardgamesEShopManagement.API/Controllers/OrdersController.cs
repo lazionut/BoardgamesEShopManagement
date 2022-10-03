@@ -9,24 +9,22 @@ using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Orders.Commands.UpdateOrderStatus;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Services;
+using BoardgamesEShopManagement.API.Controllers;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/orders")]
     [ApiController]
     [Authorize]
-    public class OrdersController : ControllerBase
+    public class OrdersController : CustomControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly ISingletonService _singletonService;
 
-        public OrdersController(IMediator mediator, IMapper mapper, ISingletonService singletonService)
+        public OrdersController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _singletonService = singletonService;
         }
 
         [HttpPost]
@@ -44,9 +42,10 @@ namespace BoardgamesEShopManagement.Controllers
 
             CreateOrderRequest command = new CreateOrderRequest
             {
-                OrderAccountId = _singletonService.Id,
+                OrderAccountId = GetAccountId(),
                 OrderBoardgameIds = order.BoardgameIds,
                 OrderBoardgameQuantities = order.BoardgameQuantities,
+                OrderFullName = order.FullName,
                 OrderAddress = order.Address
             };
 
