@@ -207,19 +207,36 @@ namespace BoardgamesEShopManagement.Controllers
 
             GetAccountsListCounterQuery commandAccountsCounter = new GetAccountsListCounterQuery { };
 
-            int resultAccountCounter = await _mediator.Send(commandAccountsCounter);
+            int resultAccountsCounter = await _mediator.Send(commandAccountsCounter);
 
-            if (resultAccountCounter == 0)
+            if (resultAccountsCounter == 0)
             {
                 return NotFound();
             }
 
-            int mappedResultAccountsPageCounter = resultAccountCounter / mappedResultAccounts.Count();
+            int mappedResultAccountsCounter = mappedResultAccounts.Count();
+
+            if (mappedResultAccountsCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int pageCounter = resultAccountsCounter / mappedResultAccountsCounter;
+
+            if (resultAccountsCounter % pageSize > 0)
+            {
+                ++pageCounter;
+            }
+
+            if (mappedResultAccountsCounter < pageSize)
+            {
+                pageCounter = pageIndex;
+            }
 
             return Ok(new
             {
-                pageCount = mappedResultAccountsPageCounter,
-                accounts = mappedResultAccounts
+                pageCount = pageCounter,
+                boardgames = mappedResultAccounts
             });
         }
 
@@ -276,7 +293,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            List<OrderGetDto> mappedResult = _mapper.Map<List<OrderGetDto>>(resultOrders);
+            List<OrderGetDto> mappedResultOrders = _mapper.Map<List<OrderGetDto>>(resultOrders);
 
             GetOrdersListPerAccountCounterQuery commandOrdersCounter = new GetOrdersListPerAccountCounterQuery { OrderAccountId = GetAccountId() };
 
@@ -287,12 +304,29 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultPageCounter = resultOrdersCounter / mappedResult.Count();
+            int mappedResultOrdersCounter = mappedResultOrders.Count();
+
+            if (mappedResultOrdersCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int pageCounter = resultOrdersCounter / mappedResultOrdersCounter;
+
+            if (resultOrdersCounter % pageSize > 0)
+            {
+                ++pageCounter;
+            }
+
+            if (mappedResultOrdersCounter < pageSize)
+            {
+                pageCounter = pageIndex;
+            }
 
             return Ok(new
             {
-                pageCount = mappedResultPageCounter,
-                orders = mappedResult
+                pageCount = pageCounter,
+                boardgames = mappedResultOrders
             });
         }
 

@@ -86,7 +86,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            List<BoardgameGetDto> mappedResultBoardgame = _mapper.Map<List<BoardgameGetDto>>(resultBoardgame);
+            List<BoardgameGetDto> mappedResultBoardgames = _mapper.Map<List<BoardgameGetDto>>(resultBoardgame);
 
             GetBoardgamesListCounterQuery commandBoardgameCounter = new GetBoardgamesListCounterQuery { };
 
@@ -97,12 +97,29 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultBoardgamePageCounter = resultBoardgameCounter / mappedResultBoardgame.Count();
+            int mappedResultBoardgameCounter = mappedResultBoardgames.Count();
+
+            if (mappedResultBoardgameCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int pageCounter = resultBoardgameCounter / mappedResultBoardgameCounter;
+
+            if (resultBoardgameCounter % pageSize > 0)
+            {
+                ++pageCounter;
+            } 
+            
+            if (mappedResultBoardgameCounter < pageSize) 
+            {
+                pageCounter = pageIndex;
+            }
 
             return Ok(new
             {
-                pageCount = mappedResultBoardgamePageCounter,
-                boardgames = mappedResultBoardgame
+                pageCount = pageCounter,
+                boardgames = mappedResultBoardgames
             });
         }
 
@@ -126,7 +143,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            List<BoardgameGetDto> mappedResultBoardgame = _mapper.Map<List<BoardgameGetDto>>(resultBoardgame);
+            List<BoardgameGetDto> mappedResultBoardgames = _mapper.Map<List<BoardgameGetDto>>(resultBoardgame);
 
             GetBoardgamesListPerCategoryCounterQuery commandBoardgameCounter = new GetBoardgamesListPerCategoryCounterQuery
             {
@@ -140,12 +157,29 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultBoardgamePageCounter = resultBoardgameCounter / mappedResultBoardgame.Count();
+            int mappedResultBoardgameCounter = mappedResultBoardgames.Count();
+
+            if (mappedResultBoardgameCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int pageCounter = resultBoardgameCounter / mappedResultBoardgameCounter;
+
+            if (resultBoardgameCounter % pageSize > 0)
+            {
+                ++pageCounter;
+            }
+
+            if (mappedResultBoardgameCounter < pageSize)
+            {
+                pageCounter = pageIndex;
+            }
 
             return Ok(new
             {
-                pageCount = mappedResultBoardgamePageCounter,
-                boardgames = mappedResultBoardgame
+                pageCount = pageCounter,
+                boardgames = mappedResultBoardgames
             });
         }
 
@@ -170,20 +204,37 @@ namespace BoardgamesEShopManagement.Controllers
 
             List<BoardgameGetDto> mappedResultBoardgames = _mapper.Map<List<BoardgameGetDto>>(resultBoardgames);
 
-            GetBoardgamesListByNameCounterQuery commandBoardgameCounter = new GetBoardgamesListByNameCounterQuery { };
+            GetBoardgamesListByNameCounterQuery commandBoardgamesCounter = new GetBoardgamesListByNameCounterQuery { };
 
-            int resultBoardgameCounter = await _mediator.Send(commandBoardgameCounter);
+            int resultBoardgamesCounter = await _mediator.Send(commandBoardgamesCounter);
 
-            if (resultBoardgameCounter == 0)
+            if (resultBoardgamesCounter == 0)
             {
                 return NotFound();
             }
 
-            int mappedResultBoardgamePageCounter = resultBoardgameCounter / mappedResultBoardgames.Count();
+            int mappedResultBoardgameCounter = mappedResultBoardgames.Count();
+
+            if (mappedResultBoardgameCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int pageCounter = resultBoardgamesCounter / mappedResultBoardgameCounter;
+
+            if (resultBoardgamesCounter % pageSize > 0)
+            {
+                ++pageCounter;
+            } 
+            
+            if (mappedResultBoardgameCounter < pageSize) 
+            {
+                pageCounter = pageIndex;
+            }
 
             return Ok(new
             {
-                pageCount = mappedResultBoardgamePageCounter,
+                pageCount = pageCounter,
                 boardgames = mappedResultBoardgames
             });
         }
@@ -235,11 +286,28 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultReviewsPageCounte = resultReviewsCounter / mappedResultReviews.Count();
+            int mappedResultReviewsCounter = mappedResultReviews.Count();
+
+            if (mappedResultReviewsCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int pageCounter = resultReviewsCounter / mappedResultReviewsCounter;
+
+            if (resultReviewsCounter % pageSize > 0)
+            {
+                ++pageCounter;
+            }
+
+            if (mappedResultReviewsCounter < pageSize)
+            {
+                pageCounter = pageIndex;
+            }
 
             return Ok(new
             {
-                pageCount = mappedResultReviewsPageCounte,
+                pageCount = pageCounter,
                 boardgames = mappedResultReviews
             });
         }
