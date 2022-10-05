@@ -33,16 +33,17 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             return await _context.Reviews.Select(review => review.BoardgameId == boardgameId).CountAsync();
         }
 
-        public async Task<Review?> GetByAccountId(int accountId)
+        public async Task<bool> IsBoardgameReviewed(int accountId, int boardgameId)
         {
-            _logger.LogInformation("Getting the first review by it's account identifier...");
-            return await _context.Reviews.FirstOrDefaultAsync(review => review.AccountId == accountId);
-        }
+            _logger.LogInformation("Getting the first review by account and boardgame identifiers...");
+            Review? searchedReview =  await _context.Reviews.FirstOrDefaultAsync(review => review.AccountId == accountId && review.BoardgameId == boardgameId);
 
-        public async Task<Review?> GetByBoardgameId(int boardgameId)
-        {
-            _logger.LogInformation("Getting the first review by it's boardgame identifier...");
-            return await _context.Reviews.FirstOrDefaultAsync(review => review.BoardgameId == boardgameId);
+            if(searchedReview == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

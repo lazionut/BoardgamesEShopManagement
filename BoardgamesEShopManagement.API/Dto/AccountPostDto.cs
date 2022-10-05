@@ -21,6 +21,7 @@ namespace BoardgamesEShopManagement.API.Dto
         public string Country { get; set; } = null!;
 
         [Required]
+        [RegularExpression("^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$")]
         [MaxLength(30)]
         public string Phone { get; set; } = null!;
 
@@ -33,7 +34,7 @@ namespace BoardgamesEShopManagement.API.Dto
         public string LastName { get; set; } = null!;
 
         [Required]
-        [EmailAddress]
+        [RegularExpression("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")]
         [MaxLength(255)]
         public string Email { get; set; } = null!;
 

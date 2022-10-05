@@ -9,10 +9,6 @@ namespace BoardgamesEShopManagement.API.Dto
         public string Title { get; set; } = null!;
 
         [Required]
-        [MaxLength(100)]
-        public string Author { get; set; } = null!;
-
-        [Required]
         [Range(1, 5)]
         public byte Score { get; set; }
 

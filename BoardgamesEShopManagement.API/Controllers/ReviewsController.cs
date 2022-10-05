@@ -36,7 +36,6 @@ namespace BoardgamesEShopManagement.Controllers
             CreateReviewRequest command = new CreateReviewRequest
             {
                 ReviewTitle = review.Title,
-                ReviewAuthor = review.Author,
                 ReviewScore = review.Score,
                 ReviewContent = review.Content,
                 ReviewBoardgameId = review.BoardgameId,

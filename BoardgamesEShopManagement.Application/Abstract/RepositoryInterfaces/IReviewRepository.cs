@@ -6,7 +6,6 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
     {
         Task<List<Review>?> GetPerBoardgame(int boardgameId, int pageIndex, int pageSize);
         Task<int> GetPerBoardgameCounter(int boardgameId);
-        Task<Review?> GetByAccountId(int accountId);
-        Task<Review?> GetByBoardgameId(int boardgameId);
+        Task<bool> IsBoardgameReviewed(int accountId, int boardgameId);
     }
 }

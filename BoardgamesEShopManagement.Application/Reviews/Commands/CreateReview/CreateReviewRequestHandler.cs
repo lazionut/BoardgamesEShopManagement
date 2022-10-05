@@ -30,10 +30,9 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
                 return null;
             }
 
-            Review? searchedReviewByAccount = await _unitOfWork.ReviewRepository.GetByAccountId(request.ReviewAccountId);
-            Review? searchedReviewByBoardgame = await _unitOfWork.ReviewRepository.GetByBoardgameId(request.ReviewBoardgameId);
+            bool isBoardgameReviewedByAccount = await _unitOfWork.ReviewRepository.IsBoardgameReviewed(request.ReviewAccountId, request.ReviewBoardgameId);
 
-            if (searchedReviewByAccount != null && searchedReviewByBoardgame != null)
+            if (isBoardgameReviewedByAccount == true)
             {
                 return null;
             }
@@ -41,7 +40,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
             Review review = new Review
             {
                 Title = request.ReviewTitle,
-                Author = searchedAccount.FirstName + ' ' + searchedAccount.LastName,
+                Author = GetAuthorName(searchedAccount.FirstName, searchedAccount.LastName),
                 Score = request.ReviewScore,
                 Content = request.ReviewContent,
                 BoardgameId = request.ReviewBoardgameId,
@@ -53,5 +52,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
 
             return review;
         }
+
+        private string GetAuthorName(string firstName, string lastName) => firstName + " " + lastName.Substring(0, 1) + ".";
     }
 }

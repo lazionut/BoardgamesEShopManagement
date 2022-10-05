@@ -20,6 +20,7 @@ using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgameCounter;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListNames;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -92,7 +93,7 @@ namespace BoardgamesEShopManagement.Controllers
 
             int resultBoardgameCounter = await _mediator.Send(commandBoardgameCounter);
 
-            if (resultBoardgameCounter == 0 )
+            if (resultBoardgameCounter == 0)
             {
                 return NotFound();
             }
@@ -109,9 +110,9 @@ namespace BoardgamesEShopManagement.Controllers
             if (resultBoardgameCounter % pageSize > 0)
             {
                 ++pageCounter;
-            } 
-            
-            if (mappedResultBoardgameCounter < pageSize) 
+            }
+
+            if (mappedResultBoardgameCounter < pageSize)
             {
                 pageCounter = pageIndex;
             }
@@ -225,9 +226,9 @@ namespace BoardgamesEShopManagement.Controllers
             if (resultBoardgamesCounter % pageSize > 0)
             {
                 ++pageCounter;
-            } 
-            
-            if (mappedResultBoardgameCounter < pageSize) 
+            }
+
+            if (mappedResultBoardgameCounter < pageSize)
             {
                 pageCounter = pageIndex;
             }
@@ -309,6 +310,20 @@ namespace BoardgamesEShopManagement.Controllers
             {
                 pageCount = pageCounter,
                 boardgames = mappedResultReviews
+            });
+        }
+
+        [HttpGet]
+        [Route("names")]
+        public async Task<IActionResult> GetBoardgamesNames()
+        {
+            GetBoardgamesListNamesQuery query = new GetBoardgamesListNamesQuery { };
+
+            List<string> result = await _mediator.Send(query);
+
+            return Ok(new 
+            { 
+                names = result 
             });
         }
 

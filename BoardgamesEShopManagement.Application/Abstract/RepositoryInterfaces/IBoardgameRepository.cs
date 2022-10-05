@@ -11,5 +11,6 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
         Task<int> GetPerCategoryCounter(int categoryId);
         Task<List<Boardgame>?> GetPerName(string characters, int pageIndex, int pageSize, BoardgamesSortOrdersEnum sortOrder);
         Task<int> GetPerNameCounter(string characters);
+        Task<List<string>> GetNames();
     }
 }

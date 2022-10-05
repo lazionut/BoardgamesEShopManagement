@@ -157,5 +157,11 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _logger.LogInformation("Getting the number of boardgames by searched keywords...");
             return await _context.Boardgames.Where(boardgame => boardgame.Name.Contains(characters)).CountAsync();
         }
+
+        public async Task<List<string>> GetNames()
+        {
+            _logger.LogInformation("Getting the number of boardgames by searched keywords...");
+            return await _context.Boardgames.Select(boardgame => boardgame.Name).ToListAsync();
+        }
     }
 }
