@@ -18,4 +18,8 @@
     <ProjectReference Include="..\BoardgamesEShopManagement.Infrastructure\BoardgamesEShopManagement.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
