@@ -33,6 +33,11 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (wishlist.BoardgameIds.Count == 0)
+            {
+                return NotFound();
+            }
+
             CreateWishlistRequest command = new CreateWishlistRequest
             {
                 WishlistAccountId = GetAccountId(),

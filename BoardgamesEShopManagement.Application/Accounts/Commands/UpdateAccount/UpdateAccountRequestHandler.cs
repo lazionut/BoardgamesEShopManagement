@@ -23,16 +23,20 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
                 return null;
             }
 
-            Account? searchedAccountEmail = await _unitOfWork.AccountRepository.GetByEmail(request.AccountEmail);
-
-            if (searchedAccountEmail != null)
-            {
-                return null;
-            }
-
             searchedAccount.FirstName = request.AccountFirstName;
             searchedAccount.LastName = request.AccountLastName;
-            searchedAccount.Email = request.AccountEmail;
+
+            if (searchedAccount.Email != request.AccountEmail)
+            {
+                Account? searchedAccountEmail = await _unitOfWork.AccountRepository.GetByEmail(request.AccountEmail);
+
+                if (searchedAccountEmail != null)
+                {
+                    return null;
+                }
+
+                searchedAccount.Email = request.AccountEmail;
+            }
 
             searchedAccount.UpdatedAt = DateTime.UtcNow;
 

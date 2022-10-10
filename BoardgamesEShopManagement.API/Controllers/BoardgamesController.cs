@@ -205,7 +205,10 @@ namespace BoardgamesEShopManagement.Controllers
 
             List<BoardgameGetDto> mappedResultBoardgames = _mapper.Map<List<BoardgameGetDto>>(resultBoardgames);
 
-            GetBoardgamesListByNameCounterQuery commandBoardgamesCounter = new GetBoardgamesListByNameCounterQuery { };
+            GetBoardgamesListByNameCounterQuery commandBoardgamesCounter = new GetBoardgamesListByNameCounterQuery 
+            {
+                BoardgameNameCharacters = keywords,
+            };
 
             int resultBoardgamesCounter = await _mediator.Send(commandBoardgamesCounter);
 

@@ -20,7 +20,8 @@ namespace BoardgamesEShopManagement.API.Profiles
                         ReleaseYear = b.ReleaseYear, 
                         Description = b.Description, 
                         Price = b.Price, 
-                        Link = b.Link 
+                        Link = b.Link,
+                        Quantity = b.Quantity
                     })));
 
             CreateMap<Wishlist, WishlistPostDto>();

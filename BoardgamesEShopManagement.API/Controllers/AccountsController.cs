@@ -9,7 +9,6 @@ using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsList;
 using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
 using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistByAccount;
 using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistsListPerAccount;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount;
@@ -26,6 +25,7 @@ using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsListCoun
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccountCounter;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlistItem;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -331,28 +331,6 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        [Route("wishlists/{id}")]
-        public async Task<IActionResult> GetWishlistByAccount(int id)
-        {
-            GetWishlistByAccountQuery query = new GetWishlistByAccountQuery
-            {
-                WishlistAccountId = GetAccountId(),
-                WishlistId = id
-            };
-
-            Wishlist? result = await _mediator.Send(query);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            WishlistGetDto mappedResult = _mapper.Map<WishlistGetDto>(result);
-
-            return Ok(mappedResult);
-        }
-
-        [HttpGet]
         [Route("wishlists")]
         public async Task<IActionResult> GetWishlistsPerAccount()
         {
@@ -403,7 +381,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
-            UpdateWishlistRequest command = new UpdateWishlistRequest
+            UpdateWishlistRequest wishlistCommand = new UpdateWishlistRequest
             {
                 WishlistId = id,
                 WishlistName = wishlist.Name,
@@ -411,11 +389,31 @@ namespace BoardgamesEShopManagement.Controllers
                 WishlistBoardgameIds = wishlist.BoardgameIds
             };
 
-            Wishlist? result = await _mediator.Send(command);
+            Wishlist? wishlistResult = await _mediator.Send(wishlistCommand);
 
-            if (result == null)
+            if (wishlistResult == null)
             {
                 return NotFound();
+            }
+
+            var wishlistResultBoardgameIds = new List<int>();
+
+            foreach (Boardgame boardgame in wishlistResult.Boardgames)
+            {
+                wishlistResultBoardgameIds.Add(boardgame.Id);
+            }
+
+            List<int> toBeRemovedBoardgames = wishlistResultBoardgameIds.Except(wishlist.BoardgameIds).ToList();
+
+            foreach(int boardgameId in toBeRemovedBoardgames)
+            {
+                DeleteWishlistItemRequest wishlistItemCommand = new DeleteWishlistItemRequest
+                {
+                    WishlistId = id,
+                    BoardgameId = boardgameId,
+                };
+
+                await _mediator.Send(wishlistItemCommand);
             }
 
             return NoContent();

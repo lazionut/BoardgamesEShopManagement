@@ -35,7 +35,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (order.BoardgameIds.Count != order.BoardgameQuantities.Count)
+            if (order.BoardgameIds.Count != order.BoardgameQuantities.Count || order.BoardgameIds.Count == 0 || order.BoardgameQuantities.Count == 0)
             {
                 return NotFound();
             }
