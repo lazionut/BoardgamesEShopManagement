@@ -10,6 +10,11 @@ using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Orders.Commands.UpdateOrderStatus;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersList;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccountCounter;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListCounter;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -59,6 +64,60 @@ namespace BoardgamesEShopManagement.Controllers
             }
 
             return CreatedAtAction(nameof(GetOrder), new { id = mappedResult.Id }, mappedResult);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetOrders([BindRequired] int pageIndex, [BindRequired] int pageSize)
+        {
+            GetOrdersListQuery queryOrders = new GetOrdersListQuery
+            {
+                OrderPageIndex = pageIndex,
+                OrderPageSize = pageSize
+            };
+
+            List<Order>? resultOrders = await _mediator.Send(queryOrders);
+
+            if (resultOrders == null)
+            {
+                return NotFound();
+            }
+
+            List<OrderGetDto> mappedResultOrders = _mapper.Map<List<OrderGetDto>>(resultOrders);
+
+            GetOrdersListCounterQuery commandOrdersCounter = new GetOrdersListCounterQuery { };
+
+            int resultOrdersCounter = await _mediator.Send(commandOrdersCounter);
+
+            if (resultOrdersCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int mappedResultOrdersCounter = mappedResultOrders.Count();
+
+            if (mappedResultOrdersCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int pageCounter = resultOrdersCounter / mappedResultOrdersCounter;
+
+            if (resultOrdersCounter % pageSize > 0)
+            {
+                ++pageCounter;
+            }
+
+            if (mappedResultOrdersCounter < pageSize)
+            {
+                pageCounter = pageIndex;
+            }
+
+            return Ok(new
+            {
+                pageCount = pageCounter,
+                orders = mappedResultOrders
+            });
         }
 
         [HttpGet]

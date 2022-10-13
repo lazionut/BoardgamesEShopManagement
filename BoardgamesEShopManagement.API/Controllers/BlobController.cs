@@ -1,6 +1,6 @@
-﻿using BoardgamesEShopManagement.Application.Abstract;
+﻿using Azure.Core;
+using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Models;
-using Bogus.DataSets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,49 @@ namespace BoardgamesEShopManagement.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFile([FromBody] UploadFileRequest request)
+        public async Task<IActionResult> UploadFile([FromForm] FileModel file)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", file.FileName);
+
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    file.FormFile.CopyTo(stream);
+                }
+
+                bool isFileUploaded = await _blobService.UploadFileBlobAsync(path, file.FileName);
+
+                if (isFileUploaded == false)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    System.IO.File.Delete(path);
+                }
+                catch
+                {
+                    return NotFound();
+                }
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        /*
+        [HttpPost]
+        public async Task<IActionResult> UploadFile([FromForm] UploadFileRequest request)
         {
             bool isFileUploaded = await _blobService.UploadFileBlobAsync(request.FilePath, request.FileName);
 
@@ -30,6 +72,7 @@ namespace BoardgamesEShopManagement.API.Controllers
 
             return Ok();
         }
+        */
 
         [HttpGet("{blobName}")]
         [AllowAnonymous]

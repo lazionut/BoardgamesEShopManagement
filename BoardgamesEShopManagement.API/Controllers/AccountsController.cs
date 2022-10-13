@@ -236,7 +236,7 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(new
             {
                 pageCount = pageCounter,
-                boardgames = mappedResultAccounts
+                accounts = mappedResultAccounts
             });
         }
 
@@ -326,7 +326,7 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(new
             {
                 pageCount = pageCounter,
-                boardgames = mappedResultOrders
+                orders = mappedResultOrders
             });
         }
 

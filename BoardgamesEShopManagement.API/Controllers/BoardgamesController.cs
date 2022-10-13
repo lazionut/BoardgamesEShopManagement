@@ -312,7 +312,7 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(new
             {
                 pageCount = pageCounter,
-                boardgames = mappedResultReviews
+                reviews = mappedResultReviews
             });
         }
 
