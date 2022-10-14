@@ -1,6 +1,4 @@
-﻿using BoardgamesEShopManagement.Domain.Entities;
-
-namespace BoardgamesEShopManagement.API.Dto
+﻿namespace BoardgamesEShopManagement.API.Dto
 {
     public class AccountGetDto
     {

@@ -1,6 +1,4 @@
 ﻿using MediatR;
-
-using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListNames

@@ -50,10 +50,12 @@ while (true)
             List<Category> categoriesList = await ConsoleInputs.GetCategoriesList(mediator);
             ConsoleInputs.DisplayItem<List<Category>>(categoriesList);
             break;
+        /*
         case 6:
             Wishlist singleWishlist = await ConsoleInputs.GetWishlistByAccount(mediator);
             ConsoleInputs.DisplayItem<Wishlist>(singleWishlist);
             break;
+            */
         case 7:
             List<Order> ordersList = await ConsoleInputs.GetOrdersListPerAccount(mediator);
             ConsoleInputs.DisplayItem<List<Order>>(ordersList);

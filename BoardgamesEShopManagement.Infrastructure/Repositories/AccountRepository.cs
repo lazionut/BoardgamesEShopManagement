@@ -3,9 +3,6 @@ using Microsoft.Extensions.Logging;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using System.Xml.Linq;
-using BoardgamesEShopManagement.Application.Abstract;
-using MediatR;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {

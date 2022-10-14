@@ -2,7 +2,6 @@
 using Bogus;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using Bogus.DataSets;
 
 namespace BoardgamesEShopManagement.Infrastructure
 {

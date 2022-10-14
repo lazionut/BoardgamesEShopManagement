@@ -11,8 +11,6 @@ using BoardgamesEShopManagement.Application.Orders.Commands.UpdateOrderStatus;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.API.Controllers;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersList;
-using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount;
-using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccountCounter;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListCounter;
 

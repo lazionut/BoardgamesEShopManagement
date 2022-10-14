@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
-using System.Data;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
 {

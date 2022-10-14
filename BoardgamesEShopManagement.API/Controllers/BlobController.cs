@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using BoardgamesEShopManagement.Application.Abstract;
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -58,21 +57,6 @@ namespace BoardgamesEShopManagement.API.Controllers
 
             return Ok();
         }
-
-        /*
-        [HttpPost]
-        public async Task<IActionResult> UploadFile([FromForm] UploadFileRequest request)
-        {
-            bool isFileUploaded = await _blobService.UploadFileBlobAsync(request.FilePath, request.FileName);
-
-            if (isFileUploaded == false)
-            {
-                return NotFound();
-            }
-
-            return Ok();
-        }
-        */
 
         [HttpGet("{blobName}")]
         [AllowAnonymous]

@@ -2,7 +2,6 @@
 using Azure.Storage.Blobs.Models;
 using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Extensions;
-using Microsoft.Extensions.Configuration;
 using BlobInfo = BoardgamesEShopManagement.Domain.Models.BlobInfo;
 
 namespace BoardgamesEShopManagement.Infrastructure

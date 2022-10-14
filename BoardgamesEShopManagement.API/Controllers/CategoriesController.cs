@@ -1,17 +1,14 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Enumerations;
 using BoardgamesEShopManagement.Application.Categories.Commands.CreateCategory;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategory;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList;
 using BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory;
 using BoardgamesEShopManagement.Application.Categories.Commands.DeleteCategory;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory;
 using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.API.Controllers;
 
