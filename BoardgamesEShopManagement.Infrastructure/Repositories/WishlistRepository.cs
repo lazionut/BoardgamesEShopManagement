@@ -44,6 +44,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             return await _context.Wishlists
                 .Include(wishlist => wishlist.Boardgames)
                 .Where(wishlist => wishlist.AccountId == accountId)
+                .OrderByDescending(wishlist => wishlist.Id)
                 .ToListAsync();
         }
 

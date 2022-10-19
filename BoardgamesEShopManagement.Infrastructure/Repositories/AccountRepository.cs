@@ -11,7 +11,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         private readonly ShopContext _context;
         private readonly ILogger<Account> _logger;
 
-        public AccountRepository(ShopContext context, ILogger<Account> logger) 
+        public AccountRepository(ShopContext context, ILogger<Account> logger)
         {
             _context = context;
             _logger = logger;
@@ -40,7 +40,12 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             }
 
             _logger.LogInformation($"Getting the list of {typeof(Account)}...");
-            return await _context.Accounts.Include(account => account.Address).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            return await _context.Accounts
+                .Include(account => account.Address)
+                .OrderByDescending(account => account.Id)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task<int> GetAllCounter()

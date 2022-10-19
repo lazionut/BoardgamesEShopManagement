@@ -56,6 +56,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             return await _context.Orders
                 .Include(order => order.OrderItems)
                 .ThenInclude(order => order.Boardgame)
+                .OrderByDescending(order => order.Id)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -73,6 +74,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             return await _context.Orders
                 .Include(order => order.OrderItems)
                 .ThenInclude(order => order.Boardgame)
+                .OrderByDescending(order => order.Id)
                 .Where(order => order.AccountId == accountId)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)

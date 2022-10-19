@@ -22,6 +22,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _logger.LogInformation("Getting the list of reviews by the boardgame identifier...");
             return await _context.Reviews
                 .Where(review => review.BoardgameId == boardgameId)
+                .OrderByDescending(review => review.Id)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
