@@ -1,19 +1,25 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Enumerations;
-using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Orders.Commands.UpdateOrderStatus;
+using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersList;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListCounter;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/orders")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    [Authorize]
+    public class OrdersController : CustomControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -32,11 +38,18 @@ namespace BoardgamesEShopManagement.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (order.BoardgameIds.Count != order.BoardgameQuantities.Count || order.BoardgameIds.Count == 0 || order.BoardgameQuantities.Count == 0)
+            {
+                return NotFound();
+            }
+
             CreateOrderRequest command = new CreateOrderRequest
             {
-                OrderAccountId = order.AccountId,
+                OrderAccountId = GetAccountId(),
                 OrderBoardgameIds = order.BoardgameIds,
-                OrderBoardgameQuantities = order.BoardgameQuantities
+                OrderBoardgameQuantities = order.BoardgameQuantities,
+                OrderFullName = order.FullName,
+                OrderAddress = order.Address
             };
 
             Order result = await _mediator.Send(command);
@@ -49,6 +62,60 @@ namespace BoardgamesEShopManagement.Controllers
             }
 
             return CreatedAtAction(nameof(GetOrder), new { id = mappedResult.Id }, mappedResult);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetOrders([BindRequired] int pageIndex, [BindRequired] int pageSize)
+        {
+            GetOrdersListQuery queryOrders = new GetOrdersListQuery
+            {
+                OrderPageIndex = pageIndex,
+                OrderPageSize = pageSize
+            };
+
+            List<Order>? resultOrders = await _mediator.Send(queryOrders);
+
+            if (resultOrders == null)
+            {
+                return NotFound();
+            }
+
+            List<OrderGetDto> mappedResultOrders = _mapper.Map<List<OrderGetDto>>(resultOrders);
+
+            GetOrdersListCounterQuery commandOrdersCounter = new GetOrdersListCounterQuery { };
+
+            int resultOrdersCounter = await _mediator.Send(commandOrdersCounter);
+
+            if (resultOrdersCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int mappedResultOrdersCounter = mappedResultOrders.Count();
+
+            if (mappedResultOrdersCounter == 0)
+            {
+                return NotFound();
+            }
+
+            int pageCounter = resultOrdersCounter / mappedResultOrdersCounter;
+
+            if (resultOrdersCounter % pageSize > 0)
+            {
+                ++pageCounter;
+            }
+
+            if (mappedResultOrdersCounter < pageSize)
+            {
+                pageCounter = pageIndex;
+            }
+
+            return Ok(new
+            {
+                pageCount = pageCounter,
+                orders = mappedResultOrders
+            });
         }
 
         [HttpGet]
@@ -71,6 +138,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpPatch]
         [Route("{id}/change-status")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateOrderStatus(int id, [FromQuery] OrderStatusEnum orderStatus)
         {
             UpdateOrderStatusRequest command = new UpdateOrderStatusRequest

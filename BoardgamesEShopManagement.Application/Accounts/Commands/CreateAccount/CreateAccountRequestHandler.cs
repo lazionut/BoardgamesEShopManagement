@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
@@ -8,14 +9,23 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
     public class CreateAccountRequestHandler : IRequestHandler<CreateAccountRequest, Account?>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<Account> _userManager;
 
-        public CreateAccountRequestHandler(IUnitOfWork unitOfWork)
+        public CreateAccountRequestHandler(IUnitOfWork unitOfWork, UserManager<Account> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         public async Task<Account?> Handle(CreateAccountRequest request, CancellationToken cancellationToken)
         {
+            Account? searchedAccountByEmail = await _unitOfWork.AccountRepository.GetByEmail(request.AccountEmail);
+
+            if (searchedAccountByEmail != null)
+            {
+                return null;
+            }
+
             Address? searchedAddress = await _unitOfWork.AddressRepository.GetById(request.AccountAddressId);
 
             if (searchedAddress == null)
@@ -23,34 +33,30 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
                 return null;
             }
 
-            Account? searchedAccountByAddressId = await _unitOfWork.AccountRepository.GetAccountByAddressId(request.AccountAddressId);
+            Account? searchedAccountByAddressId = await _unitOfWork.AccountRepository.GetByAddressId(request.AccountAddressId);
 
             if (searchedAccountByAddressId != null)
             {
                 return null;
             }
 
-            Account? searchedAccountByEmail = await _unitOfWork.AccountRepository.GetAccountByEmail(request.AccountEmail);
-
-            if (searchedAccountByEmail != null)
-            {
-                return null;
-            }
+            string accountUsername = GetUsernameFromEmail(request.AccountEmail);
 
             Account account = new Account
             {
-                Email = request.AccountEmail,
-                Password = request.AccountPassword,
                 FirstName = request.AccountFirstName,
                 LastName = request.AccountLastName,
+                UserName = accountUsername,
+                Email = request.AccountEmail,
                 AddressId = request.AccountAddressId,
-                IsArchived = false
+                IsArchived = false,
             };
 
-            await _unitOfWork.AccountRepository.Create(account);
-            await _unitOfWork.Save();
+            var user = await _userManager.CreateAsync(account, request.AccountPassword);
 
             return account;
         }
+
+        private string GetUsernameFromEmail(string email) => email.Split('@')[0];
     }
 }

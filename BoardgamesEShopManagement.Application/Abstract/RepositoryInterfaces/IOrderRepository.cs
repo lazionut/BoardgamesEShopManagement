@@ -5,8 +5,11 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
     public interface IOrderRepository
     {
         Task Create(Order order);
-        Task CreateItem(int orderId, int boardgameId, Order order);
-        Task<List<Order>> GetOrdersListPerAccount(int accountId, int pageIndex, int pageSize);
+        Task AddItems(Order order, List<OrderItem> orderItems);
+        Task<List<Order>> GetAll(int pageIndex, int pageSize);
+        Task<int> GetAllCounter();
+        Task<List<Order>> GetPerAccount(int accountId, int pageIndex, int pageSize);
+        Task<int> GetPerAccountCounter(int accountId);
         Task<Order?> GetById(int orderId);
         Task<Order?> GetByAccount(int accountId, int orderId);
         Task Update(Order order);

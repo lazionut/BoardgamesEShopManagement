@@ -10,7 +10,6 @@ using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
 
 namespace BoardgamesEShopManagement.Test
 {
@@ -24,9 +23,10 @@ namespace BoardgamesEShopManagement.Test
         {
             CreateOrderRequest createOrderCommand = new CreateOrderRequest
             {
-                OrderAccountId = 1,
+                OrderAddress = "ExampleOrderAddress",
                 OrderBoardgameIds = new List<int> { 1, 9 },
-                OrderBoardgameQuantities = new List<int> { 1, 1 }
+                OrderBoardgameQuantities = new List<int> { 1, 1 },
+                OrderAccountId = 1
             };
 
             _mockMediator
@@ -37,26 +37,30 @@ namespace BoardgamesEShopManagement.Test
                           Total = 1393.36M,
                           Status = 0,
                           AccountId = 1,
-                          Boardgames = new List<Boardgame>
+                          OrderItems = new List<OrderItem>
                           {
-                              new Boardgame
+                              new OrderItem
                               {
-                                  Image = null,
-                                  Name = "Splendor",
-                                  ReleaseYear = 2008,
-                                  Description = "SPLENDOR",
-                                  Price = 150.92M,
-                                  Link = "https://boardgamegeek.com/boardgame/230802/azul"
+                                  Boardgame = new Boardgame {                                  
+                                      Image = null,
+                                      Name = "Splendor",
+                                      ReleaseYear = 2008,
+                                      Description = "SPLENDOR",
+                                      Price = 150.92M,
+                                  Link = "https://boardgamegeek.com/boardgame/230802/azul" },
+                                  Quantity = 1,
                               },
-                              new Boardgame
+                              new OrderItem
                               {
+                                 Boardgame = new Boardgame {
                                   Image = null,
                                   Name = "Warhammer 40K Collection",
                                   ReleaseYear = 2005,
                                   Description = "WARHAMMER 40K COLLECTION",
                                   Price = 1242.44M,
-                                  Link = "https://boardgamegeek.com/boardgame/148228/splendor"
-                              }
+                                  Link = "https://boardgamegeek.com/boardgame/148228/splendor" },
+                                  Quantity = 1,
+                              },
                           }
                       }
             );
@@ -65,9 +69,9 @@ namespace BoardgamesEShopManagement.Test
                  .Setup(m => m.Map<OrderGetDto>(It.IsAny<Order>()))
                  .Returns(new OrderGetDto
                  {
+                     Address = "ExampleOrderAddress",
                      Total = 1393.36M,
                      Status = 0,
-                     AccountId = 1,
                      Boardgames = new List<OrderBoardgameDto>
                           {
                               new OrderBoardgameDto
@@ -90,14 +94,13 @@ namespace BoardgamesEShopManagement.Test
 
             IActionResult result = await controller.CreateOrder(new OrderPostDto
             {
-                AccountId = 1,
                 BoardgameIds = new List<int> { 1, 9 },
                 BoardgameQuantities = new List<int> { 1, 1 }
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            Assert.Equal(createOrderCommand.OrderAccountId, ((OrderGetDto)okResult.Value).AccountId);
+            Assert.Equal(createOrderCommand.OrderAddress, ((OrderGetDto)okResult.Value).Address);
         }
 
         [Fact]

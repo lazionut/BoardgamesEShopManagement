@@ -1,21 +1,22 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Categories.Commands.CreateCategory;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategory;
 using BoardgamesEShopManagement.Application.Categories.Queries.GetCategoriesList;
 using BoardgamesEShopManagement.Application.Categories.Commands.UpdateCategory;
 using BoardgamesEShopManagement.Application.Categories.Commands.DeleteCategory;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory;
+using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.API.Controllers;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/categories")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController : CustomControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -27,6 +28,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryPostPutDto category)
         {
             if (!ModelState.IsValid)
@@ -78,29 +80,9 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(mappedResult);
         }
 
-        [HttpGet]
-        [Route("{id}/boardgames")]
-        public async Task<IActionResult> GetBoardgamesPerCategory(int id)
-        {
-            GetBoardgamesListPerCategoryQuery command = new GetBoardgamesListPerCategoryQuery
-            {
-                CategoryId = id
-            };
-
-            List<Boardgame>? result = await _mediator.Send(command);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            List<BoardgameGetDto> mappedResult = _mapper.Map<List<BoardgameGetDto>>(result);
-
-            return Ok(mappedResult);
-        }
-
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryPostPutDto updatedCategory)
         {
             UpdateCategoryRequest command = new UpdateCategoryRequest
@@ -121,6 +103,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             DeleteCategoryRequest command = new DeleteCategoryRequest { CategoryId = id };

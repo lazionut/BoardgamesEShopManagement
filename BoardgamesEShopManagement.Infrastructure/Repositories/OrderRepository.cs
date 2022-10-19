@@ -23,26 +23,21 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             await _context.Orders.AddAsync(order);
         }
 
-        public async Task CreateItem(int orderId, int boardgameId, Order order)
+        public async Task AddItems(Order order, List<OrderItem> orderItems)
         {
-            _logger.LogInformation("Finding order by it's identifier...");
-            Order searchedOrder = await _context.Orders
-                .Include(order => order.Boardgames)
-                .SingleAsync(order => order.Id == orderId);
-
-            _logger.LogInformation("Finding boardgame by it's identifier...");
-            Boardgame searchedBoardgame = await _context.Boardgames
-                .SingleAsync(boardgame => boardgame.Id == boardgameId);
-
             _logger.LogInformation("Preparing to add the boardgame in the order...");
-            order.Boardgames.Add(searchedBoardgame);
+            order.OrderItems = orderItems;
+
+            _logger.LogInformation("Preparing to update the order...");
+            _context.Update(order);
         }
 
         public async Task<Order?> GetById(int orderId)
         {
             _logger.LogInformation("Trying to get the order by it's identifier...");
             return await _context.Orders
-                .Include(order => order.Boardgames)
+                .Include(order => order.OrderItems)
+                .ThenInclude(order => order.Boardgame)
                 .SingleOrDefaultAsync(order => order.Id == orderId);
         }
 
@@ -50,19 +45,49 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         {
             _logger.LogInformation("Trying to get the order by an account and it's identifier...");
             return await _context.Orders
-                .Include(order => order.Boardgames)
+                .Include(order => order.OrderItems)
+                .ThenInclude(order => order.Boardgame)
                 .SingleOrDefaultAsync(order => order.AccountId == accountId && order.Id == orderId);
         }
 
-        public async Task<List<Order>> GetOrdersListPerAccount(int accountId, int pageIndex, int pageSize)
+        public async Task<List<Order>> GetAll(int pageIndex, int pageSize)
+        {
+            _logger.LogInformation("Getting the list of orders...");
+            return await _context.Orders
+                .Include(order => order.OrderItems)
+                .ThenInclude(order => order.Boardgame)
+                .OrderByDescending(order => order.Id)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetAllCounter()
+        {
+            _logger.LogInformation("Getting the number of orders...");
+            return await _context.Orders.CountAsync();
+        }
+
+        public async Task<List<Order>> GetPerAccount(int accountId, int pageIndex, int pageSize)
         {
             _logger.LogInformation("Getting the list of orders by an account identifier...");
             return await _context.Orders
-                .Include(order => order.Boardgames)
+                .Include(order => order.OrderItems)
+                .ThenInclude(order => order.Boardgame)
+                .OrderByDescending(order => order.Id)
                 .Where(order => order.AccountId == accountId)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+        }
+
+        public async Task<int> GetPerAccountCounter(int accountId)
+        {
+            _logger.LogInformation("Getting the total number of order entries per account...");
+            return await _context.Orders
+                .Include(order => order.OrderItems)
+                .ThenInclude(order => order.Boardgame)
+                .Where(order => order.AccountId == accountId).CountAsync();
         }
 
         public async Task Update(Order order)
@@ -77,7 +102,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             Order? searchedOrder = await _context.Orders
                 .SingleOrDefaultAsync(order => order.Id == orderId);
 
-            _logger.LogError($"Could not find the order.");
+            _logger.LogError("Could not find the order.");
             if (searchedOrder == null)
             {
                 return null;

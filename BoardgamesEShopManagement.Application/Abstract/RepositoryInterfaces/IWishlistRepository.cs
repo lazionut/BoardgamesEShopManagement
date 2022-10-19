@@ -6,7 +6,7 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
     {
         Task Create(Wishlist wishlist);
         Task CreateItem(int accountId, int wishlistId, int boardgameId, Wishlist wishlist);
-        Task<List<Wishlist>> GetWishlistsListPerAccount(int accountId, int pageIndex, int pageSize);
+        Task<List<Wishlist>> GetPerAccount(int accountId);
         Task<Wishlist?> GetById(int wishlistId);
         Task<Wishlist?> GetByAccount(int accountId, int wishlistId);
         Task<Wishlist?> Delete(int accountId, int wishlistId);

@@ -10,6 +10,5 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
         public string AccountFirstName { get; set; } = null!;
         public string AccountLastName { get; set; } = null!;
         public string AccountEmail { get; set; } = null!;
-        public string AccountPassword { get; set; } = null!;
     }
 }

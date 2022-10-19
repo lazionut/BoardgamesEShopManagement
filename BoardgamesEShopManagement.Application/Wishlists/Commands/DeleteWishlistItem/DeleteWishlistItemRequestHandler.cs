@@ -1,11 +1,11 @@
 ﻿using MediatR;
 
-using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Domain.Entities;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlistItem
 {
-    public class DeleteWishlistItemRequestHandler : IRequestHandler<DeleteWishlistItemRequest, Wishlist?>
+    public class DeleteWishlistItemRequestHandler : IRequestHandler<DeleteWishlistItemRequest, bool>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,30 +14,27 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlis
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Wishlist?> Handle(DeleteWishlistItemRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteWishlistItemRequest request, CancellationToken cancellationToken)
         {
-            Wishlist? searchedWishlist = await _unitOfWork.WishlistRepository.GetByAccount
-                (request.WishlistAccountId, request.WishlistId);
+            Wishlist? searchedWishlist = await _unitOfWork.WishlistRepository.GetById(request.WishlistId);
 
             if (searchedWishlist == null)
             {
-                return null;
-            } 
+                return false;
+            }
 
-            Boardgame? searchedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.WishlistBoardgameId);
+            Boardgame? searchedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
 
             if (searchedBoardgame == null)
             {
-                return null;
+                return false;
             }
 
-            searchedWishlist.Boardgames.Remove(searchedBoardgame);
-
-            searchedWishlist.UpdatedAt = DateTime.UtcNow;
+            bool isWishlistItemDeleted = searchedWishlist.Boardgames.Remove(searchedBoardgame);
 
             await _unitOfWork.Save();
 
-            return searchedWishlist;
+            return isWishlistItemDeleted;
         }
     }
 }

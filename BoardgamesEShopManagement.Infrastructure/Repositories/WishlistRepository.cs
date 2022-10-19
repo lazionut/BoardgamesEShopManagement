@@ -38,14 +38,13 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             wishlist.Boardgames.Add(searchedBoardgame);
         }
 
-        public async Task<List<Wishlist>> GetWishlistsListPerAccount(int accountId, int pageIndex, int pageSize)
+        public async Task<List<Wishlist>> GetPerAccount(int accountId)
         {
             _logger.LogInformation("Getting the list of wishlists by an account identifier...");
             return await _context.Wishlists
                 .Include(wishlist => wishlist.Boardgames)
                 .Where(wishlist => wishlist.AccountId == accountId)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
+                .OrderByDescending(wishlist => wishlist.Id)
                 .ToListAsync();
         }
 
@@ -73,7 +72,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
             if (searchedWishlist == null)
             {
-                _logger.LogError($"Could not find the wishlist.");
+                _logger.LogError("Could not find the wishlist.");
                 return null;
             }
 

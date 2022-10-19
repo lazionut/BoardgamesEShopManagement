@@ -17,36 +17,34 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             _logger = logger;
         }
 
-        public async Task<List<Review>?> GetReviewsListPerBoardgame(int boardgameId, int pageIndex, int pageSize)
+        public async Task<List<Review>?> GetPerBoardgame(int boardgameId, int pageIndex, int pageSize)
         {
             _logger.LogInformation("Getting the list of reviews by the boardgame identifier...");
             return await _context.Reviews
                 .Where(review => review.BoardgameId == boardgameId)
+                .OrderByDescending(review => review.Id)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
         }
 
-        public async Task<List<Review>?> GetReviewsListPerAccount(int accountId, int pageIndex, int pageSize)
+        public async Task<int> GetPerBoardgameCounter(int boardgameId)
         {
-            _logger.LogInformation("Getting the list of reviews by the account identifier...");
-            return await _context.Reviews
-                .Where(review => review.AccountId == accountId)
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            _logger.LogInformation("Getting the total number of review entries of a boardgame...");
+            return await _context.Reviews.Select(review => review.BoardgameId == boardgameId).CountAsync();
         }
 
-        public async Task<Review?> GetByAccountId(int accountId)
+        public async Task<bool> IsBoardgameReviewed(int accountId, int boardgameId)
         {
-            _logger.LogInformation($"Getting the first review by it's boardgame identifier...");
-            return await _context.Reviews.FirstOrDefaultAsync(review => review.AccountId == accountId);
-        }
+            _logger.LogInformation("Getting the first review by account and boardgame identifiers...");
+            Review? searchedReview =  await _context.Reviews.FirstOrDefaultAsync(review => review.AccountId == accountId && review.BoardgameId == boardgameId);
 
-        public async Task<Review?> GetByBoardgameId(int boardgameId)
-        {
-            _logger.LogInformation($"Getting the first review by it's boardgame identifier...");
-            return await _context.Reviews.FirstOrDefaultAsync(review => review.BoardgameId == boardgameId);
+            if(searchedReview == null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

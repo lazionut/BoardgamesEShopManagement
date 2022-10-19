@@ -9,9 +9,6 @@ namespace BoardgamesEShopManagement.API.Dto
         public string Name { get; set; } = null!;
 
         [Required]
-        public int AccountId { get; set; }
-
-        [Required]
         public List<int> BoardgameIds { get; set; } = null!;
     }
 }

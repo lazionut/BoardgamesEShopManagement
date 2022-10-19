@@ -10,7 +10,6 @@ using BoardgamesEShopManagement.Controllers;
 using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
-using BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview;
 using BoardgamesEShopManagement.API.Dto;
 
 namespace BoardgamesEShopManagement.Test
@@ -55,8 +54,7 @@ namespace BoardgamesEShopManagement.Test
                    Author = "ReviewAuthor",
                    Score = 3,
                    Content = "ReviewContent",
-                   BoardgameId = 3,
-                   AccountId = 7
+                   BoardgameId = 3
                }
                );
 
@@ -69,7 +67,6 @@ namespace BoardgamesEShopManagement.Test
                 Score = 3,
                 Content = "ReviewContent",
                 BoardgameId = 3,
-                AccountId = 7
             });
 
             CreatedAtActionResult okResult = Assert.IsType<CreatedAtActionResult>(result);
@@ -100,39 +97,6 @@ namespace BoardgamesEShopManagement.Test
             OkObjectResult okResult = Assert.IsType<OkObjectResult>(result);
 
             Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
-        }
-
-        [Fact]
-        public async void Update_Review_UpdateReviewCommandIsCalled()
-        {
-            _mockMediator
-                .Setup(m => m.Send(It.IsAny<UpdateReviewRequest>(), It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new Review
-                {
-                    Title = "ReviewTitleUpdated",
-                    Content = "ReviewContentUpdated",
-                });
-
-            _mockMapper
-                .Setup(m => m.Map<ReviewGetDto>(It.IsAny<Review>()))
-                .Returns(new ReviewGetDto
-                {
-                    Title = "ReviewTitleUpdated",
-                    Content = "ReviewTitleUpdated"
-                }
-                );
-
-            ReviewsController controller = new ReviewsController(_mockMediator.Object, _mockMapper.Object);
-
-            IActionResult result = await controller.UpdateReview(1, new ReviewPatchDto
-            {
-                Title = "ReviewTitleUpdated",
-                Content = "ReviewTitleUpdated"
-            });
-
-            NoContentResult noContentResult = Assert.IsType<NoContentResult>(result);
-
-            Assert.Equal((int)HttpStatusCode.NoContent, noContentResult.StatusCode);
         }
 
         [Fact]

@@ -73,11 +73,11 @@ namespace BoardgamesEShopManagement.Infrastructure
 
             return addressIds.ToList().Select(addressId =>
                new Faker<Account>()
-                .RuleFor(person => person.FirstName, faker => faker.Person.FirstName)
-                .RuleFor(person => person.LastName, faker => faker.Person.LastName)
-                .RuleFor(review => review.Email, faker => faker.Internet.Email())
-                .RuleFor(review => review.Password, faker => faker.Internet.Password())
-                .RuleFor(review => review.AddressId, addressId)
+                .RuleFor(account => account.FirstName, faker => faker.Person.FirstName)
+                .RuleFor(account => account.LastName, faker => faker.Person.LastName)
+                .RuleFor(account => account.Email, faker => faker.Internet.Email())
+                .RuleFor(account => account.PasswordHash, faker => faker.Random.Hash())
+                .RuleFor(account => account.AddressId, addressId)
                 .Generate());
         }
 
@@ -227,9 +227,14 @@ namespace BoardgamesEShopManagement.Infrastructure
 
             return orderTotals.ToList().Select(orderTotal =>
                 new Faker<Order>()
+                .RuleFor(order => order.FullName, faker => faker.Person.FullName)
+                    .RuleFor(order => order.Address, faker =>
+                    faker.Address.StreetAddress() + ' ' +
+                    faker.Address.City() + ' ' + faker.Address.County() + ' ' +
+                    faker.Address.Country() + ' ' + faker.Phone.PhoneNumber())
                     .RuleFor(order => order.Total, orderTotal)
                     .RuleFor(order => order.AccountId, faker => faker.Random.Number(1, 10))
-                    .Generate());
+                    .Generate()); ;
         }
 
         private static IEnumerable<OrderItem> GetPreconfiguredOrderItems()
@@ -242,6 +247,8 @@ namespace BoardgamesEShopManagement.Infrastructure
                 new Faker<OrderItem>()
                     .RuleFor(orderItem => orderItem.OrderId, orderId)
                     .RuleFor(orderItem => orderItem.BoardgameId, faker => faker.Random.Number(1, 10))
+                    .RuleFor(orderItem => orderItem.Quantity, faker => faker.Random.Number(1, 3))
+                    .RuleFor(orderItem => orderItem.Price, faker => faker.Random.Decimal(50, 10000))
                     .Generate());
         }
     }

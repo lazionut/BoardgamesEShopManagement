@@ -20,9 +20,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         public async Task<int> GetCategoryCounter()
         {
             _logger.LogInformation("Getting the total number of category entries...");
-            int count = await _context.Categories.CountAsync();
-            return count;
+            return await _context.Categories.CountAsync();
         }
-
     }
 }

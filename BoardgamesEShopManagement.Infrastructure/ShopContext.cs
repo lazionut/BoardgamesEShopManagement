@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.EntityConfigurations;
 
 namespace BoardgamesEShopManagement.Infrastructure
 {
-    public class ShopContext : DbContext
+    public class ShopContext : IdentityDbContext<Account, IdentityRole<int>, int>
     {
         public ShopContext()
         {
@@ -45,6 +47,7 @@ namespace BoardgamesEShopManagement.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new BoardgameEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new AddressEntityTypeConfiguration());

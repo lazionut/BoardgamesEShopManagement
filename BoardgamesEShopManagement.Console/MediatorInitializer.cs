@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;

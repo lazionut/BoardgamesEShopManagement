@@ -8,7 +8,6 @@
         public byte Score { get; set; }
         public string Content { get; set; } = null!;
         public int BoardgameId { get; set; }
-        public int AccountId { get; set; }
         public DateTime CreationDate { get; set; }
     }
 }

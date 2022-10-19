@@ -7,6 +7,12 @@ using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.API.Profiles;
 using BoardgamesEShopManagement.API.Middleware;
+using Microsoft.AspNetCore.Identity;
+using BoardgamesEShopManagement.Domain.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +20,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSingleton(x =>
+    new BlobServiceClient(builder.Configuration["AzureBlobStorageConnectionString"]));
+builder.Services.AddSingleton<IBlobService, BlobService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -26,12 +35,37 @@ builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddDbContext<ShopContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddIdentity<Account, IdentityRole<int>>(options =>
+    {
+    options.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<ShopContext>()
+    .AddDefaultTokenProviders();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JWT:ValidAudience"],
+        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+    };
+});
 builder.Services.AddMediatR(typeof(ICategoryRepository));
 builder.Services.AddAutoMapper(typeof(CategoryProfile));
-builder.Services.AddCors(options => options.AddPolicy(name: builder.Configuration.GetSection("AllowedHosts").ToString(),
+builder.Services.AddCors(options => options.AddPolicy(name: builder.Configuration["AllowedHosts"],
                       policy =>
                       {
                           policy.AllowAnyOrigin();
+                          policy.AllowAnyMethod();
+                          policy.AllowAnyHeader();
                       })
 );
 builder.Logging.ClearProviders();
@@ -49,9 +83,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
-app.UseCors(builder.Configuration.GetSection("AllowedHosts").ToString());
+app.UseCors(builder.Configuration["AllowedHosts"]);
 
 app.UseMyMiddleware();
 

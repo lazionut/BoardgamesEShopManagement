@@ -15,7 +15,7 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
 
             boardgameConfiguration
                 .Property(order => order.Price)
-                .HasPrecision(9, 2);
+                .HasPrecision(12, 2);
 
             boardgameConfiguration
                 .HasQueryFilter(b => b.IsArchived == false);

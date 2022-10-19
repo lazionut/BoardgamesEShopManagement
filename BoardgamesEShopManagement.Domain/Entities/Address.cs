@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BoardgamesEShopManagement.Domain.Entities
 {
@@ -20,6 +21,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
         public string Phone { get; set; } = null!;
         public bool IsArchived { get; set; } = false;
 
+        [JsonIgnore]
         public Account Account { get; set; } = null!;
     }
 }

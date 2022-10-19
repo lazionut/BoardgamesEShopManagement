@@ -23,13 +23,11 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
-
         public Category Category { get; set; } = null!;
         public int CategoryId { get; set; }
         public bool IsArchived { get; set; } = false;
         public ICollection<Review> Reviews { get; set; } = null!;
         public ICollection<Wishlist> Wishlists { get; set; } = null!;
-        public ICollection<Order> Orders { get; set; } = null!;
 
         public override string ToString()
         {

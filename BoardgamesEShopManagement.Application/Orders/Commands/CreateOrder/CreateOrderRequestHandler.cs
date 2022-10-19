@@ -25,8 +25,11 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
             Order order = new Order
             {
+                FullName = request.OrderFullName,
+                Address = request.OrderAddress,
                 AccountId = request.OrderAccountId,
-                Total = 0
+                Total = 0,
+                OrderItems = new List<OrderItem> { }
             };
 
             await _unitOfWork.OrderRepository.Create(order);
@@ -42,6 +45,8 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
                 if (boardgame == null)
                 {
+                    await _unitOfWork.OrderRepository.Delete(order.Id);
+                    await _unitOfWork.Save();
                     return null;
                 }
 
@@ -49,6 +54,21 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
                 if (boardgame.Quantity < 0)
                 {
+                    for (int quantityIndex = index; quantityIndex >= 0; --quantityIndex)
+                    {
+                        Boardgame? previousBoardgame = await _unitOfWork
+                            .BoardgameRepository
+                            .GetById(request.OrderBoardgameIds[quantityIndex]);
+
+                        if (previousBoardgame == null)
+                        {
+                            return null;
+                        }
+
+                        previousBoardgame.Quantity += request.OrderBoardgameQuantities[index];
+                    }
+                    await _unitOfWork.OrderRepository.Delete(order.Id);
+                    await _unitOfWork.Save();
                     return null;
                 }
 
@@ -56,13 +76,18 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
                 orderTotalPrice += ( boardgame.Price * request.OrderBoardgameQuantities[index]);
 
-                await _unitOfWork.OrderRepository
-                    .CreateItem(order.Id, request.OrderBoardgameIds[index], order);
+                order.OrderItems.Add(
+                    new OrderItem { 
+                        OrderId = order.Id, 
+                        BoardgameId = boardgame.Id, 
+                        Price = boardgame.Price,
+                        Quantity = request.OrderBoardgameQuantities[index] 
+                    });
             }
 
             order.Total = orderTotalPrice;
 
-            await _unitOfWork.OrderRepository.Update(order);
+            await _unitOfWork.OrderRepository.AddItems(order, (List<OrderItem>)order.OrderItems);
             await _unitOfWork.Save();
 
             return order;

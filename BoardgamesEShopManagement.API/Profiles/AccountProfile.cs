@@ -11,6 +11,8 @@ namespace BoardgamesEShopManagement.API.Profiles
         {
             CreateMap<Account, AccountGetDto>();
 
+            CreateMap<Account, AccountAdminGetDto>();
+
             CreateMap<Account, AccountPostDto>();
         }
     }

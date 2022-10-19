@@ -16,7 +16,7 @@ namespace BoardgamesEShopManagement.Application.Orders.Queries.GetOrderByAccount
 
         public async Task<Order?> Handle(GetOrderByAccountQuery request, CancellationToken cancellationToken)
         {
-            Order? orderByAccount = await _unitOfWork.OrderRepository.GetByAccount(request.AccountId, request.OrderId);
+            Order? orderByAccount = await _unitOfWork.OrderRepository.GetByAccount(request.OrderAccountId, request.OrderId);
 
             if (orderByAccount == null)
             {

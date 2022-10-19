@@ -1,19 +1,20 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReview;
-using BoardgamesEShopManagement.Application.Reviews.Commands.UpdateReview;
 using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
+using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.API.Controllers;
 
 namespace BoardgamesEShopManagement.Controllers
 {
     [Route("api/reviews")]
     [ApiController]
-    public class ReviewsController : ControllerBase
+    public class ReviewsController : CustomControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
@@ -35,11 +36,10 @@ namespace BoardgamesEShopManagement.Controllers
             CreateReviewRequest command = new CreateReviewRequest
             {
                 ReviewTitle = review.Title,
-                ReviewAuthor = review.Author,
                 ReviewScore = review.Score,
                 ReviewContent = review.Content,
                 ReviewBoardgameId = review.BoardgameId,
-                ReviewAccountId = review.AccountId
+                ReviewAccountId = GetAccountId()
             };
 
             Review? result = await _mediator.Send(command);
@@ -72,29 +72,9 @@ namespace BoardgamesEShopManagement.Controllers
             return Ok(mappedResult);
         }
 
-        [HttpPatch]
-        [Route("{id}")]
-        public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewPatchDto updatedReview)
-        {
-            UpdateReviewRequest command = new UpdateReviewRequest
-            {
-                ReviewId = id,
-                ReviewTitle = updatedReview.Title,
-                ReviewContent = updatedReview.Content,
-            };
-
-            Review? result = await _mediator.Send(command);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteReview(int id)
         {
             DeleteReviewRequest command = new DeleteReviewRequest { ReviewId = id };
