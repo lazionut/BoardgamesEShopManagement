@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
+﻿using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Enumerations;
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -34,18 +33,22 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                     _logger.LogInformation("Getting the list of boardgames sorted descending by date...");
                     boardgame = boardgame.OrderByDescending(b => b.ReleaseYear);
                     break;
+
                 case BoardgamesSortOrdersEnum.PriceAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by price...");
                     boardgame = boardgame.OrderBy(b => b.Price);
                     break;
+
                 case BoardgamesSortOrdersEnum.PriceDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by price...");
                     boardgame = boardgame.OrderByDescending(b => b.Price);
                     break;
+
                 case BoardgamesSortOrdersEnum.NameAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by name...");
                     boardgame = boardgame.OrderBy(b => b.Name);
                     break;
+
                 case BoardgamesSortOrdersEnum.NameDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by name...");
                     boardgame = boardgame.OrderByDescending(b => b.Name);
@@ -81,18 +84,22 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                     _logger.LogInformation("Getting the list of boardgames sorted descending by date...");
                     boardgame = boardgame.OrderByDescending(b => b.ReleaseYear);
                     break;
+
                 case BoardgamesSortOrdersEnum.PriceAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by price...");
                     boardgame = boardgame.OrderBy(b => b.Price);
                     break;
+
                 case BoardgamesSortOrdersEnum.PriceDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by price...");
                     boardgame = boardgame.OrderByDescending(b => b.Price);
                     break;
+
                 case BoardgamesSortOrdersEnum.NameAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by name...");
                     boardgame = boardgame.OrderBy(b => b.Name);
                     break;
+
                 case BoardgamesSortOrdersEnum.NameDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by name...");
                     boardgame = boardgame.OrderByDescending(b => b.Name);
@@ -128,18 +135,22 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                     _logger.LogInformation("Getting the list of boardgames sorted descending by date...");
                     boardgame = boardgame.OrderByDescending(b => b.ReleaseYear);
                     break;
+
                 case BoardgamesSortOrdersEnum.PriceAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by price...");
                     boardgame = boardgame.OrderBy(b => b.Price);
                     break;
+
                 case BoardgamesSortOrdersEnum.PriceDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by price...");
                     boardgame = boardgame.OrderByDescending(b => b.Price);
                     break;
+
                 case BoardgamesSortOrdersEnum.NameAscending:
                     _logger.LogInformation("Getting the list of boardgames sorted by name...");
                     boardgame = boardgame.OrderBy(b => b.Name);
                     break;
+
                 case BoardgamesSortOrdersEnum.NameDescending:
                     _logger.LogInformation("Getting the list of boardgames sorted descending by name...");
                     boardgame = boardgame.OrderByDescending(b => b.Name);

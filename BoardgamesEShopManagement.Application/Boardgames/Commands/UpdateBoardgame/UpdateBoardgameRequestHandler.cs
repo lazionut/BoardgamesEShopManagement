@@ -1,7 +1,6 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame
 {
@@ -15,7 +14,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardg
         }
 
         public async Task<Boardgame?> Handle(UpdateBoardgameRequest request, CancellationToken cancellationToken)
-        { 
+        {
             Boardgame? updatedBoardgame = await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
 
             if (updatedBoardgame == null)
@@ -25,7 +24,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardg
 
             Category? searchedCategory = await _unitOfWork.CategoryRepository.GetById(request.BoardgameCategoryId);
 
-            if(searchedCategory== null)
+            if (searchedCategory == null)
             {
                 return null;
             }
@@ -40,7 +39,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardg
 
             updatedBoardgame.UpdatedAt = DateTime.UtcNow;
 
-            await _unitOfWork.BoardgameRepository.Update(updatedBoardgame);
+            _unitOfWork.BoardgameRepository.Update(updatedBoardgame);
             await _unitOfWork.Save();
 
             return updatedBoardgame;

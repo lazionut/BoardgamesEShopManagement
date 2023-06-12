@@ -3,7 +3,7 @@
     public class Middleware
     {
         private readonly RequestDelegate _next;
-       
+
         private readonly ILogger<Middleware> _logger;
 
         public Middleware(RequestDelegate next, ILogger<Middleware> logger)
@@ -19,7 +19,6 @@
             await _next.Invoke(httpContext);
 
             _logger.LogInformation("Response received");
-
         }
     }
 

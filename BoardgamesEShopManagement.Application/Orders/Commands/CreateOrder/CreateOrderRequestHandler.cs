@@ -1,7 +1,6 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 {
@@ -72,22 +71,23 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
                     return null;
                 }
 
-                await _unitOfWork.BoardgameRepository.Update(boardgame);
+                _unitOfWork.BoardgameRepository.Update(boardgame);
 
-                orderTotalPrice += ( boardgame.Price * request.OrderBoardgameQuantities[index]);
+                orderTotalPrice += (boardgame.Price * request.OrderBoardgameQuantities[index]);
 
                 order.OrderItems.Add(
-                    new OrderItem { 
-                        OrderId = order.Id, 
-                        BoardgameId = boardgame.Id, 
+                    new OrderItem
+                    {
+                        OrderId = order.Id,
+                        BoardgameId = boardgame.Id,
                         Price = boardgame.Price,
-                        Quantity = request.OrderBoardgameQuantities[index] 
+                        Quantity = request.OrderBoardgameQuantities[index]
                     });
             }
 
             order.Total = orderTotalPrice;
 
-            await _unitOfWork.OrderRepository.AddItems(order, (List<OrderItem>)order.OrderItems);
+            _unitOfWork.OrderRepository.AddItems(order, (List<OrderItem>)order.OrderItems);
             await _unitOfWork.Save();
 
             return order;

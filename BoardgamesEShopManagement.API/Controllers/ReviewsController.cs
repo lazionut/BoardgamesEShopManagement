@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-
-using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
-using BoardgamesEShopManagement.Application.Reviews.Queries.GetReview;
-using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
-using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview;
+using BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview;
+using BoardgamesEShopManagement.Application.Reviews.Queries.GetReview;
+using BoardgamesEShopManagement.Domain.Entities;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -79,7 +78,7 @@ namespace BoardgamesEShopManagement.Controllers
         {
             DeleteReviewRequest command = new DeleteReviewRequest { ReviewId = id };
 
-            Review result = await _mediator.Send(command);
+            Review? result = await _mediator.Send(command);
 
             if (result == null)
             {

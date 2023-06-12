@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-
-using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist;
 using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlist;
-using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.Domain.Entities;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BoardgamesEShopManagement.Controllers
 {

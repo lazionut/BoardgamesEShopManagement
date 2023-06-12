@@ -1,11 +1,10 @@
-﻿using MediatR;
-
-using BoardgamesEShopManagement.Application.Abstract;
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview
 {
-    public class DeleteReviewRequestHandler : IRequestHandler<DeleteReviewRequest, Review>
+    public class DeleteReviewRequestHandler : IRequestHandler<DeleteReviewRequest, Review?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,9 +13,9 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.DeleteReview
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Review> Handle(DeleteReviewRequest request, CancellationToken cancellationToken)
+        public async Task<Review?> Handle(DeleteReviewRequest request, CancellationToken cancellationToken)
         {
-            Review deletedReview = await _unitOfWork.ReviewRepository.Delete(request.ReviewId);
+            Review? deletedReview = await _unitOfWork.ReviewRepository.Delete(request.ReviewId);
 
             if (deletedReview == null)
             {

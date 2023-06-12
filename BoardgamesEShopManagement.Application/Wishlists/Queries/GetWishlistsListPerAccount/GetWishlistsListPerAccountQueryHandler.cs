@@ -1,11 +1,10 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistsListPerAccount
 {
-    public class GetWishlistsListPerAccountQueryHandler : IRequestHandler<GetWishlistsListPerAccountQuery, List<Wishlist>?>
+    public class GetWishlistsListPerAccountQueryHandler : IRequestHandler<GetWishlistsListPerAccountQuery, List<Wishlist>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,7 +13,7 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistsLi
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Wishlist>?> Handle(GetWishlistsListPerAccountQuery request, CancellationToken cancellationToken)
+        public async Task<List<Wishlist>> Handle(GetWishlistsListPerAccountQuery request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.WishlistRepository.GetPerAccount(request.WishlistAccountId);
         }

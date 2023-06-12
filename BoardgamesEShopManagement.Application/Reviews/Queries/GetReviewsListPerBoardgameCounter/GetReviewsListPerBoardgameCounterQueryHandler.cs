@@ -1,5 +1,5 @@
-﻿using MediatR;
-using BoardgamesEShopManagement.Application.Abstract;
+﻿using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgameCounter
 {

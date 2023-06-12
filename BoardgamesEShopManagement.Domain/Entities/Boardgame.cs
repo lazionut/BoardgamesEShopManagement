@@ -2,7 +2,7 @@
 
 namespace BoardgamesEShopManagement.Domain.Entities
 {
-    public class Boardgame : EntityBase, IComparable<Boardgame>
+    public class Boardgame : EntityBase
     {
         public string? Image { get; set; }
 
@@ -23,6 +23,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
+
         public Category Category { get; set; } = null!;
         public int CategoryId { get; set; }
         public bool IsArchived { get; set; } = false;
@@ -32,22 +33,6 @@ namespace BoardgamesEShopManagement.Domain.Entities
         public override string ToString()
         {
             return $"{Id} -> {Name} - {Description} | ({Price})";
-        }
-
-        public int CompareTo(Boardgame boardgame)
-        {
-            if (this.Price > boardgame.Price)
-            {
-                return 1;
-            }
-            else if (this.Price < boardgame.Price)
-            {
-                return -1;
-            }
-            else
-            {
-                return 0;
-            }
         }
     }
 }

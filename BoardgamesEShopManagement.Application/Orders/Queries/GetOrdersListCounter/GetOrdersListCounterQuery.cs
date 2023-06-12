@@ -4,6 +4,5 @@ namespace BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListCoun
 {
     public class GetOrdersListCounterQuery : IRequest<int>
     {
-
     }
 }

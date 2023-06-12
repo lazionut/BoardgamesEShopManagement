@@ -1,6 +1,5 @@
-﻿using MediatR;
-
-using BoardgamesEShopManagement.Domain.Entities;
+﻿using BoardgamesEShopManagement.Domain.Entities;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame
 {

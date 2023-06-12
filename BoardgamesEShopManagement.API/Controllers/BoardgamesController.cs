@@ -1,26 +1,25 @@
 ﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Authorization;
-
-using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Enumerations;
+using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.API.Dto;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Commands.CreateBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesList;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListByName;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame;
-using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgame;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardgame;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame;
-using BoardgamesEShopManagement.Application.Boardgames.Commands.ArchiveBoardgame;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListByNameCounter;
+using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListNames;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategory;
 using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategoryCounter;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListByNameCounter;
+using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgame;
 using BoardgamesEShopManagement.Application.Reviews.Queries.GetReviewsListPerBoardgameCounter;
-using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Controllers;
-using BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListNames;
+using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Enumerations;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -124,7 +123,6 @@ namespace BoardgamesEShopManagement.Controllers
             });
         }
 
-
         [HttpGet]
         [Route("category/{id}")]
         public async Task<IActionResult> GetBoardgamesPerCategory(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
@@ -205,7 +203,7 @@ namespace BoardgamesEShopManagement.Controllers
 
             List<BoardgameGetDto> mappedResultBoardgames = _mapper.Map<List<BoardgameGetDto>>(resultBoardgames);
 
-            GetBoardgamesListByNameCounterQuery commandBoardgamesCounter = new GetBoardgamesListByNameCounterQuery 
+            GetBoardgamesListByNameCounterQuery commandBoardgamesCounter = new GetBoardgamesListByNameCounterQuery
             {
                 BoardgameNameCharacters = keywords,
             };
@@ -324,9 +322,9 @@ namespace BoardgamesEShopManagement.Controllers
 
             List<string> result = await _mediator.Send(query);
 
-            return Ok(new 
-            { 
-                names = result 
+            return Ok(new
+            {
+                names = result
             });
         }
 

@@ -1,11 +1,10 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Categories.Commands.DeleteCategory
 {
-    public class DeleteCategoryRequestHandler : IRequestHandler<DeleteCategoryRequest, Category>
+    public class DeleteCategoryRequestHandler : IRequestHandler<DeleteCategoryRequest, Category?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,9 +13,9 @@ namespace BoardgamesEShopManagement.Application.Categories.Commands.DeleteCatego
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Category> Handle(DeleteCategoryRequest request, CancellationToken cancellationToken)
+        public async Task<Category?> Handle(DeleteCategoryRequest request, CancellationToken cancellationToken)
         {
-            Category deletedCategory = await _unitOfWork.CategoryRepository.Delete(request.CategoryId);
+            Category? deletedCategory = await _unitOfWork.CategoryRepository.Delete(request.CategoryId);
 
             if (deletedCategory == null)
             {

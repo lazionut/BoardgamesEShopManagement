@@ -1,7 +1,6 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlist
 {
@@ -48,6 +47,5 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.CreateWishlis
 
             return wishlist;
         }
-
     }
 }

@@ -23,7 +23,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
             await _context.Orders.AddAsync(order);
         }
 
-        public async Task AddItems(Order order, List<OrderItem> orderItems)
+        public void AddItems(Order order, List<OrderItem> orderItems)
         {
             _logger.LogInformation("Preparing to add the boardgame in the order...");
             order.OrderItems = orderItems;
@@ -90,7 +90,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .Where(order => order.AccountId == accountId).CountAsync();
         }
 
-        public async Task Update(Order order)
+        public void Update(Order order)
         {
             _logger.LogInformation("Preparing to update order from the database...");
             _context.Update(order);

@@ -1,7 +1,6 @@
-﻿using MediatR;
-
-using BoardgamesEShopManagement.Application.Abstract;
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlistItem
 {

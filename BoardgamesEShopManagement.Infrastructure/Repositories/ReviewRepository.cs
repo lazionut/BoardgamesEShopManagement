@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
+﻿using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
@@ -37,9 +36,9 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
         public async Task<bool> IsBoardgameReviewed(int accountId, int boardgameId)
         {
             _logger.LogInformation("Getting the first review by account and boardgame identifiers...");
-            Review? searchedReview =  await _context.Reviews.FirstOrDefaultAsync(review => review.AccountId == accountId && review.BoardgameId == boardgameId);
+            Review? searchedReview = await _context.Reviews.FirstOrDefaultAsync(review => review.AccountId == accountId && review.BoardgameId == boardgameId);
 
-            if(searchedReview == null)
+            if (searchedReview == null)
             {
                 return false;
             }

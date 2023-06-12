@@ -1,12 +1,11 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-
-using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress;
-using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
+﻿using BoardgamesEShopManagement.API.Controllers;
 using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
+using BoardgamesEShopManagement.Application.Addresses.Commands.UpdateAddress;
+using BoardgamesEShopManagement.Domain.Entities;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BoardgamesEShopManagement.Controllers
 {

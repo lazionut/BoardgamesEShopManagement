@@ -1,13 +1,14 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System.Text;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Options;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.Extensions.Configuration;
-using BoardgamesEShopManagement.Application.Abstract;
+using System.Security.Claims;
+using System.Text;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount
 {
@@ -15,11 +16,13 @@ namespace BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<Account> _userManager;
+        private readonly JwtOptions _options;
 
-        public LoginUserQueryHandler(IUnitOfWork unitOfWork, UserManager<Account> userManager)
+        public LoginUserQueryHandler(IUnitOfWork unitOfWork, UserManager<Account> userManager, IOptions<JwtOptions> options)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;
+            _options = options.Value;
         }
 
         public async Task<string> Handle(LoginAccountQuery request, CancellationToken cancellationToken)
@@ -41,16 +44,11 @@ namespace BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount
                     authClaims.Add(new Claim("Role", userRole));
                 }
 
-                 IConfigurationRoot configuration = new ConfigurationBuilder()
-                     .SetBasePath(Directory.GetCurrentDirectory())
-                     .AddJsonFile("appsettings.json")
-                     .Build();
-
-                SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]));
+                SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret));
 
                 JwtSecurityToken token = new JwtSecurityToken(
-                    issuer: configuration["JWT:ValidIssuer"],
-                    audience: configuration["JWT:ValidAudience"],
+                    issuer: _options.ValidIssuer,
+                    audience: _options.ValidAudience,
                     claims: authClaims,
                     expires: DateTime.Now.AddHours(3),
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)

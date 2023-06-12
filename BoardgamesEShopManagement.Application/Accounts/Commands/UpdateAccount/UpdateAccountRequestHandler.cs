@@ -1,7 +1,6 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
 {
@@ -40,7 +39,7 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount
 
             searchedAccount.UpdatedAt = DateTime.UtcNow;
 
-            await _unitOfWork.AccountRepository.Update(searchedAccount);
+            _unitOfWork.AccountRepository.Update(searchedAccount);
             await _unitOfWork.Save();
 
             return searchedAccount;

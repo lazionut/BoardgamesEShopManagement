@@ -7,7 +7,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
     {
         [MaxLength(200)]
         public string Details { get; set; } = null!;
-        
+
         [MaxLength(50)]
         public string City { get; set; } = null!;
 
@@ -19,6 +19,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
 
         [MaxLength(30)]
         public string Phone { get; set; } = null!;
+
         public bool IsArchived { get; set; } = false;
 
         [JsonIgnore]
