@@ -1,7 +1,6 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlist
 {
@@ -16,7 +15,6 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlis
 
         public async Task<Wishlist?> Handle(UpdateWishlistRequest request, CancellationToken cancellationToken)
         {
-
             Wishlist? wishlist = await _unitOfWork.WishlistRepository.GetByAccount
                 (request.WishlistAccountId, request.WishlistId);
 
@@ -44,6 +42,5 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlis
 
             return wishlist;
         }
-
     }
 }

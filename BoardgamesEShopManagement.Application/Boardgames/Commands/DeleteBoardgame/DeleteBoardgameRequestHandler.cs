@@ -1,11 +1,10 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardgame
 {
-    public class DeleteBoardgameRequestHandler : IRequestHandler<DeleteBoardgameRequest, Boardgame>
+    public class DeleteBoardgameRequestHandler : IRequestHandler<DeleteBoardgameRequest, Boardgame?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,9 +13,9 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.DeleteBoardg
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Boardgame> Handle(DeleteBoardgameRequest request, CancellationToken cancellationToken)
+        public async Task<Boardgame?> Handle(DeleteBoardgameRequest request, CancellationToken cancellationToken)
         {
-            Boardgame deletedBoardgame = await _unitOfWork.BoardgameRepository.Delete(request.BoardgameId);
+            Boardgame? deletedBoardgame = await _unitOfWork.BoardgameRepository.Delete(request.BoardgameId);
 
             if (deletedBoardgame == null)
             {

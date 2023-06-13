@@ -1,31 +1,30 @@
 ﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Authorization;
-
-using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
-using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsList;
-using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
-using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
-using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistsListPerAccount;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist;
-using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount;
-using BoardgamesEShopManagement.Application.Orders.Queries.GetOrderByAccount;
-using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
-using BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount;
-using BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount;
+using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Accounts.Commands.AddRoleToAccount;
+using BoardgamesEShopManagement.Application.Accounts.Commands.ArchiveAccount;
+using BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount;
+using BoardgamesEShopManagement.Application.Accounts.Commands.DeleteAccount;
+using BoardgamesEShopManagement.Application.Accounts.Commands.UpdateAccount;
+using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccount;
+using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsList;
+using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsListCounter;
+using BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount;
+using BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.CreateAddress;
 using BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress;
-using BoardgamesEShopManagement.Application.Addresses.Commands.ArchiveAddress;
-using BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlist;
-using BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsListCounter;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrderByAccount;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccount;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListPerAccountCounter;
-using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlist;
 using BoardgamesEShopManagement.Application.Wishlists.Commands.DeleteWishlistItem;
+using BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlist;
+using BoardgamesEShopManagement.Application.Wishlists.Queries.GetWishlistsListPerAccount;
+using BoardgamesEShopManagement.Domain.Entities;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BoardgamesEShopManagement.Controllers
 {
@@ -144,9 +143,9 @@ namespace BoardgamesEShopManagement.Controllers
             });
         }
 
-        /* 
+        /*
          * if more roles are needed
-         * 
+         *
         [HttpPost]
         [Route("assign-role")]
         [Authorize(Roles = "Admin")]
@@ -405,7 +404,7 @@ namespace BoardgamesEShopManagement.Controllers
 
             List<int> toBeRemovedBoardgames = wishlistResultBoardgameIds.Except(wishlist.BoardgameIds).ToList();
 
-            foreach(int boardgameId in toBeRemovedBoardgames)
+            foreach (int boardgameId in toBeRemovedBoardgames)
             {
                 DeleteWishlistItemRequest wishlistItemCommand = new DeleteWishlistItemRequest
                 {
@@ -418,28 +417,6 @@ namespace BoardgamesEShopManagement.Controllers
 
             return NoContent();
         }
-
-        /*
-        [HttpPatch]
-        [Route("change-password")]
-        public async Task<IActionResult> UpdateAccountPassword([FromBody] AccountPasswordPatchDto updatedAccount)
-        {
-            UpdateAccountRequest command = new UpdateAccountRequest
-            {
-                AccountId = _singletonService.Id,
-                AccountPassword = updatedAccount.Password,
-            };
-
-            Account? result = await _mediator.Send(command);
-
-            if (result == null)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-        }
-        */
 
         [HttpDelete]
         [Route("{id}")]

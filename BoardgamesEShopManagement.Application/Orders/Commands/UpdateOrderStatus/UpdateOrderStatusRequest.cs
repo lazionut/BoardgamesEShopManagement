@@ -1,7 +1,6 @@
-﻿using MediatR;
-
-using BoardgamesEShopManagement.Domain.Entities;
+﻿using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Enumerations;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Orders.Commands.UpdateOrderStatus
 {

@@ -41,7 +41,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
                 .SingleOrDefaultAsync(item => item.Id == id);
         }
 
-        public async Task Update(T item)
+        public void Update(T item)
         {
             _logger.LogInformation($"Preparing to update {typeof(T)} from the database...");
             _context.Update(item);

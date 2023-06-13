@@ -1,11 +1,10 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersList
 {
-    public class GetOrdersListQueryHandler : IRequestHandler<GetOrdersListQuery, List<Order>?>
+    public class GetOrdersListQueryHandler : IRequestHandler<GetOrdersListQuery, List<Order>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,7 +13,7 @@ namespace BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersList
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Order>?> Handle(GetOrdersListQuery request, CancellationToken cancellationToken)
+        public async Task<List<Order>> Handle(GetOrdersListQuery request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.OrderRepository.GetAll(request.OrderPageIndex, request.OrderPageSize);
         }

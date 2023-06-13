@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-
-using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Domain.Enumerations;
-using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
+using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.API.Dto;
 using BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder;
 using BoardgamesEShopManagement.Application.Orders.Commands.UpdateOrderStatus;
-using BoardgamesEShopManagement.API.Dto;
-using BoardgamesEShopManagement.API.Controllers;
+using BoardgamesEShopManagement.Application.Orders.Queries.GetOrder;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersList;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using BoardgamesEShopManagement.Application.Orders.Queries.GetOrdersListCounter;
+using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Enumerations;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BoardgamesEShopManagement.Controllers
 {

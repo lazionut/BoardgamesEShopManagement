@@ -1,11 +1,10 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategory
 {
-    public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, Category>
+    public class GetCategoryQueryHandler : IRequestHandler<GetCategoryQuery, Category?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,7 +13,7 @@ namespace BoardgamesEShopManagement.Application.Categories.Queries.GetCategory
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Category> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
+        public async Task<Category?> Handle(GetCategoryQuery request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.CategoryRepository.GetById(request.CategoryId);
         }

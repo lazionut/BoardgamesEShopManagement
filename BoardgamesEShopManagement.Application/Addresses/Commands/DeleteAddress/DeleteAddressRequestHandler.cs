@@ -1,11 +1,10 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress
 {
-    public class DeleteAddressRequestHandler : IRequestHandler<DeleteAddressRequest, Address>
+    public class DeleteAddressRequestHandler : IRequestHandler<DeleteAddressRequest, Address?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,9 +13,9 @@ namespace BoardgamesEShopManagement.Application.Addresses.Commands.DeleteAddress
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Address> Handle(DeleteAddressRequest request, CancellationToken cancellationToken)
+        public async Task<Address?> Handle(DeleteAddressRequest request, CancellationToken cancellationToken)
         {
-            Address deletedAddress = await _unitOfWork.AddressRepository.Delete(request.AddressId);
+            Address? deletedAddress = await _unitOfWork.AddressRepository.Delete(request.AddressId);
 
             if (deletedAddress == null)
             {

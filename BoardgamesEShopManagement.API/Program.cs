@@ -1,18 +1,17 @@
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-
+using Azure.Storage.Blobs;
+using BoardgamesEShopManagement.API.Middleware;
+using BoardgamesEShopManagement.API.Profiles;
+using BoardgamesEShopManagement.Application.Abstract;
+using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
+using BoardgamesEShopManagement.Domain.Entities;
+using BoardgamesEShopManagement.Domain.Options;
 using BoardgamesEShopManagement.Infrastructure;
 using BoardgamesEShopManagement.Infrastructure.Repositories;
-using BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces;
-using BoardgamesEShopManagement.Application.Abstract;
-using BoardgamesEShopManagement.API.Profiles;
-using BoardgamesEShopManagement.API.Middleware;
-using Microsoft.AspNetCore.Identity;
-using BoardgamesEShopManagement.Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,11 +19,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddSingleton(x =>
     new BlobServiceClient(builder.Configuration["AzureBlobStorageConnectionString"]));
 builder.Services.AddSingleton<IBlobService, BlobService>();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
@@ -33,11 +33,15 @@ builder.Services.AddScoped<IBoardgameRepository, BoardgameRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IWishlistRepository, WishlistRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
 builder.Services.AddDbContext<ShopContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
+
 builder.Services.AddIdentity<Account, IdentityRole<int>>(options =>
     {
-    options.User.RequireUniqueEmail = true;
+        options.User.RequireUniqueEmail = true;
     })
     .AddEntityFrameworkStores<ShopContext>()
     .AddDefaultTokenProviders();
@@ -55,12 +59,14 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidAudience = builder.Configuration["JWT:ValidAudience"],
         ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]!))
     };
 });
-builder.Services.AddMediatR(typeof(ICategoryRepository));
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 builder.Services.AddAutoMapper(typeof(CategoryProfile));
-builder.Services.AddCors(options => options.AddPolicy(name: builder.Configuration["AllowedHosts"],
+
+builder.Services.AddCors(options => options.AddPolicy(name: builder.Configuration["AllowedHosts"]!,
                       policy =>
                       {
                           policy.AllowAnyOrigin();
@@ -68,6 +74,7 @@ builder.Services.AddCors(options => options.AddPolicy(name: builder.Configuratio
                           policy.AllowAnyHeader();
                       })
 );
+
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
@@ -87,7 +94,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseCors(builder.Configuration["AllowedHosts"]);
+app.UseCors(builder.Configuration["AllowedHosts"]!);
 
 app.UseMyMiddleware();
 
@@ -95,4 +102,5 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program { }
+public partial class Program
+{ }

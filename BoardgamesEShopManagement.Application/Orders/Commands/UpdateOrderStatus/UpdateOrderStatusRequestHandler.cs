@@ -1,8 +1,7 @@
-﻿using MediatR;
-
-using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Application.Orders.Commands.UpdateOrderStatus;
+using BoardgamesEShopManagement.Domain.Entities;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 {
@@ -28,7 +27,7 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.CreateOrder
 
             updatedOrder.UpdatedAt = DateTime.UtcNow;
 
-            await _unitOfWork.OrderRepository.Update(updatedOrder);
+            _unitOfWork.OrderRepository.Update(updatedOrder);
             await _unitOfWork.Save();
 
             return updatedOrder;

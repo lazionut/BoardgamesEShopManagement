@@ -1,8 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
 {

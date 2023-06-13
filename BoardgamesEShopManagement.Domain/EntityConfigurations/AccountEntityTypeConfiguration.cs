@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BoardgamesEShopManagement.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-using BoardgamesEShopManagement.Domain.Entities;
 
 namespace BoardgamesEShopManagement.Domain.EntityConfigurations
 {

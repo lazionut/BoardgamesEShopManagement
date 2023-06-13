@@ -1,11 +1,10 @@
-﻿using MediatR;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame
 {
-    public class GetBoardgameQueryHandler : IRequestHandler<GetBoardgameQuery, Boardgame>
+    public class GetBoardgameQueryHandler : IRequestHandler<GetBoardgameQuery, Boardgame?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -14,7 +13,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgame
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Boardgame> Handle(GetBoardgameQuery request, CancellationToken cancellationToken)
+        public async Task<Boardgame?> Handle(GetBoardgameQuery request, CancellationToken cancellationToken)
         {
             return await _unitOfWork.BoardgameRepository.GetById(request.BoardgameId);
         }

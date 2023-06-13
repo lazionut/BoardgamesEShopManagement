@@ -1,8 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
-
+﻿using BoardgamesEShopManagement.Application.Abstract;
 using BoardgamesEShopManagement.Domain.Entities;
-using BoardgamesEShopManagement.Application.Abstract;
+using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Commands.AddRoleToAccount
 {
@@ -28,7 +27,7 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.AddRoleToAccou
                 return false;
             }
 
-            IdentityRole<int> role = await _roleManager.FindByNameAsync(request.RoleName);
+            IdentityRole<int>? role = await _roleManager.FindByNameAsync(request.RoleName);
 
             if (role == null)
             {

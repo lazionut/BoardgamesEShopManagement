@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BoardgamesEShopManagement.Domain.Entities;
 using Bogus;
-
-using BoardgamesEShopManagement.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Infrastructure
 {
@@ -142,7 +141,7 @@ namespace BoardgamesEShopManagement.Infrastructure
             "The Voyages of Marco Polo Insert",
             };
 
-            string[] boardgameLinks =
+            string?[] boardgameLinks =
             {
             "https://boardgamegeek.com/boardgame/148228/splendor",
             "https://boardgamegeek.com/boardgame/230802/azul",

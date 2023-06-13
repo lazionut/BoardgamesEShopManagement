@@ -4,6 +4,5 @@ namespace BoardgamesEShopManagement.Application.Accounts.Queries.GetAccountsList
 {
     public class GetAccountsListCounterQuery : IRequest<int>
     {
-
     }
 }

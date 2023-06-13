@@ -11,6 +11,7 @@ namespace BoardgamesEShopManagement.Application.Abstract
         IReviewRepository ReviewRepository { get; }
         IWishlistRepository WishlistRepository { get; }
         IOrderRepository OrderRepository { get; }
+
         Task Save();
     }
 }

@@ -6,6 +6,7 @@ namespace BoardgamesEShopManagement.Domain.Entities
     {
         [MaxLength(50)]
         public string Name { get; set; } = null!;
+
         public ICollection<Boardgame> Boardgames { get; set; } = null!;
     }
 }
