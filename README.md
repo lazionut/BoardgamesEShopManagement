@@ -1,6 +1,6 @@
 # Boardgames EShop Management
 
-A web API with endpoints to register, login and manage accounts, buy, review, wishlist and manage boardgames built with .NET 6, SQL Server, Entity Framework ORM, Microsoft Identity and Azure Storage Blobs.
+A web API developed during an internship with endpoints to register, login and manage accounts, buy, review, wishlist and manage boardgames built with .NET 6, SQL Server, Entity Framework ORM, MediatR, AutoMapper, Microsoft Identity and Azure Storage Blobs.
 
 ### Notes
 
