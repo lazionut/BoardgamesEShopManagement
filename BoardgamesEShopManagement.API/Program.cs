@@ -66,10 +66,10 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
 builder.Services.AddAutoMapper(typeof(CategoryProfile));
 
-builder.Services.AddCors(options => options.AddPolicy(name: builder.Configuration["AllowedHosts"]!,
+builder.Services.AddCors(options => options.AddPolicy(name: builder.Configuration["Cors:PolicyName"]!,
                       policy =>
                       {
-                          policy.AllowAnyOrigin();
+                          policy.WithOrigins(builder.Configuration["Cors:AllowedHosts"]!);
                           policy.AllowAnyMethod();
                           policy.AllowAnyHeader();
                       })
@@ -94,7 +94,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseCors(builder.Configuration["AllowedHosts"]!);
+app.UseCors(builder.Configuration["Cors:PolicyName"]!);
 
 app.UseMyMiddleware();
 
