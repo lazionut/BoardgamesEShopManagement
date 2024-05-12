@@ -6,7 +6,7 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
     {
         Task Create(Wishlist wishlist);
 
-        Task CreateItem(int accountId, int wishlistId, int boardgameId, Wishlist wishlist);
+        Task CreateItem(int boardgameId, Wishlist wishlist);
 
         Task<List<Wishlist>> GetPerAccount(int accountId);
 
@@ -15,7 +15,5 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
         Task<Wishlist?> GetByAccount(int accountId, int wishlistId);
 
         Task<Wishlist?> Delete(int accountId, int wishlistId);
-
-        Task Save();
     }
 }

@@ -6,6 +6,7 @@ namespace BoardgamesEShopManagement.Infrastructure
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ShopContext _shopContext;
+        private bool disposed = false;
 
         public UnitOfWork(ShopContext shopContext, IAddressRepository addressRepository,
             IAccountRepository accountRepository, ICategoryRepository categoryRepository,
@@ -35,9 +36,23 @@ namespace BoardgamesEShopManagement.Infrastructure
             await _shopContext.SaveChangesAsync();
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing && _shopContext != null)
+                {
+                    _shopContext.Dispose();
+                }
+
+                disposed = true;
+            }
+        }
+
         public void Dispose()
         {
-            _shopContext.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

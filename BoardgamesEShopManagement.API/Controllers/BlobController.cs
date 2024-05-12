@@ -36,7 +36,7 @@ namespace BoardgamesEShopManagement.API.Controllers
 
                 bool isFileUploaded = await _blobService.UploadFileBlobAsync(path, file.FileName);
 
-                if (isFileUploaded == false)
+                if (!isFileUploaded)
                 {
                     return NotFound();
                 }
@@ -77,7 +77,7 @@ namespace BoardgamesEShopManagement.API.Controllers
         {
             bool isBlobDeleted = await _blobService.DeleteBlobAsync(blobName);
 
-            if (isBlobDeleted == false)
+            if (!isBlobDeleted)
             {
                 return NotFound();
             }

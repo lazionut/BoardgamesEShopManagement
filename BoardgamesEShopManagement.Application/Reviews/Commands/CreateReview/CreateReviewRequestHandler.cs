@@ -31,7 +31,7 @@ namespace BoardgamesEShopManagement.Application.Reviews.Commands.CreateReview
 
             bool isBoardgameReviewedByAccount = await _unitOfWork.ReviewRepository.IsBoardgameReviewed(request.ReviewAccountId, request.ReviewBoardgameId);
 
-            if (isBoardgameReviewedByAccount == true)
+            if (isBoardgameReviewedByAccount)
             {
                 return null;
             }

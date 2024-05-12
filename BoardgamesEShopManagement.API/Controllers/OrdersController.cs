@@ -91,7 +91,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultOrdersCounter = mappedResultOrders.Count();
+            int mappedResultOrdersCounter = mappedResultOrders.Count;
 
             if (mappedResultOrdersCounter == 0)
             {
@@ -138,7 +138,7 @@ namespace BoardgamesEShopManagement.Controllers
         [HttpPatch]
         [Route("{id}/change-status")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateOrderStatus(int id, [FromQuery] OrderStatusEnum orderStatus)
+        public async Task<IActionResult> UpdateOrderStatus(int id, [FromQuery] OrderStatusMode orderStatus)
         {
             UpdateOrderStatusRequest command = new UpdateOrderStatusRequest
             {

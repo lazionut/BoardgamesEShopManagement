@@ -18,7 +18,7 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
                 .IsUnique();
 
             accountConfiguration
-                .HasQueryFilter(b => b.IsArchived == false);
+                .HasQueryFilter(b => !b.IsArchived);
         }
     }
 }

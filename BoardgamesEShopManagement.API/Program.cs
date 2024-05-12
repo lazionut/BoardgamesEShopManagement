@@ -102,5 +102,5 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program
+static public partial class Program
 { }

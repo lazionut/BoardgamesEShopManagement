@@ -1,6 +1,6 @@
 ﻿namespace BoardgamesEShopManagement.Domain.Enumerations
 {
-    public enum BoardgamesSortOrdersEnum
+    public enum BoardgamesSortOrdersMode
     {
         ReleaseYearDescending,
         PriceAscending,

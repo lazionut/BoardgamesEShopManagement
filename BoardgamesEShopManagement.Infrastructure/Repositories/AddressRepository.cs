@@ -4,15 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BoardgamesEShopManagement.Infrastructure.Repositories
 {
-    public class AddressRepository : GenericRepository<Address>, IAddressRepository
+    public class AddressRepository(ShopContext context, ILogger<AddressRepository> logger) : GenericRepository<Address>(context, logger), IAddressRepository
     {
-        private readonly ShopContext _context;
-        private readonly ILogger<Address> _logger;
-
-        public AddressRepository(ShopContext context, ILogger<Address> logger) : base(context, logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
     }
 }

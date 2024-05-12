@@ -51,7 +51,7 @@ namespace BoardgamesEShopManagement.Application.Accounts.Commands.CreateAccount
                 IsArchived = false,
             };
 
-            var user = await _userManager.CreateAsync(account, request.AccountPassword);
+            await _userManager.CreateAsync(account, request.AccountPassword);
 
             return account;
         }

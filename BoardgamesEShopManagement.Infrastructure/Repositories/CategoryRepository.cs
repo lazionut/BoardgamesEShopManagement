@@ -8,9 +8,9 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
     public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
         private readonly ShopContext _context;
-        private readonly ILogger<Category> _logger;
+        private readonly ILogger<CategoryRepository> _logger;
 
-        public CategoryRepository(ShopContext context, ILogger<Category> logger) : base(context, logger)
+        public CategoryRepository(ShopContext context, ILogger<CategoryRepository> logger) : base(context, logger)
         {
             _context = context;
             _logger = logger;
@@ -18,7 +18,7 @@ namespace BoardgamesEShopManagement.Infrastructure.Repositories
 
         public async Task<int> GetCategoryCounter()
         {
-            _logger.LogInformation("Getting the total number of category entries...");
+            _logger.LogInformation("Reading number of all {Category}", typeof(Category).Name);
             return await _context.Categories.CountAsync();
         }
     }

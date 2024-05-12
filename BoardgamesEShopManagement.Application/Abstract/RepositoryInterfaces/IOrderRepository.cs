@@ -23,7 +23,5 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
         void Update(Order order);
 
         Task<Order?> Delete(int orderId);
-
-        Task Save();
     }
 }

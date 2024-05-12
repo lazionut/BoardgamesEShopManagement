@@ -9,6 +9,6 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
         public int CategoryId { get; set; }
         public int BoardgamePageIndex { get; set; }
         public int BoardgamePageSize { get; set; }
-        public BoardgamesSortOrdersEnum BoardgameSortOrder { get; set; }
+        public BoardgamesSortOrdersMode BoardgameSortOrder { get; set; }
     }
 }
