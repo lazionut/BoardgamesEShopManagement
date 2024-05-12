@@ -19,7 +19,5 @@ namespace BoardgamesEShopManagement.Application.Abstract.RepositoryInterfaces
         void Update(Account account);
 
         Task<Account?> Delete(int id);
-
-        Task Save();
     }
 }

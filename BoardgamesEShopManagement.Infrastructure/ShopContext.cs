@@ -3,8 +3,6 @@ using BoardgamesEShopManagement.Domain.EntityConfigurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace BoardgamesEShopManagement.Infrastructure
 {
@@ -28,16 +26,16 @@ namespace BoardgamesEShopManagement.Infrastructure
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new BoardgameEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new AddressEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new AccountEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new ReviewEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new WishlistEntityTypeConfiguration());
+            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
+            builder.ApplyConfiguration(new BoardgameEntityTypeConfiguration());
+            builder.ApplyConfiguration(new AddressEntityTypeConfiguration());
+            builder.ApplyConfiguration(new AccountEntityTypeConfiguration());
+            builder.ApplyConfiguration(new ReviewEntityTypeConfiguration());
+            builder.ApplyConfiguration(new OrderEntityTypeConfiguration());
+            builder.ApplyConfiguration(new WishlistEntityTypeConfiguration());
         }
     }
 }

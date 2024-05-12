@@ -80,7 +80,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            if (account.IsAdmin == false)
+            if (!account.IsAdmin)
             {
                 AddRoleToAccountRequest roleCommand = new AddRoleToAccountRequest
                 {
@@ -213,7 +213,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultAccountsCounter = mappedResultAccounts.Count();
+            int mappedResultAccountsCounter = mappedResultAccounts.Count;
 
             if (mappedResultAccountsCounter == 0)
             {
@@ -303,7 +303,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultOrdersCounter = mappedResultOrders.Count();
+            int mappedResultOrdersCounter = mappedResultOrders.Count;
 
             if (mappedResultOrdersCounter == 0)
             {

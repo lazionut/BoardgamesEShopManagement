@@ -70,7 +70,7 @@ namespace BoardgamesEShopManagement.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBoardgames([BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
+        public async Task<IActionResult> GetBoardgames([BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersMode sortOrder)
         {
             GetBoardgamesListQuery queryBoardgame = new GetBoardgamesListQuery
             {
@@ -97,7 +97,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultBoardgameCounter = mappedResultBoardgames.Count();
+            int mappedResultBoardgameCounter = mappedResultBoardgames.Count;
 
             if (mappedResultBoardgameCounter == 0)
             {
@@ -125,7 +125,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpGet]
         [Route("category/{id}")]
-        public async Task<IActionResult> GetBoardgamesPerCategory(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
+        public async Task<IActionResult> GetBoardgamesPerCategory(int id, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersMode sortOrder)
         {
             GetBoardgamesListPerCategoryQuery commandBoardgame = new GetBoardgamesListPerCategoryQuery
             {
@@ -156,7 +156,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultBoardgameCounter = mappedResultBoardgames.Count();
+            int mappedResultBoardgameCounter = mappedResultBoardgames.Count;
 
             if (mappedResultBoardgameCounter == 0)
             {
@@ -184,7 +184,7 @@ namespace BoardgamesEShopManagement.Controllers
 
         [HttpGet("search")]
         public async Task<IActionResult> GetBoardgamesByName
-            ([BindRequired] string keywords, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersEnum sortOrder)
+            ([BindRequired] string keywords, [BindRequired] int pageIndex, [BindRequired] int pageSize, [BindRequired] BoardgamesSortOrdersMode sortOrder)
         {
             GetBoardgamesListByNameQuery queryBoardgames = new GetBoardgamesListByNameQuery
             {
@@ -215,7 +215,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultBoardgameCounter = mappedResultBoardgames.Count();
+            int mappedResultBoardgameCounter = mappedResultBoardgames.Count;
 
             if (mappedResultBoardgameCounter == 0)
             {
@@ -288,7 +288,7 @@ namespace BoardgamesEShopManagement.Controllers
                 return NotFound();
             }
 
-            int mappedResultReviewsCounter = mappedResultReviews.Count();
+            int mappedResultReviewsCounter = mappedResultReviews.Count;
 
             if (mappedResultReviewsCounter == 0)
             {

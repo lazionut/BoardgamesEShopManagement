@@ -1,6 +1,6 @@
 ﻿namespace BoardgamesEShopManagement.Domain.Enumerations
 {
-    public enum OrderStatusEnum
+    public enum OrderStatusMode
     {
         Created,
         Processing,

@@ -7,6 +7,6 @@ namespace BoardgamesEShopManagement.Application.Orders.Commands.UpdateOrderStatu
     public class UpdateOrderStatusRequest : IRequest<Order>
     {
         public int OrderId { get; set; }
-        public OrderStatusEnum OrderStatus { get; set; }
+        public OrderStatusMode OrderStatus { get; set; }
     }
 }

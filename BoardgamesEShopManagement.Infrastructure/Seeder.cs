@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoardgamesEShopManagement.Infrastructure
 {
-    public class Seeder
+    public static class Seeder
     {
         public static void SeedData()
         {
@@ -56,7 +56,7 @@ namespace BoardgamesEShopManagement.Infrastructure
                 .Select(_ => new Faker().Phone.PhoneNumber())
                 .ToList();
 
-            return phoneNumbers.ToList().Select(phoneNumber =>
+            return phoneNumbers.Select(phoneNumber =>
                 new Faker<Domain.Entities.Address>()
                    .RuleFor(address => address.Details, faker => faker.Address.StreetAddress())
                    .RuleFor(address => address.City, faker => faker.Address.City())
@@ -70,7 +70,7 @@ namespace BoardgamesEShopManagement.Infrastructure
         {
             List<int> addressIds = Enumerable.Range(1, 10).ToList();
 
-            return addressIds.ToList().Select(addressId =>
+            return addressIds.Select(addressId =>
                new Faker<Account>()
                 .RuleFor(account => account.FirstName, faker => faker.Person.FirstName)
                 .RuleFor(account => account.LastName, faker => faker.Person.LastName)
@@ -155,7 +155,7 @@ namespace BoardgamesEShopManagement.Infrastructure
             null,
             };
 
-            return boardgameNames.ToList().Select(boardgameName =>
+            return boardgameNames.Select(boardgameName =>
                 new Faker<Boardgame>()
                     .RuleFor(boardgame => boardgame.Name, boardgameName)
                     .RuleFor(boardgame => boardgame.ReleaseYear, faker => faker.Random.Int(2000, 2020))
@@ -171,7 +171,7 @@ namespace BoardgamesEShopManagement.Infrastructure
         {
             List<int> reviewAccountIds = Enumerable.Range(1, 10).ToList();
 
-            return reviewAccountIds.ToList().Select(reviewAccountId =>
+            return reviewAccountIds.Select(reviewAccountId =>
                 new Faker<Review>()
                     .RuleFor(review => review.Title, faker => faker.Rant.Review().Substring(0, faker.Rant.Review().IndexOf(' ')))
                     .RuleFor(book => book.Author, faker => faker.Person.FullName)
@@ -198,7 +198,7 @@ namespace BoardgamesEShopManagement.Infrastructure
             "Wishlist10",
             };
 
-            return wishlistNames.ToList().Select(wishlistName =>
+            return wishlistNames.Select(wishlistName =>
                 new Faker<Wishlist>()
                     .RuleFor(wishlist => wishlist.Name, wishlistName)
                     .RuleFor(wishlist => wishlist.AccountId, faker => faker.Random.Number(1, 10))
@@ -211,7 +211,7 @@ namespace BoardgamesEShopManagement.Infrastructure
                 //.Select(_ => new Faker().Random.Number(1, 10))
                 .ToList();
 
-            return wishlistIds.ToList().Select(wishlistId =>
+            return wishlistIds.Select(wishlistId =>
                 new Faker<WishlistItem>()
                     .RuleFor(wishlistItem => wishlistItem.WishlistId, wishlistId)
                     .RuleFor(wishlistItem => wishlistItem.BoardgameId, faker => faker.Random.Number(1, 10))
@@ -224,7 +224,7 @@ namespace BoardgamesEShopManagement.Infrastructure
                  .Select(_ => new Faker().Random.Decimal(50, 10000))
                  .ToList();
 
-            return orderTotals.ToList().Select(orderTotal =>
+            return orderTotals.Select(orderTotal =>
                 new Faker<Order>()
                 .RuleFor(order => order.FullName, faker => faker.Person.FullName)
                     .RuleFor(order => order.Address, faker =>
@@ -233,7 +233,7 @@ namespace BoardgamesEShopManagement.Infrastructure
                     faker.Address.Country() + ' ' + faker.Phone.PhoneNumber())
                     .RuleFor(order => order.Total, orderTotal)
                     .RuleFor(order => order.AccountId, faker => faker.Random.Number(1, 10))
-                    .Generate()); ;
+                    .Generate());
         }
 
         private static IEnumerable<OrderItem> GetPreconfiguredOrderItems()
@@ -242,7 +242,7 @@ namespace BoardgamesEShopManagement.Infrastructure
                 //.Select(_ => new Faker().Random.Number(1, 10))
                 .ToList();
 
-            return orderIds.ToList().Select(orderId =>
+            return orderIds.Select(orderId =>
                 new Faker<OrderItem>()
                     .RuleFor(orderItem => orderItem.OrderId, orderId)
                     .RuleFor(orderItem => orderItem.BoardgameId, faker => faker.Random.Number(1, 10))

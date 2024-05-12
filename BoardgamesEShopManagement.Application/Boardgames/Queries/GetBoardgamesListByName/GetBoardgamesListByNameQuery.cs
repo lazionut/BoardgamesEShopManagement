@@ -9,6 +9,6 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgames
         public string BoardgameNameCharacters { get; set; } = null!;
         public int BoardgamePageIndex { get; set; }
         public int BoardgamePageSize { get; set; }
-        public BoardgamesSortOrdersEnum BoardgameSortOrder { get; set; }
+        public BoardgamesSortOrdersMode BoardgameSortOrder { get; set; }
     }
 }

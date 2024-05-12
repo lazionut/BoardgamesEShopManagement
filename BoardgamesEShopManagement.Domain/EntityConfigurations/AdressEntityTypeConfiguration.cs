@@ -9,7 +9,7 @@ namespace BoardgamesEShopManagement.Domain.EntityConfigurations
         public void Configure(EntityTypeBuilder<Address> addressConfiguration)
         {
             addressConfiguration
-                .HasQueryFilter(b => b.IsArchived == false);
+                .HasQueryFilter(b => !b.IsArchived);
         }
     }
 }

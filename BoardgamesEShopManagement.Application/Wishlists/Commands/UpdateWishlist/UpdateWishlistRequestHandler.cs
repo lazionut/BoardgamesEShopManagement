@@ -32,7 +32,7 @@ namespace BoardgamesEShopManagement.Application.Wishlists.Commands.UpdateWishlis
                     return null;
                 }
 
-                await _unitOfWork.WishlistRepository.CreateItem(wishlist.AccountId, wishlist.Id, boardgameId, wishlist);
+                await _unitOfWork.WishlistRepository.CreateItem(boardgameId, wishlist);
             }
 
             wishlist.Name = request.WishlistName;
