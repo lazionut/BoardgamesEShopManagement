@@ -3,7 +3,6 @@ using BoardgamesEShopManagement.Domain.Entities;
 using BoardgamesEShopManagement.Domain.Options;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,13 +11,13 @@ using System.Text;
 
 namespace BoardgamesEShopManagement.Application.Accounts.Queries.LoginAccount
 {
-    public class LoginUserQueryHandler : IRequestHandler<LoginAccountQuery, string>
+    public class LoginAccountQueryHandler : IRequestHandler<LoginAccountQuery, string>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<Account> _userManager;
         private readonly JwtOptions _options;
 
-        public LoginUserQueryHandler(IUnitOfWork unitOfWork, UserManager<Account> userManager, IOptions<JwtOptions> options)
+        public LoginAccountQueryHandler(IUnitOfWork unitOfWork, UserManager<Account> userManager, IOptions<JwtOptions> options)
         {
             _unitOfWork = unitOfWork;
             _userManager = userManager;

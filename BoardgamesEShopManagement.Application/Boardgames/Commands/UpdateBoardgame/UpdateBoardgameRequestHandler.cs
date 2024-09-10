@@ -35,6 +35,7 @@ namespace BoardgamesEShopManagement.Application.Boardgames.Commands.UpdateBoardg
             updatedBoardgame.Description = request.BoardgameDescription;
             updatedBoardgame.Price = request.BoardgamePrice;
             updatedBoardgame.Link = request.BoardgameLink;
+            updatedBoardgame.Quantity = request.BoardgameQuantity;
             updatedBoardgame.CategoryId = request.BoardgameCategoryId;
 
             updatedBoardgame.UpdatedAt = DateTime.UtcNow;

@@ -3,11 +3,11 @@ using MediatR;
 
 namespace BoardgamesEShopManagement.Application.Boardgames.Queries.GetBoardgamesListPerCategoryCounter
 {
-    public class GetBoardgamesListPerCategoryQueryCounterHandler : IRequestHandler<GetBoardgamesListPerCategoryCounterQuery, int>
+    public class GetBoardgamesListPerCategoryCounterQueryHandler : IRequestHandler<GetBoardgamesListPerCategoryCounterQuery, int>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetBoardgamesListPerCategoryQueryCounterHandler(IUnitOfWork unitOfWork)
+        public GetBoardgamesListPerCategoryCounterQueryHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

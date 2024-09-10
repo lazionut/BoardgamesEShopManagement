@@ -2,8 +2,9 @@
 
 namespace BoardgamesEShopManagement.API.Controllers
 {
-    public abstract class CustomControllerBase : ControllerBase
+    public class CustomControllerBase : ControllerBase
     {
-        protected int GetAccountId() => int.Parse(this.User.Claims.First(claim => claim.Type == "AccountId").Value);
+        protected virtual int GetAccountId() =>
+            int.Parse(this.User.Claims.First(claim => claim.Type == "AccountId").Value);
     }
 }
